@@ -1,0 +1,364 @@
+<!doctype html>
+<html lang="sr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>StarDust Studio — logo varijacije</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#0a1224; --ink800:#131c33; --paper:#f5f3ee; --surface:#edeae2;
+  --ac:#ffb020; --cobalt:#1a46cc; --sky:#8791a6;
+}
+*{box-sizing:border-box}
+body{margin:0;background:#0d0f13;color:#e9e9e6;font-family:Outfit,system-ui,Arial,sans-serif;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1220px;margin:0 auto;padding:0 24px}
+h1,h2,h3{margin:0}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.86em;background:#1b1e24;padding:2px 6px;border-radius:4px;color:#d9dbde}
+
+header.top{padding:76px 0 44px}
+.pill{display:inline-block;font-size:.66rem;letter-spacing:.2em;text-transform:uppercase;color:#8b8d90;border:1px solid #2e3138;border-radius:999px;padding:6px 14px;margin-bottom:24px}
+header.top h1{font-size:clamp(2.1rem,4.4vw,3.4rem);letter-spacing:-.05em;line-height:1;margin-bottom:20px}
+header.top p{max-width:74ch;color:#9a9c9f;font-size:1rem;line-height:1.7;margin:0 0 12px}
+header.top b{color:#e9e9e6}
+
+section.blk{border-top:1px solid #23262c;padding:58px 0}
+.blk-head{margin-bottom:34px}
+.blk-head .tag{font-size:.66rem;letter-spacing:.2em;text-transform:uppercase;color:#8b8d90;margin-bottom:10px}
+.blk-head h2{font-size:1.7rem;letter-spacing:-.035em;margin-bottom:12px}
+.blk-head p{max-width:74ch;color:#9a9c9f;font-size:.95rem;line-height:1.7;margin:0}
+
+/* mark cards */
+.marks{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:18px}
+.mk{border:1px solid #23262c;border-radius:14px;overflow:hidden;background:#141820}
+.mk .hero{background:var(--ink);color:var(--paper);display:flex;align-items:center;justify-content:center;padding:44px 20px;position:relative}
+.mk .hero svg{width:118px;height:118px;display:block}
+.mk .num{position:absolute;left:14px;top:12px;font-size:.62rem;letter-spacing:.16em;color:rgba(245,243,238,.35)}
+.mk .meta{padding:18px 20px 6px}
+.mk .meta h3{font-size:1.08rem;letter-spacing:-.02em;margin-bottom:7px}
+.mk .meta p{margin:0;color:#93969b;font-size:.86rem;line-height:1.6}
+.ctx{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:#23262c;margin:18px 0 0;border-top:1px solid #23262c}
+.ctx > div{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:16px 6px;min-height:104px}
+.ctx .lbl{font-size:.56rem;letter-spacing:.13em;text-transform:uppercase;opacity:.5}
+.ctx svg{display:block}
+.on-paper{background:var(--paper);color:var(--ink)}
+.on-amber{background:var(--ac);color:var(--ink)}
+.on-ink{background:var(--ink);color:var(--paper)}
+.on-mono{background:var(--paper);color:var(--ink)}
+.on-mono .ac-f{fill:var(--ink)!important}
+.on-mono .ac-s{stroke:var(--ink)!important}
+.on-amber .ac-f{fill:var(--ink)!important}
+.on-amber .ac-s{stroke:var(--ink)!important}
+.ac-f{fill:var(--ac)}
+.ac-s{stroke:var(--ac)}
+svg{--mark-bg:var(--ink)}
+.on-paper svg,.on-mono svg{--mark-bg:var(--paper)}
+.on-amber svg{--mark-bg:var(--ac)}
+
+details{margin:14px 20px 18px}
+summary{cursor:pointer;font-size:.72rem;letter-spacing:.09em;text-transform:uppercase;color:#7d8085}
+details pre{background:#0b0d11;border:1px solid #23262c;border-radius:8px;padding:12px;overflow-x:auto;font-size:.68rem;line-height:1.55;color:#a9b4c4;margin:10px 0 0}
+
+/* wordmarks */
+.wm-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(400px,1fr));gap:18px}
+.wm{border:1px solid #23262c;border-radius:14px;overflow:hidden}
+.wm .stage{background:var(--ink);color:var(--paper);padding:46px 32px;display:flex;align-items:center;justify-content:center}
+.wm .stage.light{background:var(--paper);color:var(--ink)}
+.wm .cap{padding:15px 20px 18px;background:#141820}
+.wm .cap h3{font-size:.98rem;margin-bottom:6px;letter-spacing:-.01em}
+.wm .cap p{margin:0;color:#93969b;font-size:.83rem;line-height:1.6}
+
+/* lockups */
+.lock{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:18px}
+.lock > div{border:1px solid #23262c;border-radius:14px;overflow:hidden}
+.lock .stage{background:var(--ink);color:var(--paper);padding:44px 26px;display:flex;align-items:center;justify-content:center;min-height:170px}
+.lock .cap{padding:14px 18px 16px;background:#141820;font-size:.8rem;color:#93969b}
+
+/* in situ */
+.situ{display:grid;gap:18px}
+.navbar{background:var(--ink);border-radius:12px;padding:0 26px;height:74px;display:flex;align-items:center;justify-content:space-between;color:var(--paper);border:1px solid #23262c}
+.navbar .links{display:flex;gap:28px;font-size:.8rem;color:rgba(245,243,238,.72)}
+.navbar .cta{background:var(--paper);color:var(--ink);border-radius:999px;padding:10px 18px;font-size:.78rem;font-weight:600}
+.tabbar{background:#22252b;border-radius:12px 12px 0 0;padding:10px 12px 0;border:1px solid #23262c;border-bottom:0}
+.tab{background:#0d0f13;border-radius:9px 9px 0 0;padding:9px 16px;display:inline-flex;align-items:center;gap:9px;font-size:.78rem;color:#c3c6ca}
+.tab svg{width:16px;height:16px;display:block}
+.card-mock{background:var(--paper);color:var(--ink);border-radius:12px;padding:34px;display:flex;justify-content:space-between;align-items:flex-end;min-height:190px;border:1px solid #23262c}
+.card-mock .who{font-size:.82rem;line-height:1.5}
+.card-mock .who b{display:block;font-size:.95rem}
+.card-mock .who span{color:#565f73}
+
+.verdict{border-top:1px solid #23262c;padding:54px 0 96px}
+.verdict h2{font-size:1.6rem;letter-spacing:-.03em;margin-bottom:20px}
+.verdict ul{padding-left:20px;line-height:1.8;color:#b0b3b8;max-width:84ch;font-size:.95rem;margin:0}
+.verdict li{margin-bottom:14px}
+.verdict b{color:#e9e9e6}
+@media(max-width:640px){.ctx{grid-template-columns:repeat(2,1fr)}}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+<header class="top">
+  <span class="pill">StarDust Studio &middot; identitet</span>
+  <h1>Šest marki, četiri wordmark-a, iz jezika koji sajt već govori.</h1>
+  <p><b>Strateška ideja:</b> ime ti je slučajno savršeno usklađeno sa onim što firma prodaje. <i>Stardust</i> je rasuta prašina — nepovezane čestice. <i>Studio</i> je mesto gde se od toga pravi nešto sa oblikom. To je doslovno rečenica sa tvog sajta: <i>„we turn slow, fragmented processes into clear, intelligent systems"</i>.</p>
+  <p>Zato nijedan od ovih predloga nije generička zvezdica. Svi rade istu stvar — <b>rasuto → povezano</b> — i svi koriste isti crtački jezik koji već postoji u <code>SvgVisualSystem.tsx</code>: tanke linije sa okruglim krajevima, čvorovi kao krugovi, isprekidane sekundarne putanje, jedan amber čvor kao „aktivan".</p>
+  <p>Amber <code>#ffb020</code> je u svakoj marki upotrebljen tačno jednom. To je isto pravilo koje drži sajt: akcenat označava jednu stvar, ne ukrašava.</p>
+</header>
+</div>
+
+<div class="wrap"><section class="blk" style="border-top:0;padding-top:0">
+  <div class="blk-head">
+    <div class="tag">01 &mdash; Marke</div>
+    <h2>Simboli</h2>
+    <p>Svaka je prikazana veliko na ink podlozi, pa zatim u četiri konteksta: na papiru, na amber površini, na <b>28px</b> (test za favicon) i u jednoj boji (test za pečat, gravuru, faks, jednobojnu štampu). Ako marka padne na 28px ili u monohromu, nije marka.</p>
+  </div>
+  <div class="marks" id="marks"></div>
+</section></div>
+
+<div class="wrap"><section class="blk">
+  <div class="blk-head">
+    <div class="tag">02 &mdash; Wordmark</div>
+    <h2>Ispis imena</h2>
+    <p>Sve u <b>Outfit</b>-u, istom fontu koji sajt već učitava — logo i sajt tako dele jedan glas. Postojeći <code>FIRMA/AI</code> wordmark je verzal, bold, sa amber sufiksom; varijante ispod nastavljaju tu logiku ili je namerno lome.</p>
+  </div>
+  <div class="wm-grid" id="wordmarks"></div>
+</section></div>
+
+<div class="wrap"><section class="blk">
+  <div class="blk-head">
+    <div class="tag">03 &mdash; Lockup</div>
+    <h2>Marka + ime zajedno</h2>
+    <p>Pokazano sa markom 01 (Asterisk) kao primerom. Kad izabereš marku, prepravim lockup-ove sa njom.</p>
+  </div>
+  <div class="lock" id="lockups"></div>
+</section></div>
+
+<div class="wrap"><section class="blk">
+  <div class="blk-head">
+    <div class="tag">04 &mdash; U upotrebi</div>
+    <h2>Kako izgleda na sajtu</h2>
+    <p>Tvoja stvarna navigacija, tvoj tab u pregledaču, i vizit karta — sve u Deep Cobalt paleti koju smo upravo primenili.</p>
+  </div>
+  <div class="situ" id="situ"></div>
+</section></div>
+
+<div class="wrap">
+<div class="verdict">
+  <h2>Preporuka</h2>
+  <ul>
+    <li><b>Marka 01 — Asterisk.</b> Šest zraka iz jednog amber jezgra, sa čvorovima na krajevima: tri puna, tri prazna. To je istovremeno zvezda (ime), i dijagram sistema koji se skuplja u jednu tačku (šta radiš). Jedina je od šest koja preživi sve četiri provere — čita se i na 28px i u monohromi — i direktno pozajmljuje puna/prazna čvor logiku iz <code>.section-svg-system</code>, pa marka i ilustracije na sajtu izgledaju kao da su iz iste ruke.</li>
+    <li><b>Ako hoćeš nešto toplije i manje tehničko:</b> marka 02 (Sparkle). Najbrže se prepoznaje kao „zvezda", najlepša je velika, i par veliki+mali daje ritam. Rizik: četvorokraka iskra je postala vizuelni kliše za AI proizvode u poslednje dve godine, pa te svrstava u gomilu umesto da te izdvoji.</li>
+    <li><b>Ako hoćeš da budeš najupečatljiviji:</b> marka 03 (Dust Matrix). Niko drugi nema ovo, i to je najbukvalnija slika „prašina se sređuje u sistem". Ali pada na 28px — šesnaest tačaka postane mrlja. Upotrebljiva je samo ako prihvatiš <b>zaseban pojednostavljeni favicon</b>, što je normalna praksa, ali je jedna stvar više za održavanje.</li>
+    <li><b>Wordmark:</b> uzmi varijantu C (<code>stardust.stud.io</code>). Tačka u domenu <i>jeste</i> zvezda — to je jedina od četiri gde ime i simbol rade isti posao, pa marka i ispis nisu dve odvojene ideje zalepljene jedna do druge. Uz to ljudima daje adresu, a ne samo ime.</li>
+    <li><b>Šta još nije urađeno:</b> wordmark-ovi su ovde <code>&lt;text&gt;</code> u SVG-u i oslanjaju se na to da je Outfit učitan. Za finalne fajlove slova moraju u krive (outline), inače će se na tuđem računaru prikazati pogrešnim fontom. To radim kad izabereš — zajedno sa clear-space pravilima i minimalnim veličinama.</li>
+  </ul>
+</div>
+</div>
+
+<script>
+/* ---------- marks ---------- */
+const MARKS = [
+  {
+    n:"01", name:"Asterisk",
+    idea:"Šest zraka iz amber jezgra. Puni i prazni čvorovi su ista primarno/sekundarno logika koju sajt već koristi na svojim dijagramima.",
+    svg:`<svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <g stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
+    <path d="M32 32L32 14"/><path d="M32 32L47.6 23"/><path d="M32 32L47.6 41"/>
+    <path d="M32 32L32 50"/><path d="M32 32L16.4 41"/><path d="M32 32L16.4 23"/>
+  </g>
+  <g fill="currentColor">
+    <circle cx="32" cy="11" r="2.7"/><circle cx="50.2" cy="21.5" r="2.7"/><circle cx="50.2" cy="42.5" r="2.7"/>
+  </g>
+  <g fill="none" stroke="currentColor" stroke-width="1.9" opacity=".55">
+    <circle cx="32" cy="53" r="2.3"/><circle cx="13.8" cy="42.5" r="2.3"/><circle cx="13.8" cy="21.5" r="2.3"/>
+  </g>
+  <circle class="ac-f" cx="32" cy="32" r="5.2"/>
+</svg>`
+  },
+  {
+    n:"02", name:"Sparkle",
+    idea:"Klasična četvorokraka iskra, ali u paru — veliki oblik i mali amber pratilac. Najtoplija i najbrže čitljiva, ali i najbliža onome što svi rade.",
+    svg:`<svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <g transform="translate(2 2.6)"><path fill="currentColor" d="M30 4c1.4 14.6 10.8 24 25.4 25.4C40.8 30.8 31.4 40.2 30 54.8 28.6 40.2 19.2 30.8 4.6 29.4 19.2 28 28.6 18.6 30 4Z"/></g>
+  <path class="ac-f" transform="translate(50 46) scale(.30) translate(-30 -29.4)" d="M30 4c1.4 14.6 10.8 24 25.4 25.4C40.8 30.8 31.4 40.2 30 54.8 28.6 40.2 19.2 30.8 4.6 29.4 19.2 28 28.6 18.6 30 4Z"/>
+</svg>`
+  },
+  {
+    n:"03", name:"Dust Matrix",
+    idea:"Šesnaest tačaka koje rastu sleva nadesno — prašina koja se sređuje u red. Najoriginalnija i najbukvalnija slika pozicije. Ne preživljava favicon.",
+    svg:`<svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <g fill="currentColor">
+    <g opacity=".3"><circle cx="10" cy="10" r="1.4"/><circle cx="10" cy="26" r="1.4"/><circle cx="10" cy="42" r="1.4"/><circle cx="10" cy="58" r="1.4"/></g>
+    <g opacity=".52"><circle cx="26" cy="10" r="2.2"/><circle cx="26" cy="26" r="2.2"/><circle cx="26" cy="42" r="2.2"/><circle cx="26" cy="58" r="2.2"/></g>
+    <g opacity=".78"><circle cx="42" cy="10" r="3"/><circle cx="42" cy="26" r="3"/><circle cx="42" cy="42" r="3"/><circle cx="42" cy="58" r="3"/></g>
+  </g>
+  <g class="ac-f"><circle cx="58" cy="10" r="3.8"/><circle cx="58" cy="26" r="3.8"/><circle cx="58" cy="42" r="3.8"/><circle cx="58" cy="58" r="3.8"/></g>
+</svg>`
+  },
+  {
+    n:"04", name:"Orbit",
+    idea:"Prsten, isprekidana unutrašnja putanja, jedno amber telo u orbiti. Direktan potomak hero prstenova i sata u process sekciji. Najtiša i najskuplja.",
+    svg:`<svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="32" cy="32" r="23" stroke="currentColor" stroke-width="2.2"/>
+  <circle cx="32" cy="32" r="12.5" stroke="currentColor" stroke-width="1.8" stroke-dasharray="3 5" opacity=".5"/>
+  <circle cx="32" cy="32" r="2.9" fill="currentColor"/>
+  <circle class="ac-f" cx="48.3" cy="15.7" r="5.4"/>
+</svg>`
+  },
+  {
+    n:"05", name:"Route Star",
+    idea:"Putanja sa čvorovima koja se penje ka amber zvezdi. Najbliža postojećim ilustracijama na sajtu — čvorovi su punjeni bojom podloge, isto kao tamo.",
+    svg:`<svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M8 50L22 42L38 46" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M38 46L52 20" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>
+  <path d="M22 42L34 28L47 31" stroke="currentColor" stroke-width="1.7" stroke-dasharray="3 5" stroke-linecap="round" opacity=".42"/>
+  <g fill="var(--mark-bg)" stroke="currentColor" stroke-width="1.9">
+    <circle cx="8" cy="50" r="3.1"/><circle cx="22" cy="42" r="3.1"/><circle cx="38" cy="46" r="3.1"/>
+  </g>
+  <path class="ac-f" transform="translate(52 18) scale(.42) translate(-30 -29.4)" d="M30 4c1.4 14.6 10.8 24 25.4 25.4C40.8 30.8 31.4 40.2 30 54.8 28.6 40.2 19.2 30.8 4.6 29.4 19.2 28 28.6 18.6 30 4Z"/>
+</svg>`
+  },
+  {
+    n:"06", name:"Contained",
+    idea:"Asterisk u zaobljenom kvadratu — app ikonica i favicon. Ista geometrija kao 01, samo obrnuto: podloga nosi ink, zrak nosi amber.",
+    svg:`<svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="64" height="64" rx="16" fill="currentColor"/>
+  <g transform="translate(32 32) scale(.62) translate(-32 -32)">
+    <g class="ac-s" stroke-width="3.4" stroke-linecap="round">
+      <path d="M32 32L32 14"/><path d="M32 32L47.6 23"/><path d="M32 32L47.6 41"/>
+      <path d="M32 32L32 50"/><path d="M32 32L16.4 41"/><path d="M32 32L16.4 23"/>
+    </g>
+    <g class="ac-f"><circle cx="32" cy="11" r="4"/><circle cx="50.2" cy="21.5" r="4"/><circle cx="50.2" cy="42.5" r="4"/><circle cx="32" cy="53" r="4"/><circle cx="13.8" cy="42.5" r="4"/><circle cx="13.8" cy="21.5" r="4"/></g>
+    <circle class="ac-f" cx="32" cy="32" r="7.5"/>
+  </g>
+</svg>`
+  }
+];
+
+const esc = s => s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+const sized = (svg,px) => svg.replace("<svg ",`<svg width="${px}" height="${px}" `);
+
+document.getElementById("marks").innerHTML = MARKS.map(m => `
+  <div class="mk">
+    <div class="hero"><span class="num">${m.n}</span>${m.svg}</div>
+    <div class="meta"><h3>${m.name}</h3><p>${m.idea}</p></div>
+    <div class="ctx">
+      <div class="on-paper"><span class="lbl">papir</span>${sized(m.svg,42)}</div>
+      <div class="on-amber"><span class="lbl">amber</span>${sized(m.svg,42)}</div>
+      <div class="on-ink"><span class="lbl">28px</span>${sized(m.svg,28)}</div>
+      <div class="on-mono"><span class="lbl">1 boja</span>${sized(m.svg,42)}</div>
+    </div>
+    <details><summary>SVG kod</summary><pre>${esc(m.svg)}</pre></details>
+  </div>`).join("");
+
+/* ---------- wordmarks ---------- */
+const WM = [
+  {
+    key:"A", title:"A — Nasleđe FIRMA/AI",
+    note:"Tačno ista logika kao postojeći wordmark: verzal, bold, amber sufiks. Najbezbednija, najmanje uzbudljiva.",
+    svg:`<svg viewBox="0 0 360 46" xmlns="http://www.w3.org/2000/svg">
+  <text x="0" y="33" font-family="Outfit" font-size="34" font-weight="700" letter-spacing="1.2" fill="currentColor">STARDUST</text>
+  <text x="212" y="33" font-family="Outfit" font-size="34" font-weight="700" letter-spacing="1.2" fill="var(--ac)">/STUDIO</text>
+</svg>`
+  },
+  {
+    key:"B", title:"B — Težinski kontrast",
+    note:"Jedna reč nosi masu, druga je razređena i široko raspoređena. Deluje starije i mirnije od verzal-bold bloka.",
+    svg:`<svg viewBox="0 0 360 56" xmlns="http://www.w3.org/2000/svg">
+  <text x="0" y="30" font-family="Outfit" font-size="34" font-weight="600" letter-spacing="-1.4" fill="currentColor">StarDust</text>
+  <text x="2" y="48" font-family="Outfit" font-size="12" font-weight="500" letter-spacing="7.5" fill="currentColor" opacity=".62">STUDIO</text>
+  <circle cx="152" cy="44" r="3.4" fill="var(--ac)"/>
+</svg>`
+  },
+  {
+    key:"C", title:"C — Domen (preporuka)",
+    note:"Tačka u adresi JESTE zvezda — ime i simbol rade isti posao. Daje ljudima adresu, ne samo ime.",
+    svg:`<svg viewBox="0 0 360 44" xmlns="http://www.w3.org/2000/svg">
+  <text x="0" y="32" font-family="Outfit" font-size="33" font-weight="500" letter-spacing="-1.5" fill="currentColor">stardust</text>
+  <text x="146" y="32" font-family="Outfit" font-size="33" font-weight="500" letter-spacing="-1.5" fill="var(--ac)">.</text>
+  <text x="158" y="32" font-family="Outfit" font-size="33" font-weight="500" letter-spacing="-1.5" fill="currentColor" opacity=".72">stud</text>
+  <text x="228" y="32" font-family="Outfit" font-size="33" font-weight="500" letter-spacing="-1.5" fill="var(--ac)">.</text>
+  <text x="240" y="32" font-family="Outfit" font-size="33" font-weight="500" letter-spacing="-1.5" fill="currentColor" opacity=".72">io</text>
+</svg>`
+  },
+  {
+    key:"D", title:"D — Slagano, editorial",
+    note:"Dve linije, čvrsto stisnute, sa amber asteriskom umesto interpunkcije. Najbliže tipografiji naslova na sajtu.",
+    svg:`<svg viewBox="0 0 360 84" xmlns="http://www.w3.org/2000/svg">
+  <text x="0" y="36" font-family="Outfit" font-size="38" font-weight="600" letter-spacing="-2.4" fill="currentColor">STARDUST</text>
+  <text x="0" y="74" font-family="Outfit" font-size="38" font-weight="300" letter-spacing="-2.4" fill="currentColor" opacity=".7">STUDIO</text>
+  <g class="ac-s" stroke-width="2.6" stroke-linecap="round" transform="translate(178 60)">
+    <path d="M0 -9L0 9"/><path d="M7.8 -4.5L-7.8 4.5"/><path d="M7.8 4.5L-7.8 -4.5"/>
+  </g>
+</svg>`
+  }
+];
+
+document.getElementById("wordmarks").innerHTML = WM.map((w,i) => `
+  <div class="wm">
+    <div class="stage${i%2?" light":""}">${w.svg.replace("<svg ",'<svg style="width:100%;max-width:330px;height:auto" ')}</div>
+    <div class="cap"><h3>${w.title}</h3><p>${w.note}</p></div>
+  </div>`).join("");
+
+/* ---------- lockups ---------- */
+const A = MARKS[0].svg;
+document.getElementById("lockups").innerHTML = `
+  <div>
+    <div class="stage">
+      <svg viewBox="0 0 400 64" style="width:100%;max-width:330px;height:auto" xmlns="http://www.w3.org/2000/svg">
+        <g transform="translate(0 0)">${A.replace(/<svg[^>]*>/,"").replace("</svg>","")}</g>
+        <text x="82" y="30" font-family="Outfit" font-size="25" font-weight="600" letter-spacing="-1" fill="currentColor">StarDust</text>
+        <text x="84" y="48" font-family="Outfit" font-size="10.5" font-weight="500" letter-spacing="6" fill="currentColor" opacity=".62">STUDIO</text>
+      </svg>
+    </div>
+    <div class="cap">Horizontalno — za navigaciju i potpise mejla</div>
+  </div>
+  <div>
+    <div class="stage">
+      <svg viewBox="0 0 220 150" style="width:100%;max-width:190px;height:auto" xmlns="http://www.w3.org/2000/svg">
+        <g transform="translate(78 0)">${A.replace(/<svg[^>]*>/,"").replace("</svg>","")}</g>
+        <text x="110" y="106" text-anchor="middle" font-family="Outfit" font-size="26" font-weight="600" letter-spacing="-1.1" fill="currentColor">StarDust</text>
+        <text x="110" y="128" text-anchor="middle" font-family="Outfit" font-size="11" font-weight="500" letter-spacing="6.5" fill="currentColor" opacity=".62">STUDIO</text>
+      </svg>
+    </div>
+    <div class="cap">Slagano — za kvadratne formate i profilne slike</div>
+  </div>
+  <div>
+    <div class="stage" style="gap:26px">
+      ${sized(A,64)}${sized(A,40)}${sized(A,28)}${sized(A,18)}
+    </div>
+    <div class="cap">Skala — 64 / 40 / 28 / 18px. Marka drži oblik do 18px.</div>
+  </div>`;
+
+/* ---------- in situ ---------- */
+document.getElementById("situ").innerHTML = `
+  <div class="navbar">
+    <div style="display:flex;align-items:center;gap:11px">
+      ${sized(A,30)}
+      <span style="font-size:.9rem;font-weight:600;letter-spacing:-.02em">StarDust<span style="opacity:.55;font-weight:400"> Studio</span></span>
+    </div>
+    <div class="links"><span>What we solve</span><span>How we work</span><span>Questions</span></div>
+    <div class="cta">Book a discovery call</div>
+  </div>
+
+  <div class="tabbar">
+    <div class="tab">${sized(A,16)}<span>StarDust Studio — Make work move</span></div>
+  </div>
+
+  <div class="card-mock">
+    <div class="who">
+      <b>Filip</b>
+      <span>Founder</span><br>
+      <span>hello@stardust.stud.io</span>
+    </div>
+    <div style="text-align:right">
+      ${sized(A,44)}
+      <div style="font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;color:#565f73;margin-top:10px">stardust.stud.io</div>
+    </div>
+  </div>`;
+</script>
+</body>
+</html>

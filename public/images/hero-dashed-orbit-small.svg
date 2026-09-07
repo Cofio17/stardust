@@ -1,0 +1,35 @@
+<svg width="800" height="800" viewBox="0 0 800 800" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <title>Segmented circular accent</title>
+  <desc>Three concentric broken-line circles in cool blue-gray tones.</desc>
+
+  <g transform="translate(400 400)">
+    <circle
+      r="326"
+      stroke="#8791A6"
+      stroke-opacity="0.62"
+      stroke-width="2.3"
+      stroke-linecap="round"
+      stroke-dasharray="2 14 18 13 4 21 9 16"
+    />
+
+    <circle
+      r="231"
+      stroke="#1A46CC"
+      stroke-opacity="0.7"
+      stroke-width="2.8"
+      stroke-linecap="round"
+      stroke-dasharray="3 15 28 22 7 18 42 29"
+      transform="rotate(34)"
+    />
+
+    <circle
+      r="138"
+      stroke="#8791A6"
+      stroke-opacity="0.76"
+      stroke-width="2.3"
+      stroke-linecap="round"
+      stroke-dasharray="16 15 3 13 27 23 6 19"
+      transform="rotate(7)"
+    />
+  </g>
+</svg>
