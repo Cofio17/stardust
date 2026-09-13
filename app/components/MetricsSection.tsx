@@ -2,6 +2,7 @@
 
 import { useInView, useReducedMotion } from "motion/react";
 import { useRef } from "react";
+import { Eyebrow } from "./Eyebrow";
 import { Reveal } from "./Reveal";
 import { SectionSvgSystem } from "./SvgVisualSystem";
 import { siteContent, type Metric } from "../site-content";
@@ -102,7 +103,7 @@ export function MetricsSection() {
       <SectionSvgSystem className="metrics-system" kind="spine" />
       <div className="shell metrics-inner section-pad">
         <div className="metrics-head">
-          <Reveal><p className="eyebrow metrics-eyebrow">The record so far</p></Reveal>
+          <Reveal><Eyebrow className="metrics-eyebrow" variant="mono">The record so far</Eyebrow></Reveal>
           <Reveal delay={0.06}><h2>Numbers we are<br />happy to be held to.</h2></Reveal>
         </div>
         <div className="metric-list">

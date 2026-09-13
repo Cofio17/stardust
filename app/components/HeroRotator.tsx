@@ -4,10 +4,16 @@ import { motion, useReducedMotion } from "motion/react";
 import { useEffect, useState } from "react";
 import { siteContent } from "../site-content";
 import { Reveal } from "./Reveal";
+import { HeroShootingStar } from "./HeroShootingStar";
 
 export function HeroRotator() {
   const [active, setActive] = useState(0);
   const reducedMotion = useReducedMotion();
+  const intro = (delay: number) => ({
+    initial: reducedMotion ? false as const : { opacity: 0, y: "105%" },
+    animate: { opacity: 1, y: "0%" },
+    transition: { duration: reducedMotion ? 0 : 0.82, delay: reducedMotion ? 0 : delay, ease: [0.16, 1, 0.3, 1] as const }
+  });
 
   useEffect(() => {
     if (reducedMotion) return;
@@ -23,7 +29,7 @@ export function HeroRotator() {
     <section aria-labelledby="hero-title" className="hero" id="top">
       <div aria-hidden="true" className="hero-rings">
         <motion.div
-          animate={{ opacity: 0.72, scale: 1 }}
+          animate={{ opacity: 0.52, scale: 1 }}
           className="hero-ring hero-ring-large"
           initial={reducedMotion ? false : { opacity: 0, scale: 2.35 }}
           transition={{
@@ -42,7 +48,7 @@ export function HeroRotator() {
         </motion.div>
 
         <motion.div
-          animate={{ opacity: 0.82, scale: 1 }}
+          animate={{ opacity: 0.62, scale: 1 }}
           className="hero-ring hero-ring-small"
           initial={reducedMotion ? false : { opacity: 0, scale: 0.72 }}
           transition={{
@@ -61,15 +67,19 @@ export function HeroRotator() {
         </motion.div>
       </div>
 
+      <HeroShootingStar />
+
       <div className="hero-stage shell">
         <div className="hero-sticky">
           <div className="hero-copy">
-            <Reveal className="hero-title-reveal" delay={0.08}>
-              <h1 className="display-xl" id="hero-title">
-                <span className="hero-line">{siteContent.hero.titleLead}</span>
-                {/* Every word sits in the same grid cell, so the line keeps the width of
-                    the longest one and the stack never reflows as the word swaps. */}
-                <span className="hero-line hero-message">
+            <h1 className="display-xl" id="hero-title">
+              <span className="hero-line hero-intro-mask">
+                <motion.span className="hero-intro-line" {...intro(0.08)}>{siteContent.hero.titleLead}</motion.span>
+              </span>
+              {/* Every word sits in the same grid cell, so the line keeps the width of
+                  the longest one and the stack never reflows as the word swaps. */}
+              <span className="hero-line hero-message hero-intro-mask">
+                <motion.span className="hero-intro-line" {...intro(0.26)}>
                   <span className="hero-message-slot">
                     {siteContent.hero.messages.map((word, index) => (
                       <motion.span
@@ -86,12 +96,18 @@ export function HeroRotator() {
                       </motion.span>
                     ))}
                   </span>
-                </span>
-                <span className="hero-line">{siteContent.hero.titleTail}</span>
-              </h1>
-            </Reveal>
-            <Reveal delay={0.5}><p>{siteContent.hero.description}</p></Reveal>
-            <Reveal delay={0.68}>
+                </motion.span>
+              </span>
+              <span className="hero-line hero-tail-line">
+                <motion.span
+                  initial={reducedMotion ? false : { opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: reducedMotion ? 0 : 0.65, delay: reducedMotion ? 0 : 0.5 }}
+                >{siteContent.hero.titleTail}</motion.span>
+              </span>
+            </h1>
+            <Reveal delay={0.64}><p>{siteContent.hero.description}</p></Reveal>
+            <Reveal delay={0.8}>
               <div className="hero-actions">
                 <button className="button button-lime" data-open-contact type="button">
                   Start a conversation <span aria-hidden="true">↗</span>

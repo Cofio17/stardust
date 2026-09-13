@@ -10,10 +10,12 @@ type LogoProps = {
   variant?: "accent" | "mono";
   /** Drop the symbol and render the name only. */
   mark?: boolean;
+  /** Render the symbol on its own for compact brand signatures. */
+  wordmark?: boolean;
   className?: string;
 };
 
-export function Logo({ variant = "accent", mark = true, className = "" }: LogoProps) {
+export function Logo({ variant = "accent", mark = true, wordmark = true, className = "" }: LogoProps) {
   const reducedMotion = useReducedMotion();
 
   return (
@@ -63,9 +65,9 @@ export function Logo({ variant = "accent", mark = true, className = "" }: LogoPr
           </motion.svg>
         </span>
       ) : null}
-      <span className="logo-word">
+      {wordmark ? <span className="logo-word">
         StarDust<span>Studio</span>
-      </span>
+      </span> : null}
     </span>
   );
 }

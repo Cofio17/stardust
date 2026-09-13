@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import { siteContent } from "../site-content";
+import { Eyebrow } from "./Eyebrow";
 import { ContactForm } from "./ContactForm";
 
 export function ContactDialog() {
@@ -104,7 +105,7 @@ export function ContactDialog() {
       <div className="dialog-inner">
         <div className="dialog-top">
           <div>
-            <p className="eyebrow">{siteContent.contact.eyebrow}</p>
+            <Eyebrow>{siteContent.contact.eyebrow}</Eyebrow>
             <h2 id="contact-dialog-title">Start a conversation.</h2>
           </div>
           <button aria-label="Close contact form" className="dialog-close" onClick={() => requestCloseRef.current()} type="button">

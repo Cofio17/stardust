@@ -2,6 +2,7 @@
 
 import { useRef, useState } from "react";
 import { siteContent } from "../site-content";
+import { Eyebrow } from "./Eyebrow";
 
 export function CapabilityAccordion() {
   const [active, setActive] = useState(0);
@@ -54,7 +55,7 @@ export function CapabilityAccordion() {
         role="tabpanel"
         tabIndex={0}
       >
-        <p className="eyebrow">{capability.eyebrow}</p>
+        <Eyebrow>{capability.eyebrow}</Eyebrow>
         <h3>{capability.title}</h3>
         <p>{capability.description}</p>
         <ul className="capability-bullets">

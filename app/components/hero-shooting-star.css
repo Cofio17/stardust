@@ -1,0 +1,66 @@
+.hero-intro-mask {
+  overflow: hidden;
+  padding-bottom: 0.08em;
+  margin-bottom: -0.08em;
+}
+
+.hero-intro-line {
+  display: block;
+}
+
+.hero-tail-line {
+  position: relative;
+}
+
+/* Sits above the orbit rings but under .hero-stage, so the star slides behind the
+   headline instead of dragging a highlight across the type. */
+.hero-star-layer {
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  position: absolute;
+  z-index: 1;
+}
+
+/* Zero-sized anchor: the transform places the star's head, the SVG hangs off it. */
+.hero-comet {
+  height: 0;
+  left: 0;
+  /* Multiply keeps the amber sitting in the paper gradient rather than on top of it. */
+  mix-blend-mode: multiply;
+  position: absolute;
+  top: 0;
+  transform-origin: 0 0;
+  width: 0;
+  will-change: opacity, transform;
+}
+
+.hero-shooting-star {
+  --star-scale: 1;
+
+  color: var(--accent-strong);
+  height: calc(40px * var(--star-scale));
+  left: calc(-300px * var(--star-scale));
+  overflow: visible;
+  position: absolute;
+  top: calc(-20px * var(--star-scale));
+  width: calc(328px * var(--star-scale));
+}
+
+@media (min-width: 1600px) {
+  .hero-shooting-star {
+    --star-scale: 1.14;
+  }
+}
+
+@media (max-width: 760px) {
+  .hero-shooting-star {
+    --star-scale: 0.6;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-star-layer {
+    display: none;
+  }
+}

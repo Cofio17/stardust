@@ -1,10 +1,8 @@
 export type Accent = "lime" | "cobalt" | "mist" | "porcelain";
 
-export type Outcome = {
+export type Service = {
   title: string;
   description: string;
-  note: string;
-  accent: Accent;
 };
 
 export type Capability = {
@@ -101,32 +99,40 @@ export const siteContent = {
       }
     ]
   },
-  outcomes: [
+  services: [
     {
-      title: "Hours back, every week.",
-      description: "Routine work becomes a quiet background process instead of a daily interruption.",
-      note: "Capacity",
-      accent: "lime"
+      title: "SEO Services",
+      description: "Get found by the right people. Technical SEO, useful content, and a clear search strategy that brings qualified traffic to your site."
     },
     {
-      title: "Answers while they still matter.",
-      description: "The right context reaches the right person before a decision loses momentum.",
-      note: "Momentum",
-      accent: "porcelain"
+      title: "AI Solutions",
+      description: "Put AI to practical use. Custom assistants, smarter search, and tools that turn your business knowledge into everyday help."
     },
     {
-      title: "A better customer handoff.",
-      description: "Every transition feels considered, with fewer repeats and fewer dropped threads.",
-      note: "Continuity",
-      accent: "cobalt"
+      title: "Full Web Apps",
+      description: "From first sketch to a working product. We build custom platforms, customer portals, and business tools around the way you work."
     },
     {
-      title: "One focused partner.",
-      description: "A practical team that sees the whole system, from first friction to lasting adoption.",
-      note: "Clarity",
-      accent: "mist"
+      title: "Marketing Design",
+      description: "Give your next campaign a clear visual voice. Landing pages, ad creative, and social content that feel like your brand."
+    },
+    {
+      title: "Websites",
+      description: "A better home for your business. Fast, thoughtful websites that tell your story clearly and make the next step feel natural."
+    },
+    {
+      title: "UI/UX Design",
+      description: "Make complex things feel simple. Research, user flows, and interfaces designed around the people who use your product."
+    },
+    {
+      title: "E-commerce",
+      description: "Turn browsing into buying. Online stores with considered product pages, smooth checkout, and the integrations you need to grow."
+    },
+    {
+      title: "Automation",
+      description: "Give repetitive work a quieter role. We connect your tools, simplify handoffs, and build workflows that keep things moving."
     }
-  ] satisfies Outcome[],
+  ] satisfies Service[],
   capabilities: [
     {
       title: "Operations",
@@ -198,6 +204,35 @@ export const siteContent = {
       value: 94
     }
   ] satisfies Metric[],
+  approach: [
+    {
+      eyebrow: "Find the focus",
+      title: "A clear start makes all the difference.",
+      description: "Every project starts with a conversation. We get to know your business, ask the useful questions, and work out what will make the biggest difference. Together, we turn a loose idea into a plan worth building.",
+      image: {
+        src: "/images/process-drag.webp",
+        alt: "A fine thread connecting stacked paper slabs on a dark tabletop"
+      }
+    },
+    {
+      eyebrow: "Give it shape",
+      title: "Thoughtful design. Practical foundations.",
+      description: "We bring the idea into view with real screens, clear flows, and working prototypes. You see how the pieces fit together early, so we can refine the details before they become expensive decisions.",
+      image: {
+        src: "/images/process-shape.webp",
+        alt: "Stone, cobalt, and glass layers connected by a bright line"
+      }
+    },
+    {
+      eyebrow: "Build what comes next",
+      title: "Ready for launch. Built for what follows.",
+      description: "We build, test, and launch with the everyday experience in mind. Then we stay close, using real feedback to improve the details and help your next idea take shape.",
+      image: {
+        src: "/images/process-flow.webp",
+        alt: "An open path between sculptural dark and cobalt panels"
+      }
+    }
+  ],
   statement: "Your best people should not spend their best hours on repeatable work.",
   faq: [
     {

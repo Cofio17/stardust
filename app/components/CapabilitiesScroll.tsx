@@ -3,6 +3,7 @@
 import { AnimatePresence, motion, useMotionValueEvent, useReducedMotion, useScroll, useTransform } from "motion/react";
 import { useRef, useState } from "react";
 import { siteContent } from "../site-content";
+import { Eyebrow } from "./Eyebrow";
 import { Reveal } from "./Reveal";
 import { SectionSvgSystem } from "./SvgVisualSystem";
 
@@ -97,7 +98,7 @@ export function CapabilitiesScroll() {
       <SectionSvgSystem className="capabilities-system" kind="routing" />
       <div className="capabilities-sticky shell">
         <div className="capabilities-heading">
-          <Reveal><p className="eyebrow">Where we help</p></Reveal>
+          <Reveal><Eyebrow>Where we help</Eyebrow></Reveal>
           <Reveal delay={0.06}><h2>Make good work<br />feel lighter.</h2></Reveal>
           <Reveal delay={0.12}><p>The best systems are felt in the rhythm of a day: fewer interruptions, clearer ownership, better follow-through.</p></Reveal>
         </div>
@@ -129,7 +130,7 @@ export function CapabilitiesScroll() {
                 key={capability.title}
                 transition={{ duration: reducedMotion ? 0 : 0.48, ease: [0.16, 1, 0.3, 1] }}
               >
-                <p className="eyebrow">{capability.eyebrow}</p>
+                <Eyebrow>{capability.eyebrow}</Eyebrow>
                 <h3>{capability.title}</h3>
                 <p>{capability.description}</p>
                 <ul>

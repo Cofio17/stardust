@@ -1,27 +1,32 @@
 import { CapabilitiesScroll } from "./components/CapabilitiesScroll";
-import { BuiltForSection } from "./components/BuiltForSection";
 import { ContactDialog } from "./components/ContactDialog";
 import { ContactForm } from "./components/ContactForm";
+import { Eyebrow } from "./components/Eyebrow";
 import { FaqAccordion } from "./components/FaqAccordion";
 import { HeroRotator } from "./components/HeroRotator";
 import { Logo } from "./components/Logo";
 import { Navigation } from "./components/Navigation";
 import { MetricsSection } from "./components/MetricsSection";
 import { OutcomesSection } from "./components/OutcomesSection";
+import { ParallaxSection } from "./components/ParallaxSection";
 import { Reveal } from "./components/Reveal";
 import { StatementSection } from "./components/StatementSection";
 import { SectionSvgSystem } from "./components/SvgVisualSystem";
 import { siteContent } from "./site-content";
+import { ServiceCardSlider } from "./components/ServiceCardSlider";
+import { serviceCards } from "./service-cards";
 
 export default function HomePage() {
   return (
     <main>
       <Navigation />
       <HeroRotator />
-      <BuiltForSection />
+      {/* <BuiltForSection /> */}
+      <ServiceCardSlider {...serviceCards} />
       <CapabilitiesScroll />
       <MetricsSection />
       <OutcomesSection />
+      <ParallaxSection />
       <StatementSection />
 
       <section className="faq section-pad" id="questions">
@@ -46,7 +51,7 @@ export default function HomePage() {
         <SectionSvgSystem className="contact-system" kind="bracket" />
         <div className="shell contact-layout">
           <div className="contact-copy">
-            <Reveal><p className="eyebrow">{siteContent.contact.eyebrow}</p></Reveal>
+            <Reveal><Eyebrow>{siteContent.contact.eyebrow}</Eyebrow></Reveal>
             <Reveal delay={0.06}><h2>{siteContent.contact.title}</h2></Reveal>
             <Reveal delay={0.12}><p>{siteContent.contact.description}</p></Reveal>
           </div>
