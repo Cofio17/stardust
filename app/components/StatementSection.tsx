@@ -20,7 +20,7 @@ export function StatementSection() {
 
   // The banner draws itself in with one left-to-right clip-path wipe (the wipe
   // lives in CSS). It is armed from script and only while it is still below the
-  // fold, so a banner already on screen — or one whose script never runs — is
+  // fold, so a banner already on screen - or one whose script never runs - is
   // simply shown rather than left clipped away.
   useEffect(() => {
     const el = bannerRef.current;
@@ -56,7 +56,7 @@ export function StatementSection() {
         <div className="statement-wash" />
         {/* <SectionSvgSystem className="statement-system" kind="decision" />  */}
         <div className="statement-inner">
-          <Eyebrow>Give focus back to the work that matters</Eyebrow>
+          <Eyebrow>Built around how you actually work</Eyebrow>
           <h2>{siteContent.statement}</h2>
           <button className="button button-lime" data-open-contact type="button">Start a conversation <span aria-hidden="true">↗</span></button>
         </div>

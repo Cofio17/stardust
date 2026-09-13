@@ -113,7 +113,7 @@ export function HeroRotator() {
                   Start a conversation <span aria-hidden="true">↗</span>
                 </button>
                 <a className="button button-ghost-light" href="#what-we-solve">
-                  See what we solve <span aria-hidden="true">↓</span>
+                  See what we build <span aria-hidden="true">↓</span>
                 </a>
               </div>
             </Reveal>

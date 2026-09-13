@@ -20,38 +20,38 @@ export type ServiceCardSliderContent = {
 
 // Local artwork already used by the site; replace these entries with CMS data as needed.
 export const serviceCards: ServiceCardSliderContent = {
-  label: "From friction to flow",
-  title: "Make room for better work.",
-  text: "A clearer process. A tool that fits. A little more room to move. Here’s where we can start.",
-  link: { label: "Find your starting point", url: "#contact" },
+  label: "Where teams usually start",
+  title: "Start with what’s in the way.",
+  text: "Almost every project begins with one specific frustration. These are the four we hear most.",
+  link: { label: "Tell us yours", url: "#contact" },
   theme: "light",
   cards: [
     {
       id: "connected-workflows",
-      title: "Connect the moving parts.",
-      description: "Bring scattered tools and handoffs into a workflow your team can follow from start to finish. We connect the systems you already use, clarify who owns each step, and keep the right information moving without another round of copy and paste.",
+      title: "Get your tools talking.",
+      description: "Work slows down in the gaps: the export, the re-entry, the message asking whether something was done. We connect the systems you already pay for, make every handoff explicit, and let the right information move on its own.",
       label: "Connect your workflow",
       url: "#contact",
       media: { type: "image", src: "/images/hero-route.webp", alt: "A thread connecting routes across layered maps" }
     },
     {
       id: "custom-products",
-      title: "Build around your people.",
-      description: "Shape a useful product around the way your team actually works. From the first prototype to the everyday details, we build with the people who will use it, so the finished tool feels familiar, solves a real problem, and has room to grow.",
+      title: "Build the tool that doesn’t exist.",
+      description: "Some work is too specific for anything you can buy. We shape a product around how your team actually operates, prove it with a working prototype early, and grow it from there instead of guessing it all up front.",
       label: "Custom products",
       media: { type: "image", src: "/images/hero-structure.webp", alt: "Connected architectural blocks arranged into a structure" }
     },
     {
       id: "clearer-decisions",
-      title: "See the next step clearly.",
-      description: "Put useful information in reach, so the next decision starts with context instead of another search. We bring scattered data into a clear, practical view that helps your team spot what matters, understand what changed, and decide where to go next.",
+      title: "See the whole picture.",
+      description: "Decisions get slow when the answer lives in four places. We pull the numbers that matter into one clear view, so your team can see what changed, what it means, and what to do next, without opening five tabs first.",
       label: "Information with purpose",
       media: { type: "image", src: "/images/hero-clarity.webp", alt: "Translucent papers arranged into a clear path" }
     },
     {
       id: "less-repeat-work",
       title: "Let the routine run itself.",
-      description: "Give your team more time for the work that needs their attention. We automate repeatable tasks, connect routine approvals, and make exceptions easy to spot, so everyday operations keep moving while your people focus on customers, decisions, and new ideas.",
+      description: "Every team has work that runs on copy, paste and reminders. We automate the predictable parts, flag the exceptions that genuinely need a person, and hand back the hours your team should be spending on customers.",
       label: "Explore automation",
       url: "#contact",
       media: { type: "image", src: "/images/process-flow.webp", alt: "An abstract arrangement illustrating a connected process" }

@@ -1,0 +1,50 @@
+/* TEMPORARY — screenshot mode.
+   Forces every scroll-triggered reveal into its finished state so the whole page
+   is visible at once. Motion writes opacity/transform as inline styles, so these
+   rules need !important to win.
+   Toggle by commenting out the @import in globals.css. Delete both when done. */
+
+/* Reveal wrappers: the motion.div inside .reveal-mask. */
+.reveal-mask > * {
+  opacity: 1 !important;
+  transform: none !important;
+}
+
+/* Logo marks (rotate/scale in) and their amber core (scale 0 -> 1). */
+.logo-mark,
+.logo-core,
+.logo-mark-wrap {
+  opacity: 1 !important;
+  transform: none !important;
+}
+
+/* Capability story card, outcome tiles, hero lines, and any other
+   whileInView fade that only animates opacity + a small y offset. */
+.capability-story-card,
+.outcome-grid > *,
+.hero [style*="opacity"],
+.metrics [style*="opacity"],
+.outcomes [style*="opacity"],
+.parallax-section [style*="opacity"],
+.statement-wrap [style*="opacity"],
+.faq [style*="opacity"],
+.contact [style*="opacity"] {
+  opacity: 1 !important;
+}
+
+/* Odometer digits: jump straight to the target slot instead of the rest slot. */
+.metric-digit-track {
+  transform: translateY(calc(var(--slot, 0) * -1 * var(--cell))) !important;
+  transition: none !important;
+}
+
+/* Parallax media is driven by scrollYProgress; neutralise the offset. */
+.parallax-pair-media {
+  transform: none !important;
+}
+
+/* The accent hairlines that draw in on the statement section. */
+.statement-line {
+  opacity: 0.7 !important;
+  stroke-dashoffset: 0 !important;
+}

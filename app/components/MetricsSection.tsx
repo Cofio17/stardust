@@ -104,7 +104,7 @@ export function MetricsSection() {
       <div className="shell metrics-inner section-pad">
         <div className="metrics-head">
           <Reveal><Eyebrow className="metrics-eyebrow" variant="mono">The record so far</Eyebrow></Reveal>
-          <Reveal delay={0.06}><h2>Numbers we are<br />happy to be held to.</h2></Reveal>
+          <Reveal delay={0.06}><h2>Young company.<br />Honest numbers.</h2></Reveal>
         </div>
         <div className="metric-list">
           {siteContent.metrics.map((metric, index) => (

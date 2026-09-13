@@ -13,16 +13,16 @@ const outfit = Outfit({
 export const metadata: Metadata = {
   metadataBase: new URL("https://firma.example"),
   title: {
-    default: "StarDust Studio — Make work move",
-    template: "%s — StarDust Studio"
+    default: "StarDust Studio - Websites, web apps and automation",
+    template: "%s - StarDust Studio"
   },
   description:
-    "StarDust Studio turns slow, fragmented processes into clear, intelligent systems your teams actually use.",
-  keywords: ["operations", "customer experience", "workflow", "business systems"],
+    "We launch websites, products and stores, then stay in orbit. Design, engineering, and everything after launch.",
+  keywords: ["web development", "web apps", "websites", "e-commerce", "automation", "SEO", "UI/UX design"],
   openGraph: {
-    title: "StarDust Studio — Make work move",
+    title: "StarDust Studio - Websites, web apps and automation",
     description:
-      "Clearer processes, faster decisions, and better customer handoffs for enterprise teams.",
+      "We launch websites, products and stores. Then we stay in orbit. Same small team from the first sketch to everything after launch.",
     type: "website",
     locale: "en_US",
     siteName: "StarDust Studio"

@@ -10,6 +10,7 @@ import { MetricsSection } from "./components/MetricsSection";
 import { OutcomesSection } from "./components/OutcomesSection";
 import { ParallaxSection } from "./components/ParallaxSection";
 import { Reveal } from "./components/Reveal";
+import { ScrollToTop } from "./components/ScrollToTop";
 import { StatementSection } from "./components/StatementSection";
 import { SectionSvgSystem } from "./components/SvgVisualSystem";
 import { siteContent } from "./site-content";
@@ -34,12 +35,12 @@ export default function HomePage() {
           <div className="faq-intro">
             <Reveal><h2>The questions that come up first.</h2></Reveal>
             <Reveal delay={0.06}>
-              <p>Asked on almost every discovery call, so they may as well be answered before it.</p>
+              <p>Six things almost everyone asks on the first call, answered here so you don’t have to.</p>
             </Reveal>
           </div>
           <FaqAccordion />
           <div className="faq-cta-row">
-            <p>No commitment. We map the operation first.</p>
+            <p>No commitment. We will tell you if we are not the right fit.</p>
             <button className="button faq-cta" data-open-contact type="button">
               Book a discovery call <span aria-hidden="true">→</span>
             </button>
@@ -75,6 +76,7 @@ export default function HomePage() {
         </div>
       </footer>
       <ContactDialog />
+      <ScrollToTop />
     </main>
   );
 }

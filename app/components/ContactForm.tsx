@@ -24,7 +24,7 @@ const initialValues: FormValues = {
   message: ""
 };
 
-const focusOptions = ["Operations", "Growth", "Customer experience", "Internal knowledge", "Not sure yet"];
+const focusOptions = ["A website", "A web app or portal", "An online store", "Automation", "SEO or marketing", "Not sure yet"];
 
 type CustomSelectProps = {
   describedBy?: string;
@@ -121,7 +121,7 @@ function CustomSelect({ describedBy, id, onChange, value }: CustomSelectProps) {
         {open ? (
           <motion.ul
             animate={{ opacity: 1, scale: 1, y: 0 }}
-            aria-label="What would you like to improve?"
+            aria-label="What do you need?"
             className="custom-select-menu"
             exit={{ opacity: 0, scale: 0.98, y: -6 }}
             id={listboxId}
@@ -168,7 +168,7 @@ export function ContactForm({ variant, idPrefix }: ContactFormProps) {
     else if (!/^\S+@\S+\.\S+$/.test(values.email)) nextErrors.email = "Please check the email format.";
     if (!values.company.trim()) nextErrors.company = "Please add your company.";
     if (!values.focus) nextErrors.focus = "Please choose one option.";
-    if (!values.message.trim()) nextErrors.message = "Please tell us where work gets stuck.";
+    if (!values.message.trim()) nextErrors.message = "Please tell us a little about the project.";
     return nextErrors;
   }
 
@@ -201,7 +201,7 @@ export function ContactForm({ variant, idPrefix }: ContactFormProps) {
         <span className="field-error" id={`${fieldId("company")}-error`}>{errors.company}</span>
       </div>
       <div className="field field-focus">
-        <label htmlFor={fieldId("focus")}>What would you like to improve?</label>
+        <label htmlFor={fieldId("focus")}>What do you need?</label>
         <CustomSelect
           describedBy={errors.focus ? `${fieldId("focus")}-error` : undefined}
           id={fieldId("focus")}
@@ -211,11 +211,11 @@ export function ContactForm({ variant, idPrefix }: ContactFormProps) {
         <span className="field-error" id={`${fieldId("focus")}-error`}>{errors.focus}</span>
       </div>
       <div className="field field-message">
-        <label htmlFor={fieldId("message")}>Tell us where work gets stuck</label>
+        <label htmlFor={fieldId("message")}>Tell us what you are trying to build or fix</label>
         <textarea aria-describedby={errors.message ? `${fieldId("message")}-error` : undefined} id={fieldId("message")} onChange={(event) => update("message", event.target.value)} value={values.message} />
         <span className="field-error" id={`${fieldId("message")}-error`}>{errors.message}</span>
       </div>
-      {submitted ? <p className="form-success" role="status">Prototype only — no message was sent.</p> : null}
+      {submitted ? <p className="form-success" role="status">Prototype only - no message was sent.</p> : null}
       <div className="form-actions">
         <button className="button button-lime" type="submit">
           Start the conversation <span aria-hidden="true">↗</span>

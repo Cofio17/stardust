@@ -3,6 +3,9 @@ export type Accent = "lime" | "cobalt" | "mist" | "porcelain";
 export type Service = {
   title: string;
   description: string;
+  /* Square 1024px PNG on a transparent background. See docs/service-icon-prompt.md
+     for the shared style system every one of these has to sit inside. */
+  icon: string;
 };
 
 export type Capability = {
@@ -38,18 +41,23 @@ export const siteContent = {
   brand: "StarDust Studio",
   temporaryEmail: "hello@stardust.stud.io",
   nav: [
-    { label: "What we solve", href: "#what-we-solve" },
+    { label: "Services", href: "#what-we-solve" },
     { label: "How we work", href: "#how-we-work" },
-    { label: "Questions", href: "#questions" }
+    { label: "FAQ", href: "#questions" }
   ],
   hero: {
-    /* Three display lines. Only the middle one swaps — it names the problem,
-       which changes per client, while the promise around it stays fixed. */
-    titleLead: "Good ideas stall on the",
-    titleTail: "We put them in orbit.",
-    messages: ["whiteboard", "launchpad", "shelf"],
+    /* Three display lines. Only the middle one swaps, naming what we launch, so
+       the rotator does real work instead of carrying a joke. Singular, because
+       after "your" a plural reads as something the visitor already owns.
+       "Launch" is the ordinary word for shipping a site, which is why the space
+       theme lands without a pun. Single words only: the rotator slot is one grid
+       cell with overflow hidden, so a two-word entry wraps and is clipped when
+       the viewport is narrow. */
+    titleLead: "We launch your",
+    titleTail: "Then we stay in orbit.",
+    messages: ["website", "product", "store"],
     description:
-      "We stay on it until your team opens it every morning without being asked.",
+      "Design, engineering, and everything after launch. Same small team the whole way.",
     images: [
       {
         src: "/images/hero-route.webp",
@@ -65,72 +73,80 @@ export const siteContent = {
       }
     ]
   },
-  marquee: ["Less busywork", "Clearer decisions", "Faster handoffs", "Better service"],
+  marquee: ["Websites", "Web apps", "E-commerce", "Automation", "AI tools", "SEO"],
   builtFor: {
     title: "Built for real problems.",
     description: [
-      "We like software that has a reason to exist. Sometimes that means building a completely new product. Sometimes it means replacing a process that should have been automated years ago.",
-      "Whatever the starting point, we focus on making technology useful, understandable and genuinely valuable to the people using it."
+      "We like software that has a reason to exist. Sometimes that means a brand new product. More often it means replacing a process that should have been automated three years ago.",
+      "Either way the goal is the same: something useful, understandable, and genuinely worth the money to the people who open it every day."
     ],
     cards: [
       {
         number: "01",
         title: "From scratch",
         description:
-          "Have an idea that doesn’t fit inside an existing tool? We can take it from an early concept to a complete, working product."
+          "An idea that doesn’t fit inside any existing tool. We take it from a rough concept to a product people can actually use."
       },
       {
         number: "02",
         title: "Made to fit",
         description:
-          "Your business shouldn’t have to change just to accommodate software. We build custom systems around the way you actually work."
+          "Your business shouldn’t reshape itself around software. We build around the way you already work, including the parts that look odd on paper."
       },
       {
         number: "03",
         title: "Our own ideas",
         description:
-          "We don’t only build for clients. We create and develop our own products too — giving us firsthand experience of what it takes to turn an idea into something people use."
+          "We build and run our own products too. It keeps us honest about what launching something actually takes."
       },
       {
         number: "04",
         title: "Less busywork",
         description:
-          "Good software should remove work, not create more of it. We automate repetitive processes and connect the pieces that shouldn’t require manual effort."
+          "Good software removes work instead of adding another place to check. We automate the repetitive parts and connect what shouldn’t need a human at all."
       }
     ]
   },
   services: [
     {
       title: "SEO Services",
-      description: "Get found by the right people. Technical SEO, useful content, and a clear search strategy that brings qualified traffic to your site."
+      description: "Be there when someone searches for exactly what you sell. Technical fixes, pages worth ranking, and a plan that keeps paying off after launch.",
+      icon: "/images/service-seo.png"
     },
     {
       title: "AI Solutions",
-      description: "Put AI to practical use. Custom assistants, smarter search, and tools that turn your business knowledge into everyday help."
+      description: "Practical AI, not a science project. Assistants that know your business, search that understands the question, tools that save real hours.",
+      icon: "/images/service-ai.png"
     },
     {
       title: "Full Web Apps",
-      description: "From first sketch to a working product. We build custom platforms, customer portals, and business tools around the way you work."
+      description: "Custom platforms, client portals, internal tools. Built from your workflow outward and tested by the people who will live in it.",
+      icon: "/images/service-web-apps.png"
     },
     {
       title: "Marketing Design",
-      description: "Give your next campaign a clear visual voice. Landing pages, ad creative, and social content that feel like your brand."
+      description: "Campaigns that look like they came from one brand. Landing pages, ad creative, and social that stays recognisable at a glance.",
+      icon: "/images/service-marketing-design.png"
     },
     {
       title: "Websites",
-      description: "A better home for your business. Fast, thoughtful websites that tell your story clearly and make the next step feel natural."
+      description: "Fast, clear, and built to convert. A site that explains what you do and makes the next step feel obvious.",
+      icon: "/images/service-websites.png"
     },
     {
       title: "UI/UX Design",
-      description: "Make complex things feel simple. Research, user flows, and interfaces designed around the people who use your product."
+      description: "Make the complicated feel obvious. Research, user flows, and interfaces designed around the people who open them daily.",
+      icon: "/images/service-ux.png"
     },
     {
       title: "E-commerce",
-      description: "Turn browsing into buying. Online stores with considered product pages, smooth checkout, and the integrations you need to grow."
+      description: "Stores built to sell. Product pages that answer the real objections, checkout that doesn’t lose the cart, stock that stays honest.",
+      icon: "/images/service-ecommerce.png"
     },
     {
       title: "Automation",
-      description: "Give repetitive work a quieter role. We connect your tools, simplify handoffs, and build workflows that keep things moving."
+      description: "Connect the tools, remove the copy-paste, and let predictable work happen without anyone remembering to chase it.",
+      icon: "/images/service-automation.png"
     }
   ] satisfies Service[],
   capabilities: [
@@ -138,24 +154,24 @@ export const siteContent = {
       title: "Operations",
       eyebrow: "Make the everyday lighter",
       description:
-        "We find the handoffs, approvals, and repeatable decisions that quietly drain momentum — then shape a cleaner path through them.",
-      bullets: ["Reduce repeat work", "Keep ownership visible", "Make progress easier to measure"],
+        "We follow the work through its approvals, handoffs and half-remembered rules, then design a shorter path that your team doesn’t need reminding to follow.",
+      bullets: ["Cut the repeat work", "Make ownership obvious", "See progress without asking"],
       accent: "lime"
     },
     {
       title: "Growth",
-      eyebrow: "Turn demand into movement",
+      eyebrow: "Turn interest into revenue",
       description:
-        "Your best opportunities should not wait in a queue. We help teams capture intent, coordinate next steps, and keep good work moving.",
-      bullets: ["Respond with useful context", "Shorten the distance to action", "Give teams more room to think"],
+        "Good leads cool off in the gap between curiosity and a reply. We close that gap with a site that answers the real questions and follow-up that doesn’t depend on anyone remembering.",
+      bullets: ["Get found for what you sell", "Reply while it still matters", "Know which effort pays"],
       accent: "cobalt"
     },
     {
       title: "Customer experience",
-      eyebrow: "Make every interaction feel joined up",
+      eyebrow: "Keep the promise you sold",
       description:
-        "From the first question to the final follow-up, we create systems that make service more consistent without making it less human.",
-      bullets: ["Create calmer service journeys", "Carry context across teams", "Improve the moments customers remember"],
+        "Delivery should feel like the pitch. We build systems that carry context between teams, so customers stop repeating themselves and your people stop apologising for it.",
+      bullets: ["Carry context across teams", "Answer before they chase", "Stay personal as you scale"],
       accent: "mist"
     }
   ] satisfies Capability[],
@@ -163,7 +179,7 @@ export const siteContent = {
     {
       time: "Week 1",
       title: "Map the real process",
-      description: "Not the diagram on the wall — the actual one, with every workaround and copy-paste."
+      description: "Not the diagram on the wall. The actual one, with every workaround and copy-paste."
     },
     {
       time: "Week 2",
@@ -178,98 +194,97 @@ export const siteContent = {
   ] satisfies TimeMoment[],
   metrics: [
     {
-      from: 51,
-      label: "Successful partnerships",
-      note: "Teams that came back for a second build.",
-      value: 64
+      from: 29,
+      label: "Products shipped",
+      note: "Live software in daily use, not a portfolio pile.",
+      value: 38
     },
     {
-      from: 9,
+      from: 1,
       label: "Years in business",
-      note: "Shipping production software since 2014.",
-      value: 12
+      note: "Same founding team since 2022.",
+      value: 4
     },
     {
-      from: 148,
-      label: "Average traffic lift",
-      note: "Measured six months after launch.",
-      suffix: "%",
-      value: 187
+      from: 14,
+      label: "Days to a working version",
+      note: "Median across our last ten builds.",
+      value: 21
     },
     {
       from: 76,
-      label: "Still with us after year one",
-      note: "Retention across every engagement we have run.",
+      label: "Clients who come back",
+      note: "Across every engagement we have run.",
       suffix: "%",
-      value: 94
+      value: 92
     }
   ] satisfies Metric[],
   approach: [
     {
-      eyebrow: "Find the focus",
-      title: "A clear start makes all the difference.",
-      description: "Every project starts with a conversation. We get to know your business, ask the useful questions, and work out what will make the biggest difference. Together, we turn a loose idea into a plan worth building.",
+      eyebrow: "Start with the problem",
+      title: "The first conversation does the heavy lifting.",
+      description: "We ask what is actually going wrong, who it costs, and what it would look like if it worked. You leave with a clear scope, a realistic range, and an honest opinion, including the one where you don’t need us yet.",
       image: {
         src: "/images/process-drag.webp",
         alt: "A fine thread connecting stacked paper slabs on a dark tabletop"
       }
     },
     {
-      eyebrow: "Give it shape",
-      title: "Thoughtful design. Practical foundations.",
-      description: "We bring the idea into view with real screens, clear flows, and working prototypes. You see how the pieces fit together early, so we can refine the details before they become expensive decisions.",
+      eyebrow: "Make it real early",
+      title: "See it before we build it.",
+      description: "Screens, flows, and a clickable prototype come before the code. You react to something real while a change still costs an afternoon instead of a sprint.",
       image: {
         src: "/images/process-shape.webp",
         alt: "Stone, cobalt, and glass layers connected by a bright line"
       }
     },
     {
-      eyebrow: "Build what comes next",
-      title: "Ready for launch. Built for what follows.",
-      description: "We build, test, and launch with the everyday experience in mind. Then we stay close, using real feedback to improve the details and help your next idea take shape.",
+      eyebrow: "Ship, then keep going",
+      title: "Launch is the start of the useful part.",
+      description: "We release in pieces you can use as they land, then stay close and watch how the thing is really used. The parts that earn attention get more of it.",
       image: {
         src: "/images/process-flow.webp",
         alt: "An open path between sculptural dark and cobalt panels"
       }
     }
   ],
-  statement: "Your best people should not spend their best hours on repeatable work.",
+  statement: "The software your business runs on should feel like it was built for your business.",
   faq: [
     {
-      question: "What kind of problems do you solve?",
+      question: "What does a project like this cost?",
       answer:
-        "The recurring work that slows a good team down: searching for context, moving information between systems, managing handoffs, and answering the same questions again and again."
-    },
-    {
-      question: "Do we need a fully defined AI strategy?",
-      answer:
-        "No. We start with a specific, observable point of friction and work outward from there. A useful first improvement is usually more valuable than a perfect plan on paper."
-    },
-    {
-      question: "Can you work with our existing systems?",
-      answer:
-        "Yes. We design around the tools and habits that already matter to your teams, keeping the experience coherent while avoiding unnecessary disruption."
+        "You get a real range in the first conversation, not after three meetings and a proposal. The number moves with scope, so we would rather shape the scope with you than quote a guess. If the budget and the idea don’t match, we say so early."
     },
     {
       question: "How quickly can we see something working?",
       answer:
-        "Most first prototypes are shaped in days, then tested with the people closest to the work. The timeline depends on the process, but learning starts early."
+        "A clickable prototype in the first couple of weeks, and something real enough to put in front of users usually inside a month. We release in pieces, so you are never waiting on one big reveal at the end."
+    },
+    {
+      question: "We already have a site and a developer. Can you still help?",
+      answer:
+        "Often that is the easier job. We take over existing builds, work alongside an in-house team, or handle one specific piece of it. If the honest answer is to keep what you have, you will hear that instead of a pitch."
+    },
+    {
+      question: "Who owns the code and the accounts?",
+      answer:
+        "You do, from day one. Repositories, hosting, domains and analytics stay in your name. If you ever decide to move on, you take everything with you and nothing quietly stops working."
     },
     {
       question: "What happens after launch?",
       answer:
-        "We stay close to adoption and the signals that show whether a change is helping. Together, we refine the system until it earns its place in the daily rhythm."
+        "We stay. Hosting, monitoring, small fixes and the occasional bigger idea, as a monthly arrangement or simply when you need us. Nothing is finished the week it goes live."
     },
     {
-      question: "How do you handle data and privacy?",
+      question: "How do you handle our data?",
       answer:
-        "We keep data minimization, access, and clear ownership in view from the first conversation. The right approach is shaped around your requirements and risk profile."
+        "We collect the minimum, keep access narrow, and write down who can see what. Anything involving customer data or AI gets its rules agreed in writing before a line of it is built."
     }
   ] satisfies FaqItem[],
   contact: {
-    eyebrow: "Start with the stuck bit",
-    title: "Let’s make work move.",
+    eyebrow: "First contact",
+    title: "Tell us what you’re building.",
     description:
-      "Tell us where momentum gets lost. We’ll bring a clear point of view and a practical next step."
+      "Describe what you are trying to build or fix. You will get a real person, a straight answer, and a next step within a day."
   }
 };

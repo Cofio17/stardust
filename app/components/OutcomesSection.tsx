@@ -15,11 +15,11 @@ export function OutcomesSection() {
       <div className="shell outcomes-inner">
         <div className="section-intro">
           <div>
-            <Reveal><Eyebrow>Our services</Eyebrow></Reveal>
-            <Reveal delay={0.06}><h2>Good ideas.<br />Built to work.</h2></Reveal>
+            <Reveal><Eyebrow>What we do</Eyebrow></Reveal>
+            <Reveal delay={0.06}><h2>Everything you need.One team <br /> behind it.</h2></Reveal>
           </div>
           <Reveal delay={0.12}>
-            <p>From your first website to the tools that run your business. Design, development, and growth, with one studio behind it all.</p>
+            <p>Design, development, and the growth work that follows - so you are not managing four suppliers who each blame the other three.</p>
           </Reveal>
         </div>
         <div className="outcome-grid">
@@ -35,10 +35,10 @@ export function OutcomesSection() {
               <Image
                 alt=""
                 className="service-tile-illustration"
-                height={1024}
+                height={1254}
                 sizes="200px"
-                src="/images/service-discovery.png"
-                width={1024}
+                src={service.icon}
+                width={1254}
               />
               <div className="service-tile-copy">
                 <h3>{service.title}</h3>

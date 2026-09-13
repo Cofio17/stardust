@@ -5,7 +5,7 @@ import { motion, useReducedMotion } from "motion/react";
 const EASE = [0.16, 1, 0.3, 1] as const;
 
 type LogoProps = {
-  /** "accent" gives the core an amber fill. "mono" keeps everything in currentColor —
+  /** "accent" gives the core an amber fill. "mono" keeps everything in currentColor -
    *  use it wherever amber already means something else, such as the nav CTA. */
   variant?: "accent" | "mono";
   /** Drop the symbol and render the name only. */

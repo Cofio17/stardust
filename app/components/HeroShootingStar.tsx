@@ -107,7 +107,7 @@ export function HeroShootingStar() {
 
     function fire() {
       timer = 0;
-      // Bail quietly — `sync` re-queues once the hero is back on screen.
+      // Bail quietly - `sync` re-queues once the hero is back on screen.
       if (!canPlay()) return;
       flight.current = flightOf();
       flying = true;

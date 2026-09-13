@@ -4,7 +4,7 @@ import { Logo } from "./Logo";
 
 type EyebrowProps = {
   children: ReactNode;
-  /** Matches the Logo variant — use "mono" where amber already carries meaning. */
+  /** Matches the Logo variant - use "mono" where amber already carries meaning. */
   variant?: "accent" | "mono";
   className?: string;
 };

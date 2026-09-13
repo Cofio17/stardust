@@ -99,8 +99,8 @@ export function CapabilitiesScroll() {
       <div className="capabilities-sticky shell">
         <div className="capabilities-heading">
           <Reveal><Eyebrow>Where we help</Eyebrow></Reveal>
-          <Reveal delay={0.06}><h2>Make good work<br />feel lighter.</h2></Reveal>
-          <Reveal delay={0.12}><p>The best systems are felt in the rhythm of a day: fewer interruptions, clearer ownership, better follow-through.</p></Reveal>
+          <Reveal delay={0.06}><h2>Fewer things<br />in the way.</h2></Reveal>
+          <Reveal delay={0.12}><p>You feel a good system in the rhythm of a day: fewer interruptions, clearer ownership, and a list that finally gets shorter.</p></Reveal>
         </div>
 
         <div className="capabilities-story">
