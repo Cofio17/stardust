@@ -1,0 +1,62 @@
+.preview { background: var(--porcelain); color: var(--graphite); }
+.header { align-items: center; display: flex; justify-content: space-between; padding: 1.5rem clamp(1.5rem, 4vw, 4.5rem); }
+.brand { font-size: .95rem; font-weight: 800; letter-spacing: -.045em; }
+.brand span { color: var(--cobalt); }
+.back { border-bottom: 1px solid currentColor; font-size: .8rem; font-weight: 600; padding-bottom: .25rem; }
+.intro { margin: 0 auto; max-width: 1440px; padding: clamp(5rem, 10vw, 10rem) clamp(1.5rem, 4vw, 4.5rem) clamp(5rem, 9vw, 9rem); }
+.introLabel, .kicker, .conceptName, .footer { font-size: .72rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; }
+.introLabel { color: var(--cobalt); margin: 0 0 2rem; }
+.intro h1 { font-size: clamp(3.8rem, 8.8vw, 9.5rem); font-weight: 500; letter-spacing: -.078em; line-height: .94; margin: 0; max-width: 1120px; }
+.intro h1 em { color: var(--cobalt); font-style: normal; }
+.intro > p:not(.introLabel) { color: var(--ink-muted); font-size: clamp(1rem, 1.4vw, 1.25rem); line-height: 1.55; margin: 3rem 0 0; max-width: 600px; }
+.jump { border-top: 1px solid var(--line-light); display: grid; gap: 0; grid-template-columns: repeat(4, 1fr); margin-top: 5rem; }
+.jump a { align-items: center; border-bottom: 1px solid var(--line-light); display: flex; font-size: .9rem; font-weight: 600; gap: .9rem; min-height: 4rem; padding: .8rem 1rem .8rem 0; }
+.jump a span:first-child { color: var(--cobalt); font-size: .7rem; }
+.jump a span:last-child { margin-left: auto; }
+.concept { min-height: min(900px, 100svh); overflow: hidden; position: relative; }
+.conceptInner { align-items: center; display: grid; gap: clamp(1rem, 3vw, 4rem); grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); margin: 0 auto; max-width: 1440px; min-height: min(900px, 100svh); padding: clamp(5rem, 7vw, 7rem) clamp(1.5rem, 4vw, 4.5rem); }
+.ink { --line-color: #eef1fa; --guide-color: rgba(238,241,250,.13); --accent-color: #ffb020; background: var(--graphite); color: var(--porcelain); }
+.paper { --line-color: #1a46cc; --guide-color: rgba(26,70,204,.11); --accent-color: #0a1224; background: var(--surface); color: var(--graphite); }
+.blue { --line-color: #f5f3ee; --guide-color: rgba(245,243,238,.14); --accent-color: #ffb020; background: var(--cobalt); color: var(--porcelain); }
+.copy { position: relative; z-index: 1; }
+.kicker { align-items: center; display: flex; flex-wrap: wrap; gap: 1.2rem; line-height: 1.5; margin: 0 0 clamp(3rem, 7vw, 7rem); opacity: .72; }
+.kicker span:first-child { opacity: .72; }
+.copy h2 { font-size: clamp(3.4rem, 5.8vw, 6.8rem); font-weight: 500; letter-spacing: -.075em; line-height: .96; margin: 0; max-width: 660px; }
+.explanation { font-size: clamp(1rem, 1.35vw, 1.2rem); line-height: 1.6; margin: 2rem 0 0; max-width: 480px; opacity: .72; }
+.conceptName { align-items: center; display: flex; gap: 1rem; margin-top: clamp(3rem, 6vw, 6rem); }
+.nameRule { background: var(--accent-color); display: block; height: 2px; width: 3rem; }
+.artWrap { margin-inline: auto; max-width: 720px; width: 100%; }
+.art { display: block; height: auto; overflow: visible; width: 100%; }
+.art text { fill: var(--line-color); font-family: var(--font-outfit), Arial, sans-serif; font-size: 10px; font-weight: 700; letter-spacing: .18em; opacity: .5; }
+.guide { fill: none; stroke: var(--guide-color); stroke-width: 1; }
+.drawPath { fill: none; stroke: var(--line-color); stroke-linecap: round; stroke-linejoin: round; stroke-width: 2.4; }
+.thinPath { opacity: .57; stroke-width: 1.4; }
+.accentPath { stroke: var(--accent-color); stroke-width: 3.4; }
+.point { fill: var(--line-color); stroke: var(--line-color); stroke-width: 1.4; transform-box: fill-box; transform-origin: center; }
+.accentPoint { fill: var(--accent-color); stroke: var(--accent-color); }
+.footer { align-items: center; display: flex; justify-content: space-between; padding: 2rem clamp(1.5rem, 4vw, 4.5rem); }
+.footer a { border-bottom: 1px solid currentColor; padding-bottom: .25rem; }
+@media (max-width: 800px) {
+  .jump { grid-template-columns: repeat(2, 1fr); }
+  .concept, .conceptInner { min-height: 0; }
+  .conceptInner { gap: 1rem; grid-template-columns: 1fr; padding-block: 5rem 3rem; }
+  .kicker { margin-bottom: 3rem; }
+  .copy h2 { max-width: 650px; }
+  .conceptName { margin-top: 2.5rem; }
+  .artWrap { max-width: 580px; }
+}
+@media (max-width: 520px) {
+  .header { padding-block: 1.1rem; }
+  .brand { font-size: .82rem; }
+  .back { font-size: .72rem; }
+  .intro { padding-block: 5rem; }
+  .intro h1 { font-size: clamp(3.5rem, 15vw, 5.5rem); }
+  .jump { grid-template-columns: 1fr; margin-top: 3.5rem; }
+  .conceptInner { padding-block: 4.5rem 2rem; }
+  .copy h2 { font-size: clamp(3.25rem, 12vw, 4.75rem); }
+  .artWrap { margin: .5rem -8% 0; width: 116%; }
+  .footer { gap: 1.5rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .drawPath { stroke-dasharray: none; }
+}

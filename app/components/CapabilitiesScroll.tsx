@@ -1,4 +1,5 @@
 "use client";
+import { ButtonLabel } from "./ButtonLabel";
 
 import { AnimatePresence, motion, useMotionValueEvent, useReducedMotion, useScroll, useTransform } from "motion/react";
 import { useRef, useState } from "react";
@@ -8,39 +9,49 @@ import { Reveal } from "./Reveal";
 import { SectionSvgSystem } from "./SvgVisualSystem";
 
 function CapabilitySketch({ active }: { active: number }) {
+  const reducedMotion = useReducedMotion();
   type SketchPath = { d: string; active?: boolean; secondary?: boolean };
-  const sketches: Array<{ paths: SketchPath[]; nodes: number[][] }> = [
+  const sketches: Array<{ paths: SketchPath[]; nodes: number[][]; signal: { x: number[]; y: number[] } }> = [
+    // Three task lanes converge into one completed, owned workflow.
     {
       paths: [
-        { d: "M8 27h31c13 0 13 18 26 18h22", secondary: true },
-        { d: "M8 60h44c13 0 13-12 26-12h25" },
-        { d: "M8 93h31c13 0 13-18 26-18h22", secondary: true },
-        { d: "M87 31h32l15 15v42l-15 15H87" },
-        { d: "M103 48v19c0 9 7 15 16 15h50", active: true }
+        { d: "M12 18h34v18H12Z M12 51h34v18H12Z M12 84h34v18H12Z" },
+        { d: "M19 27h18 M19 60h18 M19 93h18", secondary: true },
+        { d: "M46 27h16q14 0 14 14v38q0 14-14 14H46", secondary: true },
+        { d: "M46 60h68", active: true },
+        { d: "M76 41v19 M76 79V60" },
+        { d: "M114 38h44v44h-44Z" },
+        { d: "m125 59 8 8 15-17", active: true },
+        { d: "M158 60h14", active: true }
       ],
-      nodes: [[65, 45], [78, 48], [65, 75], [119, 82], [154, 82]]
+      nodes: [[76, 60], [172, 60]],
+      signal: { x: [46, 76, 108], y: [60, 60, 60] }
     },
+    // Interest becomes measurable momentum: an ascending launch trajectory.
     {
       paths: [
-        { d: "M8 31h35c16 0 14 22 30 22h18" },
-        { d: "M8 60h83" },
-        { d: "M8 89h35c16 0 14-22 30-22h18", secondary: true },
-        { d: "M91 35c-19 10-19 40 0 50" },
-        { d: "M105 45c-10 7-10 23 0 30" },
-        { d: "M105 60h23c12 0 12-17 24-17h20", active: true }
+        { d: "M14 16v88h154" },
+        { d: "M14 76h154 M14 48h154 M14 20h154", secondary: true },
+        { d: "M35 104V85h18v19 M78 104V66h18v38 M121 104V39h18v65" },
+        { d: "M24 90 51 79 91 54 155 18", active: true },
+        { d: "m141 18 14 0-4 14", active: true },
+        { d: "M91 47v14 M84 54h14" }
       ],
-      nodes: [[43, 31], [43, 60], [73, 67], [105, 60], [152, 43]]
+      nodes: [[51, 79], [91, 54], [155, 18]],
+      signal: { x: [24, 51, 91, 155], y: [90, 79, 54, 18] }
     },
+    // One customer context travels intact between three teams.
     {
       paths: [
-        { d: "M8 25h34c13 0 13 19 26 19h22" },
-        { d: "M8 60h82" },
-        { d: "M8 95h34c13 0 13-19 26-19h22" },
-        { d: "M90 44h18c12 0 12 16 24 16h40", active: true },
-        { d: "M90 76h18c12 0 12-16 24-16", secondary: true },
-        { d: "M42 25v70", secondary: true }
+        { d: "M10 42h36v36H10Z M72 42h36v36H72Z M134 42h36v36h-36Z" },
+        { d: "M46 60h26 M108 60h26", active: true },
+        { d: "M28 42V28q0-10 10-10h104q10 0 10 10v14", secondary: true },
+        { d: "M28 78v14q0 10 10 10h104q10 0 10-10V78", secondary: true },
+        { d: "M19 68q9-11 18 0 M81 68q9-11 18 0 M143 68q9-11 18 0" },
+        { d: "M86 18h8 M90 14v8", active: true }
       ],
-      nodes: [[42, 25], [42, 60], [42, 95], [90, 44], [90, 76], [132, 60]]
+      nodes: [[28, 54], [90, 54], [152, 54]],
+      signal: { x: [46, 72, 108, 134], y: [60, 60, 60, 60] }
     }
   ];
   const sketch = sketches[active];
@@ -48,16 +59,16 @@ function CapabilitySketch({ active }: { active: number }) {
   return (
     <svg aria-hidden="true" className="capability-sketch" viewBox="0 0 180 120">
       <AnimatePresence mode="sync">
-        <motion.g key={active}>
+        <motion.g key={active} exit={{ opacity: 0 }} transition={{ duration: reducedMotion ? 0 : 0.15 }}>
           {sketch.paths.map((path, index) => (
             <motion.path
               animate={{ pathLength: 1, opacity: path.secondary ? 0.34 : 1 }}
               className={path.active ? "is-active" : path.secondary ? "is-secondary" : ""}
               d={path.d}
               exit={{ pathLength: 0, opacity: 0 }}
-              initial={{ pathLength: 0, opacity: 0 }}
+              initial={reducedMotion ? false : { pathLength: 0, opacity: 0 }}
               key={path.d}
-              transition={{ delay: index * 0.07, duration: 0.64, ease: [0.16, 1, 0.3, 1] }}
+              transition={{ delay: reducedMotion ? 0 : index * 0.045, duration: reducedMotion ? 0 : 0.5, ease: [0.16, 1, 0.3, 1] }}
             />
           ))}
           {sketch.nodes.map(([cx, cy], index) => (
@@ -67,12 +78,27 @@ function CapabilitySketch({ active }: { active: number }) {
               cx={cx}
               cy={cy}
               exit={{ opacity: 0, scale: 0.4 }}
-              initial={{ opacity: 0, scale: 0.4 }}
+              initial={reducedMotion ? false : { opacity: 0, scale: 0.4 }}
               key={`${cx}-${cy}`}
               r="3"
-              transition={{ delay: 0.25 + index * 0.06, duration: 0.35 }}
+              transition={{ delay: reducedMotion ? 0 : 0.2 + index * 0.06, duration: reducedMotion ? 0 : 0.3 }}
             />
           ))}
+          <motion.circle
+            className="is-active"
+            cx={sketch.signal.x[0]}
+            cy={sketch.signal.y[0]}
+            r="2.5"
+            initial={false}
+            whileInView={reducedMotion ? undefined : {
+              cx: sketch.signal.x,
+              cy: sketch.signal.y,
+              opacity: [0, 1, 1, 0]
+            }}
+            viewport={{ amount: 0.5 }}
+            transition={{ duration: 2.8, delay: 0.7, repeat: Infinity, repeatDelay: 1.2, ease: "linear" }}
+            style={{ opacity: reducedMotion ? 0 : undefined }}
+          />
         </motion.g>
       </AnimatePresence>
     </svg>
@@ -116,7 +142,7 @@ export function CapabilitiesScroll() {
                 onClick={() => setActive(index)}
                 type="button"
               >
-                <span>0{index + 1}</span>{item.title}
+                <span className="capability-step-number">0{index + 1}</span><ButtonLabel>{item.title}</ButtonLabel>
               </button>
             ))}
           </div>

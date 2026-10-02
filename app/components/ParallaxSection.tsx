@@ -35,6 +35,13 @@ function ParallaxPair({ story, index }: { story: Story; index: number }) {
         <Eyebrow className="parallax-pair-eyebrow">{story.eyebrow}</Eyebrow>
         <h2 id={`approach-title-${index}`}>{story.title}</h2>
         <p>{story.description}</p>
+        <p>{story.detail}</p>
+        <div className="parallax-pair-takeaways">
+          <h3>{story.takeawayTitle}</h3>
+          <ul>
+            {story.takeaways.map(takeaway => <li key={takeaway}>{takeaway}</li>)}
+          </ul>
+        </div>
       </div>
     </article>
   );

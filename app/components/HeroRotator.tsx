@@ -1,10 +1,14 @@
 "use client";
+import { ButtonLabel } from "./ButtonLabel";
+import Link from "next/link";
+import "./hero-featured-work.css";
 
 import { motion, useReducedMotion } from "motion/react";
 import { useEffect, useState } from "react";
 import { siteContent } from "../site-content";
 import { Reveal } from "./Reveal";
 import { HeroShootingStar } from "./HeroShootingStar";
+import { HeroGravityField } from "./HeroGravityField";
 
 export function HeroRotator() {
   const [active, setActive] = useState(0);
@@ -27,45 +31,7 @@ export function HeroRotator() {
 
   return (
     <section aria-labelledby="hero-title" className="hero" id="top">
-      <div aria-hidden="true" className="hero-rings">
-        <motion.div
-          animate={{ opacity: 0.52, scale: 1 }}
-          className="hero-ring hero-ring-large"
-          initial={reducedMotion ? false : { opacity: 0, scale: 2.35 }}
-          transition={{
-            delay: reducedMotion ? 0 : 0.05,
-            duration: reducedMotion ? 0 : 1.9,
-            ease: [0.16, 1, 0.3, 1]
-          }}
-        >
-          <motion.img
-            alt=""
-            animate={reducedMotion ? undefined : { rotate: 360 }}
-            draggable="false"
-            src="/images/hero-dashed-orbit.svg"
-            transition={{ duration: 82, ease: "linear", repeat: Infinity }}
-          />
-        </motion.div>
-
-        <motion.div
-          animate={{ opacity: 0.62, scale: 1 }}
-          className="hero-ring hero-ring-small"
-          initial={reducedMotion ? false : { opacity: 0, scale: 0.72 }}
-          transition={{
-            delay: reducedMotion ? 0 : 1.25,
-            duration: reducedMotion ? 0 : 1.05,
-            ease: [0.16, 1, 0.3, 1]
-          }}
-        >
-          <motion.img
-            alt=""
-            animate={reducedMotion ? undefined : { rotate: -360 }}
-            draggable="false"
-            src="/images/hero-dashed-orbit-small.svg"
-            transition={{ duration: 64, ease: "linear", repeat: Infinity }}
-          />
-        </motion.div>
-      </div>
+      <HeroGravityField />
 
       <HeroShootingStar />
 
@@ -110,12 +76,19 @@ export function HeroRotator() {
             <Reveal delay={0.8}>
               <div className="hero-actions">
                 <button className="button button-lime" data-open-contact type="button">
-                  Start a conversation <span aria-hidden="true">↗</span>
+                  <ButtonLabel>Start a conversation <span aria-hidden="true">↗</span></ButtonLabel>
                 </button>
                 <a className="button button-ghost-light" href="#what-we-solve">
-                  See what we build <span aria-hidden="true">↓</span>
+                  <ButtonLabel>See what we build <span aria-hidden="true">↓</span></ButtonLabel>
                 </a>
               </div>
+            </Reveal>
+            <Reveal delay={1}>
+              <Link className="hero-featured-work" href={siteContent.hero.featuredWork.href}>
+                <span className="hero-work-mark" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="7" height="7" rx="1.5" fill="currentColor" /><rect x="14" y="3" width="7" height="7" rx="1.5" stroke="currentColor" /><rect x="3" y="14" width="7" height="7" rx="1.5" stroke="currentColor" /><rect x="14" y="14" width="7" height="7" rx="1.5" fill="currentColor" /></svg></span>
+                <span className="hero-work-copy"><span className="hero-work-label">{siteContent.hero.featuredWork.label}</span><strong>{siteContent.hero.featuredWork.name}</strong><span className="hero-work-description">{siteContent.hero.featuredWork.description}</span></span>
+                <span className="hero-work-arrow" aria-hidden="true">↗</span>
+              </Link>
             </Reveal>
           </div>
         </div>

@@ -1,4 +1,5 @@
 "use client";
+import { ButtonLabel } from "./ButtonLabel";
 
 import { AnimatePresence, motion, useMotionValueEvent, useReducedMotion, useScroll } from "motion/react";
 import { useLenis } from "lenis/react";
@@ -39,7 +40,7 @@ export function ScrollToTop() {
           transition={shouldReduceMotion ? { duration: 0 } : { duration: 0.34, ease: [0.22, 1, 0.36, 1] }}
           type="button"
         >
-          <svg aria-hidden="true" fill="none" height="20" viewBox="0 0 24 24" width="20">
+          <ButtonLabel><svg aria-hidden="true" fill="none" height="20" viewBox="0 0 24 24" width="20">
             <path
               d="M12 19V5M12 5l-6 6M12 5l6 6"
               stroke="currentColor"
@@ -47,7 +48,7 @@ export function ScrollToTop() {
               strokeLinejoin="round"
               strokeWidth="2"
             />
-          </svg>
+          </svg></ButtonLabel>
         </motion.button>
       ) : null}
     </AnimatePresence>

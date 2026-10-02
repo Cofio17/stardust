@@ -1,4 +1,5 @@
 "use client";
+import { ButtonLabel } from "./ButtonLabel";
 
 import { useEffect, useRef } from "react";
 import { siteContent } from "../site-content";
@@ -109,7 +110,7 @@ export function ContactDialog() {
             <h2 id="contact-dialog-title">Start a conversation.</h2>
           </div>
           <button aria-label="Close contact form" className="dialog-close" onClick={() => requestCloseRef.current()} type="button">
-            ×
+            <ButtonLabel>×</ButtonLabel>
           </button>
         </div>
         <ContactForm idPrefix="modal-contact" variant="modal" />

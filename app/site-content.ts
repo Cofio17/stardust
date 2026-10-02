@@ -41,9 +41,10 @@ export const siteContent = {
   brand: "StarDust Studio",
   temporaryEmail: "hello@stardust.stud.io",
   nav: [
-    { label: "Services", href: "#what-we-solve" },
-    { label: "How we work", href: "#how-we-work" },
-    { label: "FAQ", href: "#questions" }
+    { label: "Services", href: "/#what-we-solve" },
+    { label: "Our Work", href: "/our-work" },
+    { label: "How we work", href: "/#how-we-work" },
+    { label: "FAQ", href: "/#questions" }
   ],
   hero: {
     /* Three display lines. Only the middle one swaps, naming what we launch, so
@@ -58,18 +59,24 @@ export const siteContent = {
     messages: ["website", "product", "store"],
     description:
       "Design, engineering, and everything after launch. Same small team the whole way.",
+    featuredWork: {
+      name: "Solutions CRM",
+      label: "Concept case study",
+      description: "Leads, clients & next steps in one place.",
+      href: "/our-work/solutions-crm"
+    },
     images: [
       {
-        src: "/images/hero-route.webp",
-        alt: "A lime thread tracing a route across layered paper maps on a graphite table"
+        src: "/images/studio/workflow.webp",
+        alt: "Teammates connecting their tools and sharing order information across screens"
       },
       {
-        src: "/images/hero-structure.webp",
-        alt: "Porcelain and cobalt architectural blocks connected by a lime line"
+        src: "/images/studio/custom.webp",
+        alt: "A designer and client reviewing a custom scheduling app"
       },
       {
-        src: "/images/hero-clarity.webp",
-        alt: "Layered translucent papers and colored tabs arranged into a clear path"
+        src: "/images/studio/clarity.webp",
+        alt: "A teammate finding useful information in a consolidated dashboard"
       }
     ]
   },
@@ -224,27 +231,36 @@ export const siteContent = {
       eyebrow: "Start with the problem",
       title: "The first conversation does the heavy lifting.",
       description: "We ask what is actually going wrong, who it costs, and what it would look like if it worked. You leave with a clear scope, a realistic range, and an honest opinion, including the one where you don’t need us yet.",
+      detail: "Show us the website, the spreadsheet, or the process your team works around every day. We look at where people lose time, where customers get stuck, and which tools already do their job well. Together, we choose a useful first step and agree on what success should look like before the work begins.",
+      takeawayTitle: "A clear starting point",
+      takeaways: ["The problem, priorities, and scope in plain language", "A realistic budget range and sequence of work", "A shared definition of what a good result looks like"],
       image: {
-        src: "/images/process-drag.webp",
-        alt: "A fine thread connecting stacked paper slabs on a dark tabletop"
+        src: "/images/studio/demo-conversation.png",
+        alt: "Speech bubbles turning a tangled process into a clear plan above an open notebook"
       }
     },
     {
       eyebrow: "Make it real early",
       title: "See it before we build it.",
       description: "Screens, flows, and a clickable prototype come before the code. You react to something real while a change still costs an afternoon instead of a sprint.",
+      detail: "We work through the important journeys: finding the right information, completing a purchase, or getting a task done. You can try the structure, read the actual copy, and see how the interface behaves on a phone. Your feedback shapes the next version, so the build starts with decisions you understand and a direction you can stand behind.",
+      takeawayTitle: "Something you can actually try",
+      takeaways: ["Key screens with real content and a clear visual direction", "A clickable flow for the journeys that matter most", "Feedback turned into decisions before development"],
       image: {
-        src: "/images/process-shape.webp",
-        alt: "Stone, cobalt, and glass layers connected by a bright line"
+        src: "/images/studio/demo-prototype.png",
+        alt: "A hand testing a clickable tablet prototype connected to a paper wireframe"
       }
     },
     {
       eyebrow: "Ship, then keep going",
       title: "Launch is the start of the useful part.",
       description: "We release in pieces you can use as they land, then stay close and watch how the thing is really used. The parts that earn attention get more of it.",
+      detail: "Before launch, we check the details that make a product dependable: mobile layouts, loading speed, forms, and the connections behind them. Once it is live, we help your team manage the content and understand what people are doing. Support, maintenance, and improvements follow the needs of the business, with a clear next step whenever something changes.",
+      takeawayTitle: "A launch with a plan behind it",
+      takeaways: ["A working site or product checked across key devices", "A practical handover so your team can use and manage it", "An agreed approach to support and future improvements"],
       image: {
-        src: "/images/process-flow.webp",
-        alt: "An open path between sculptural dark and cobalt panels"
+        src: "/images/studio/demo-launch-orbit.png",
+        alt: "A browser space capsule with a support satellite staying in orbit after launch"
       }
     }
   ],

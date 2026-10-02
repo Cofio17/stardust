@@ -1,0 +1,39 @@
+.page { background: var(--porcelain); color: var(--graphite); }
+.header { padding: 1.6rem clamp(1.5rem, 5vw, 6rem); display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--line-light); font-size: .85rem; }
+.header > a:first-child { font-size: 1.1rem; font-weight: 700; letter-spacing: -.05em; }
+.header span { color: var(--ink-muted); font-weight: 400; }
+.intro { max-width: 1500px; margin: auto; padding: 6rem clamp(1.5rem, 5vw, 6rem) 5rem; }
+.eyebrow { font-size: .7rem; font-weight: 600; letter-spacing: .16em; text-transform: uppercase; margin: 0 0 3rem; }
+.intro h1 { font-size: clamp(4rem, 10vw, 10rem); font-weight: 500; line-height: .92; letter-spacing: -.075em; margin: 0; }
+.intro h1 span { color: var(--cobalt); }
+.intro > p:not(.eyebrow) { max-width: 480px; font-size: 1.1rem; line-height: 1.6; color: var(--ink-muted); margin: 2.5rem 0 0; }
+.index { display: grid; grid-template-columns: repeat(3, 1fr); margin-top: 4rem; border-top: 1px solid var(--line-light); }
+.index a { display: flex; align-items: center; gap: 1rem; padding: 1.25rem 1.25rem 1.25rem 0; border-bottom: 1px solid var(--line-light); font-size: .85rem; }
+.index a span:first-child { color: var(--ink-muted); font-size: .65rem; }
+.index a span:last-child { margin-left: auto; }
+.study { overflow: hidden; }
+.ink { background: var(--graphite); color: var(--porcelain); --art-color: #8791a6; --art-opacity: .65; --rule: #ffffff26; }
+.paper { background: var(--surface); color: var(--graphite); --art-color: #1a46cc; --art-opacity: .4; --rule: #0a122426; }
+.blue { background: var(--cobalt); color: var(--porcelain); --art-color: #f5f3ee; --art-opacity: .34; --rule: #ffffff30; }
+.inner { max-width: 1500px; margin: auto; min-height: 760px; display: grid; grid-template-columns: 1fr 1.05fr; align-items: center; gap: 2rem; padding: 6rem clamp(1.5rem, 5vw, 6rem); }
+.copy { position: relative; z-index: 1; }
+.copy .eyebrow { opacity: .6; margin-bottom: 3.5rem; }
+.copy h2 { max-width: 590px; font-size: clamp(3.4rem, 5.5vw, 6.2rem); line-height: .99; font-weight: 500; letter-spacing: -.065em; margin: 0; }
+.body { max-width: 410px; font-size: 1rem; line-height: 1.65; opacity: .7; margin: 2rem 0; }
+.fit { font-size: .7rem; letter-spacing: .07em; text-transform: uppercase; opacity: .55; line-height: 1.7; margin: 0 0 2.5rem; }
+.controls { display: flex; gap: .4rem; flex-wrap: wrap; }
+.controls button { background: transparent; border: 1px solid var(--rule); color: inherit; padding: .65rem .8rem; border-radius: 100px; font-size: .75rem; cursor: pointer; }
+.controls button[aria-pressed="true"] { background: var(--porcelain); color: var(--graphite); border-color: var(--porcelain); }
+.paper .controls button[aria-pressed="true"] { background: var(--graphite); color: var(--porcelain); border-color: var(--graphite); }
+.controls button:hover { border-color: currentColor; }
+.controls button:focus-visible, .download:focus-visible, .index a:focus-visible { outline: 2px solid var(--accent); outline-offset: 5px; }
+.download { display: inline-flex; gap: 2rem; border-bottom: 1px solid var(--rule); padding-bottom: .4rem; margin-top: 1.5rem; font-size: .75rem; }
+.artWrap { position: relative; width: 118%; margin-left: -3%; }
+.art { display: block; width: 100%; height: auto; color: var(--art-color); opacity: var(--art-opacity); }
+.rotate { animation: turn 48s linear infinite; }
+.artCaption { display: block; text-align: center; font-size: .6rem; letter-spacing: .12em; text-transform: uppercase; opacity: .4; margin-top: 1rem; }
+.footer { display: flex; justify-content: space-between; padding: 2rem clamp(1.5rem, 5vw, 6rem); font-size: .65rem; letter-spacing: .1em; }
+@keyframes turn { to { transform: rotate(360deg); } }
+@media (max-width: 900px) { .inner { min-height: 0; grid-template-columns: 1fr; padding-block: 4.5rem 3rem; gap: 2rem; } .copy h2 { max-width: 620px; font-size: clamp(3.2rem, 7vw, 5rem); } .artWrap { width: 100%; max-width: 600px; margin: auto; } .copy .eyebrow { margin-bottom: 2rem; } }
+@media (max-width: 550px) { .index { grid-template-columns: repeat(2, 1fr); } .intro { padding-block: 4.5rem 3rem; } .intro h1 { font-size: clamp(3.4rem, 14vw, 5rem); } .copy h2 { font-size: 3.15rem; } .artWrap { width: 114%; margin-left: -7%; } .header { font-size: .7rem; } }
+@media (prefers-reduced-motion: reduce) { .rotate { animation: none; } }

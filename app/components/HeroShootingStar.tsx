@@ -16,8 +16,8 @@ const BOW = [0.3, 0.42] as const;
 /** Seconds per crossing, then milliseconds of dark sky before the next one. */
 const DURATION = [1.35, 1.75] as const;
 const REST = [12000, 19000] as const;
-/** Late enough to trail the headline reveal rather than race it. */
-const FIRST_FLIGHT = 900;
+/** The field finishes drawing before the first star crosses it. */
+const FIRST_FLIGHT = 3100;
 /** Barely-there deceleration: enough to read as burning out, not as braking. */
 const EASE = [0.22, 0.61, 0.36, 1] as const;
 

@@ -1,6 +1,7 @@
 import { CapabilitiesScroll } from "./components/CapabilitiesScroll";
 import { ContactDialog } from "./components/ContactDialog";
 import { ContactForm } from "./components/ContactForm";
+import { ContactWordmark } from "./components/ContactWordmark";
 import { Eyebrow } from "./components/Eyebrow";
 import { FaqAccordion } from "./components/FaqAccordion";
 import { HeroRotator } from "./components/HeroRotator";
@@ -16,17 +17,21 @@ import { SectionSvgSystem } from "./components/SvgVisualSystem";
 import { siteContent } from "./site-content";
 import { ServiceCardSlider } from "./components/ServiceCardSlider";
 import { serviceCards } from "./service-cards";
+import { ServicesCylinder } from "./components/ServicesCylinder";
+import { ButtonLabel } from "./components/ButtonLabel";
+import { AboutIntro } from "./components/AboutIntro";
 
 export default function HomePage() {
   return (
     <main>
       <Navigation />
       <HeroRotator />
-      {/* <BuiltForSection /> */}
+      <AboutIntro />
       <ServiceCardSlider {...serviceCards} />
       <CapabilitiesScroll />
       <MetricsSection />
       <OutcomesSection />
+      <ServicesCylinder />
       <ParallaxSection />
       <StatementSection />
 
@@ -42,7 +47,7 @@ export default function HomePage() {
           <div className="faq-cta-row">
             <p>No commitment. We will tell you if we are not the right fit.</p>
             <button className="button faq-cta" data-open-contact type="button">
-              Book a discovery call <span aria-hidden="true">→</span>
+              <ButtonLabel>Book a discovery call <span aria-hidden="true" className="button-icon">→</span></ButtonLabel>
             </button>
           </div>
         </div>
@@ -58,12 +63,13 @@ export default function HomePage() {
           </div>
           <ContactForm idPrefix="inline-contact" variant="inline" />
         </div>
+        <ContactWordmark />
       </section>
 
       <footer className="site-footer">
         <div className="shell footer-inner">
           <div>
-            <a aria-label="StarDust Studio home" className="wordmark" href="#top"><Logo /></a>
+            <a aria-label="StarDust Studio home" className="wordmark" href="#top"><Logo wordmark={false} /></a>
             <div className="footer-links">
               {siteContent.nav.map((item) => <a href={item.href} key={item.href}>{item.label}</a>)}
               <a href="#contact">Start a project</a>

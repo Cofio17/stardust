@@ -1,4 +1,5 @@
 "use client";
+import { ButtonLabel } from "./ButtonLabel";
 
 import { useRef, useState } from "react";
 import { siteContent } from "../site-content";
@@ -44,7 +45,7 @@ export function CapabilityAccordion() {
             tabIndex={active === index ? 0 : -1}
             type="button"
           >
-            {item.title}
+            <ButtonLabel>{item.title}</ButtonLabel>
           </button>
         ))}
       </div>

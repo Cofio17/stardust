@@ -1,4 +1,5 @@
 "use client";
+import { ButtonLabel } from "./ButtonLabel";
 
 import Image from "next/image";
 import { useId } from "react";
@@ -18,7 +19,7 @@ function CardVideo({ media, title }: { media: Extract<ServiceCard["media"], { ty
       playsInline poster={media.poster} preload="none" ref={videoRef} />
     <button aria-label={`${playing ? "Pause" : "Play"} video: ${title}`} className="button service-card-video-toggle"
       onClick={toggle} type="button">
-      <span aria-hidden="true">{playing ? "Ⅱ" : "▷"}</span> {playing ? "Pause" : "Play"}
+      <ButtonLabel><span aria-hidden="true">{playing ? "Ⅱ" : "▷"}</span> {playing ? "Pause" : "Play"}</ButtonLabel>
     </button>
   </>;
 }
@@ -38,7 +39,7 @@ export function ServiceCardSlider({ cards, title, label, text, link, theme = "li
           {text && <Reveal delay={0.06}><p className="service-card-lede">{text}</p></Reveal>}
         </div>
         {link && <a className={`button ${theme === "dark" ? "button-ghost-light" : "button-ghost"}`} href={link.url}>
-          {link.label}<span aria-hidden="true">↗</span>
+          <ButtonLabel>{link.label}<span aria-hidden="true">↗</span></ButtonLabel>
         </a>}
       </div>
 
@@ -50,10 +51,12 @@ export function ServiceCardSlider({ cards, title, label, text, link, theme = "li
         {cards.map((card, index) => (
           <SwiperSlide tag="article" aria-label={`${index + 1} of ${cards.length}: ${card.title}`}
             className="service-card" data-service-card key={card.id} tabIndex={card.url ? undefined : 0}>
+            <div className="service-card-artwork">
             {card.media.type === "image" ? (
               <Image alt={card.media.alt} className="service-card-media" decoding="async" draggable={false} fill loading="lazy"
                 sizes="(max-width: 600px) 85vw, (max-width: 1000px) 46vw, (max-width: 1480px) 38vw, 560px" src={card.media.src} />
             ) : <CardVideo key={card.media.src} media={card.media} title={card.title} />}
+            </div>
             <span aria-hidden="true" className="service-card-number">{String(index + 1).padStart(2, "0")}</span>
             <div className="service-card-content">
               <h3>{card.url ? <a className="service-card-link" draggable={false} href={card.url}>{card.title}</a> : card.title}</h3>
@@ -70,9 +73,9 @@ export function ServiceCardSlider({ cards, title, label, text, link, theme = "li
         <p aria-atomic="true" aria-live="polite" className="service-card-status">Card {position.first} of {cards.length}</p>
         <div aria-label="Slider navigation" className="service-card-controls">
           <button aria-controls={`${id}-rail`} aria-label="Previous card" className={`button ${theme === "dark" ? "button-ghost-light" : "button-ghost"}`}
-            disabled={position.atStart} onClick={() => move(-1)} type="button"><span aria-hidden="true">←</span></button>
+            disabled={position.atStart} onClick={() => move(-1)} type="button"><ButtonLabel><span aria-hidden="true">←</span></ButtonLabel></button>
           <button aria-controls={`${id}-rail`} aria-label="Next card" className={`button ${theme === "dark" ? "button-ghost-light" : "button-ghost"}`}
-            disabled={position.atEnd} onClick={() => move(1)} type="button"><span aria-hidden="true">→</span></button>
+            disabled={position.atEnd} onClick={() => move(1)} type="button"><ButtonLabel><span aria-hidden="true">→</span></ButtonLabel></button>
         </div>
       </div>
     </section>

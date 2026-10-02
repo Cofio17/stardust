@@ -308,37 +308,34 @@ a {
   transition: background-color 180ms ease, border-color 180ms ease, color 180ms ease, transform 180ms ease;
 }
 
-/* Hover fill wipes in from the left edge. Variants only set --button-fill;
-   clip-path (not scaleX) keeps the pill radius undistorted mid-wipe. */
+/* Cobalt expands from a circle at the left edge, clipped by the pill outline. */
 .button::before {
-  background: var(--button-fill, transparent);
+  background: var(--cobalt);
   border-radius: inherit;
-  clip-path: inset(0 100% 0 0);
+  clip-path: circle(0% at 0% 50%);
   content: "";
   inset: 0;
   pointer-events: none;
   position: absolute;
-  transition: clip-path 420ms cubic-bezier(0.65, 0, 0.35, 1);
+  transition: clip-path 520ms cubic-bezier(0.22, 1, 0.36, 1);
   z-index: -1;
 }
 
-.button:hover::before,
-.button:focus-visible::before {
-  clip-path: inset(0 0 0 0);
+.button:not(:disabled):hover::before,
+.button:not(:disabled):focus-visible::before {
+  clip-path: circle(150% at 0% 50%);
 }
 
 .button:hover {
-  transform: translateY(-2px);
+  transform: none;
 }
 
 .button-lime {
-  --button-fill: var(--accent-strong);
   background: var(--accent);
   color: var(--graphite);
 }
 
 .nav-cta {
-  --button-fill: var(--accent);
   background: var(--porcelain);
   color: var(--graphite);
   font-size: 1rem;
@@ -347,19 +344,16 @@ a {
 }
 
 .button-ghost {
-  --button-fill: rgba(10, 18, 36, 0.06);
   border-color: rgba(10, 18, 36, 0.2);
   color: var(--graphite);
 }
 
 .button-ghost-light {
-  --button-fill: rgba(245, 243, 238, 0.1);
   border-color: rgba(245, 243, 238, 0.32);
   color: var(--porcelain);
 }
 
 .hero .button-ghost-light {
-  --button-fill: rgba(255, 176, 32, 0.14);
   border-color: rgba(10, 18, 36, 0.24);
   color: var(--graphite);
 }
@@ -402,45 +396,6 @@ a {
 
 .hero::before {
   content: none;
-}
-
-.hero-rings {
-  inset: 0;
-  overflow: hidden;
-  pointer-events: none;
-  position: absolute;
-  z-index: 1;
-}
-
-.hero-ring {
-  position: absolute;
-  will-change: opacity, transform;
-}
-
-.hero-ring img {
-  display: block;
-  height: 100%;
-  user-select: none;
-  width: 100%;
-  will-change: transform;
-}
-
-.hero-ring-large {
-  height: clamp(40rem, 65vw, 62rem);
-  right: clamp(-14rem, -10vw, -6rem);
-  top: clamp(-15rem, -11vw, -7rem);
-  width: clamp(40rem, 65vw, 62rem);
-}
-
-.hero-ring-small {
-  bottom: clamp(-6rem, -4vw, -3rem);
-  height: clamp(15rem, 26vw, 24rem);
-  left: clamp(-6rem, -4vw, -3rem);
-  width: clamp(15rem, 26vw, 24rem);
-}
-
-.hero-ring-small img {
-  filter: contrast(1.35) saturate(1.3);
 }
 
 .hero-stage {
@@ -897,8 +852,7 @@ a {
   margin-bottom: 1.1rem;
 }
 
-/* Metrics — four figures staggered left/right down the section. Each one counts
-   up from a value just short of the target as it scrolls in (see MetricsSection). */
+/* Metrics: sticky introduction and scroll-scrubbed figures, as on Blueprint. */
 .metrics {
   background: var(--graphite);
   color: var(--porcelain);
@@ -909,18 +863,23 @@ a {
 .metrics-system {
   color: var(--porcelain);
   inset: 0 auto 0 50%;
-  opacity: 0.16;
+  opacity: 0.1;
   transform: translateX(-50%);
   width: min(46rem, 90%);
 }
 
 .metrics-inner {
+  align-items: start;
+  display: grid;
+  gap: clamp(1.5rem, 4vw, 4rem);
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   position: relative;
   z-index: 2;
 }
 
 .metrics-head {
-  max-width: 46rem;
+  position: sticky;
+  top: 6.5rem;
 }
 
 .metrics-eyebrow {
@@ -929,126 +888,77 @@ a {
 }
 
 .metrics-head h2 {
-  font-size: clamp(2.6rem, 5.4vw, 5.6rem);
+  font-size: clamp(2rem, 3.15vw, 3.6rem);
   letter-spacing: -0.055em;
-  line-height: 0.94;
+  line-height: 1;
   margin: 0;
 }
 
 .metric-list {
-  display: grid;
-  gap: clamp(3.5rem, 8vw, 7.5rem);
-  margin-top: clamp(4.5rem, 9vw, 8.5rem);
+  display: flex;
+  flex-direction: column;
+  gap: clamp(5rem, 8.1vw, 8.75rem);
+  overflow-x: clip;
 }
 
 .metric-figure {
-  border-top: 1px solid rgba(245, 243, 238, 0.16);
-  max-width: min(31rem, 82%);
-  padding-top: 1.4rem;
-  position: relative;
-}
-
-.metric-figure-start {
-  margin-right: auto;
-}
-
-.metric-figure-end {
-  margin-left: auto;
-  text-align: right;
-}
-
-.metric-index {
-  color: rgba(245, 243, 238, 0.42);
-  display: block;
-  font-size: 0.68rem;
-  font-weight: 600;
-  letter-spacing: 0.2em;
-  margin-bottom: 0.7rem;
+  --metric-progress: 0;
+  --metric-opacity: calc(var(--metric-progress) * var(--metric-progress) * var(--metric-progress));
+  width: 100%;
 }
 
 .metric-value {
-  font-size: clamp(4.6rem, 12vw, 11rem);
+  font-size: clamp(4.6rem, 7.1vw, 7.5rem);
   font-variant-numeric: tabular-nums;
   font-weight: 600;
   letter-spacing: -0.07em;
   line-height: 1;
-  margin: 0;
-}
-
-/* Odometer: 1em window per digit, 0–9 strip behind it. Strips are reversed on
-   odd columns in the component, so adjacent digits travel opposite ways. */
-.metric-reel {
-  /* Window is taller than 1em: at line-height 1 the glyphs overflow their own
-     em box and the clip shaved their tops and tails. */
-  --cell: 1.16em;
-  align-items: flex-start;
-  display: inline-flex;
-}
-
-.metric-digit {
-  display: inline-block;
-  height: var(--cell);
-  /* The tight tracking on .metric-value shrinks a single-glyph cell's advance
-     width, so the clip box cut the sides. Neutralise it here and get the same
-     optical tightness from a negative margin, which does not move the clip. */
-  letter-spacing: normal;
-  margin-inline: -0.035em;
-  overflow: hidden;
-  padding-inline: 0.05em;
-  vertical-align: top;
-}
-
-.metric-digit:first-child {
-  margin-left: 0;
-}
-
-.metric-digit:last-of-type {
-  margin-right: 0;
-}
-
-.metric-digit-track {
-  display: block;
-  transform: translateY(calc(var(--rest, 0) * -1 * var(--cell)));
-  transition: transform var(--duration, 2s) cubic-bezier(0.22, 0.86, 0.14, 1);
-  transition-delay: var(--delay, 0s);
-  will-change: transform;
-}
-
-.metric-reel[data-rolling="true"] .metric-digit-track {
-  transform: translateY(calc(var(--slot, 0) * -1 * var(--cell)));
-}
-
-.metric-digit-track span {
-  display: block;
-  height: var(--cell);
-  line-height: var(--cell);
-  text-align: center;
+  margin: 0 0 1.25rem;
+  opacity: var(--metric-opacity);
+  transform: translateX(calc((1 - var(--metric-progress)) * clamp(3rem, 5.8vw, 6.25rem)));
+  will-change: transform, opacity;
 }
 
 .metric-suffix {
-  align-self: flex-start;
   color: var(--accent);
-  font-size: 0.42em;
-  font-style: normal;
+  font-size: 0.72em;
   letter-spacing: -0.02em;
-  line-height: 1;
   margin-left: 0.06em;
 }
 
-.metric-figure h3 {
-  font-size: clamp(1.15rem, 1.9vw, 1.7rem);
+.metric-copy {
+  max-width: 25rem;
+  opacity: var(--metric-opacity);
+  transform: translateX(calc((1 - var(--metric-progress)) * clamp(4.5rem, 8.7vw, 9.375rem)));
+  will-change: transform, opacity;
+}
+
+.metric-copy h3 {
+  font-size: clamp(1.25rem, 2.2vw, 1.75rem);
+  font-weight: 400;
   letter-spacing: -0.025em;
   line-height: 1.1;
-  margin: 1.5rem 0 0;
+  margin: 0;
 }
 
 .metric-note {
-  color: rgba(245, 243, 238, 0.6);
+  color: var(--sky);
   font-size: 0.92rem;
   line-height: 1.5;
   margin: 0.7rem 0 0;
 }
 
+@media (max-width: 740px) {
+  .metrics-inner { grid-template-columns: minmax(0, 1fr); gap: 4rem; }
+  .metrics-head { position: static; }
+  .metric-list { gap: 5rem; }
+  .metric-value { font-size: clamp(3.75rem, 16vw, 5.6rem); }
+  .metric-copy { max-width: 19rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .metric-value, .metric-copy { opacity: 1; transform: none; will-change: auto; }
+}
 .statement {
   background: var(--cobalt);
   color: var(--porcelain);
@@ -1196,10 +1106,8 @@ a {
   margin: 0;
 }
 
-/* Uses the shared .button wipe; text and arrow darken over the same 420ms so
-   they read as being overtaken by the amber fill rather than switching early. */
+/* FAQ CTA uses the same cobalt fill and rolling label as the other buttons. */
 .faq-cta {
-  --button-fill: var(--accent);
   background: var(--graphite);
   color: var(--porcelain);
   font-size: 0.9rem;
@@ -1215,16 +1123,16 @@ a {
   color: var(--graphite);
 }
 
-.faq-cta span {
+.faq-cta .button-icon {
   color: var(--accent);
   font-size: 1.15rem;
   line-height: 1;
   transition: color 420ms ease;
 }
 
-.faq-cta:hover span,
-.faq-cta:focus-visible span {
-  color: var(--graphite);
+.faq-cta:hover .button-icon,
+.faq-cta:focus-visible .button-icon {
+  color: var(--porcelain);
 }
 
 .contact {
@@ -1240,6 +1148,31 @@ a {
   grid-template-columns: minmax(0, 0.9fr) minmax(300px, 0.8fr);
   position: relative;
   z-index: 1;
+}
+
+.contact-wordmark {
+  color: var(--ink-muted);
+  margin-top: clamp(-3rem, -3vw, -1rem);
+  opacity: 0.17;
+  pointer-events: none;
+  position: relative;
+  user-select: none;
+  z-index: 0;
+}
+
+.contact-wordmark-svg {
+  display: block;
+  height: auto;
+  margin-inline: auto;
+  overflow: visible;
+  transform: perspective(1000px) rotateX(24deg) skewX(-5deg);
+  transform-origin: center top;
+  width: 92%;
+}
+
+@media (max-width: 600px) {
+  .contact-wordmark { margin-top: 0.5rem; }
+  .contact-wordmark-svg { transform: perspective(600px) rotateX(18deg) skewX(-3deg); }
 }
 
 .contact-copy h2 {
@@ -1474,6 +1407,11 @@ a {
   display: flex;
   gap: 2rem;
   justify-content: space-between;
+}
+
+.site-footer .wordmark {
+  font-size: clamp(1.35rem, 2vw, 1.8rem);
+  margin-bottom: 1.1rem;
 }
 
 .footer-links {
@@ -1810,20 +1748,6 @@ body.modal-open {
 
   .hero-actions .button {
     width: 100%;
-  }
-
-  .hero-ring-large {
-    height: 36rem;
-    right: -17rem;
-    top: -9.5rem;
-    width: 36rem;
-  }
-
-  .hero-ring-small {
-    bottom: -4rem;
-    height: 16rem;
-    left: -6rem;
-    width: 16rem;
   }
 
   .outcome-statement {
@@ -2264,13 +2188,13 @@ body.modal-open {
 }
 
 .capability-rail {
-  background: rgba(10, 18, 36, 0.13);
+  background: color-mix(in srgb, var(--cobalt) 18%, transparent);
   overflow: hidden;
   position: relative;
 }
 
 .capability-rail span {
-  background: var(--accent);
+  background: var(--cobalt);
   inset: 0;
   position: absolute;
   transform-origin: top;
@@ -2296,7 +2220,7 @@ body.modal-open {
   transition: color 320ms ease, transform 320ms ease;
 }
 
-.capability-step-list button span {
+.capability-step-list button .capability-step-number {
   font-size: 0.64rem;
   letter-spacing: 0.12em;
 }
@@ -2328,14 +2252,14 @@ body.modal-open {
 
 .capability-sketch {
   fill: none;
-  height: clamp(5.6rem, 8vw, 6.6rem);
+  height: clamp(6.5rem, 9vw, 8rem);
   position: absolute;
   right: 6%;
   stroke-linecap: round;
   stroke-linejoin: round;
   stroke-width: 1.25;
-  top: 1.5%;
-  width: clamp(8.5rem, 12vw, 10rem);
+  top: 4%;
+  width: clamp(10rem, 15vw, 13rem);
 }
 
 .capability-sketch path {
@@ -2347,7 +2271,7 @@ body.modal-open {
 }
 
 .capability-sketch path.is-active {
-  stroke: var(--accent);
+  stroke: var(--cobalt);
   stroke-width: 1.75;
 }
 
@@ -2360,8 +2284,8 @@ body.modal-open {
 }
 
 .capability-sketch circle.is-active {
-  fill: var(--accent);
-  stroke: var(--accent);
+  fill: var(--cobalt);
+  stroke: var(--cobalt);
 }
 
 .capability-story-card h3 {
@@ -2421,43 +2345,31 @@ body.modal-open {
   50% { transform: translateY(0.3rem); }
 }
 
-/* Full-image statement banner */
+/* Full-image statement banner.
+
+   The card starts inset and rounded, then a scroll-scrubbed tween opens it to
+   full bleed while the copy block gains matching breathing room. The wash and
+   the three copy pieces fade up as a soft stagger once the banner is on screen.
+   Both movements are armed from StatementSection.tsx, so a banner without JS -
+   or one under reduced motion - simply shows, full width and already open. */
 .statement-wrap {
   background: var(--porcelain);
-}
-
-/* Banner carries its own inner breathing room, so it needs less of the
-   global section rhythm above and below it. */
-.statement-wrap.section-pad {
-  padding-block: clamp(3rem, 5.5vw, 5.5rem);
 }
 
 .statement {
   background: var(--graphite);
   border-radius: 1.2rem;
   color: var(--porcelain);
+  /* Keeps the media layer inside the card once the corners round away. */
+  isolation: isolate;
+  /* This margin is what the scrub animates to zero, so the banner can reach
+     the viewport edges - the section itself carries no padding. */
+  margin: clamp(3rem, 5.5vw, 5.5rem) auto;
+  max-width: min(100% - 2.5rem, 1440px);
   min-height: 36rem;
   overflow: hidden;
   position: relative;
-  transition: clip-path 1.1s cubic-bezier(0.76, 0, 0.24, 1);
-}
-
-/* Closed only once the script arms an off-screen banner, so the card is never
-   left clipped away when the wipe cannot run. border-radius keeps the corners,
-   so the inset needs no round() argument. */
-.statement.is-armed {
-  clip-path: inset(0 100% 0 0);
-}
-
-.statement.is-armed.is-drawn {
-  clip-path: inset(0 0 0 0);
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .statement.is-armed {
-    clip-path: none;
-    transition: none;
-  }
+  width: 100%;
 }
 
 .statement-media,
@@ -2473,29 +2385,24 @@ body.modal-open {
 }
 
 .statement-image img {
-  filter: grayscale(1) saturate(0) contrast(1.08);
   object-fit: cover;
-  object-position: center 58%;
+  object-position: center;
 }
 
+/* Legibility scrim. It is only held back while the copy above it is still
+   hidden, and comes up on the same 1.2s beat as the headline. */
 .statement-wash {
-  background: linear-gradient(90deg, rgba(10, 18, 36, 0.95) 0%, rgba(10, 18, 36, 0.78) 58%, rgba(10, 18, 36, 0.46) 100%);
+  background: linear-gradient(90deg, rgba(10, 18, 36, 0.95) 0%, rgba(10, 18, 36, 0.88) 40%, rgba(10, 18, 36, 0.4) 72%, rgba(10, 18, 36, 0.12) 100%);
+  transition: opacity 1.2s ease;
   z-index: 1;
 }
 
-.statement-route {
-  fill: none;
-  height: 45%;
-  left: 0;
-  opacity: 0.72;
-  pointer-events: none;
-  position: absolute;
-  stroke: var(--accent);
-  stroke-linecap: round;
-  stroke-width: 2;
-  top: 44%;
-  width: 100%;
-  z-index: 2;
+.statement.is-armed .statement-wash {
+  opacity: 0;
+}
+
+.statement.is-armed.is-copy-shown .statement-wash {
+  opacity: 1;
 }
 
 .statement .statement-inner {
@@ -2507,6 +2414,25 @@ body.modal-open {
   padding: 3.2rem clamp(2rem, 5vw, 5rem);
   position: relative;
   z-index: 3;
+}
+
+/* Copy entrance: one soft fade per piece - eyebrow, headline, button - each
+   0.8s on a sine in-out, offset by 0.3s. No movement, only opacity. */
+.statement.is-armed .statement-inner > * {
+  opacity: 0;
+  transition: opacity 0.8s cubic-bezier(0.37, 0, 0.63, 1);
+}
+
+.statement.is-armed .statement-inner > *:nth-child(2) {
+  transition-delay: 0.3s;
+}
+
+.statement.is-armed .statement-inner > *:nth-child(3) {
+  transition-delay: 0.6s;
+}
+
+.statement.is-armed.is-copy-shown .statement-inner > * {
+  opacity: 1;
 }
 
 .statement .statement-inner .eyebrow {
@@ -2523,10 +2449,25 @@ body.modal-open {
 }
 
 .statement .statement-inner .button {
-  --button-fill: var(--accent-strong);
   background: var(--accent);
   color: var(--graphite);
   margin-top: 2rem;
+}
+
+/* No scroll expand and no fades under reduced motion - the banner starts
+   full bleed with its copy already in place. */
+@media (prefers-reduced-motion: reduce) {
+  .statement {
+    border-radius: 0;
+    margin-block: 0;
+    max-width: 100%;
+  }
+
+  .statement.is-armed .statement-wash,
+  .statement.is-armed .statement-inner > * {
+    opacity: 1;
+    transition: none;
+  }
 }
 
 /* FAQ */
@@ -2730,33 +2671,6 @@ body.modal-open {
   }
 }
 
-@media (max-width: 720px) {
-  .metric-figure {
-    margin-left: 0;
-    margin-right: 0;
-    max-width: 100%;
-    text-align: left;
-  }
-
-  .metric-list {
-    gap: 2.75rem;
-  }
-
-  .metric-value {
-    font-size: clamp(3.6rem, 19vw, 5.6rem);
-  }
-
-  .metrics-system {
-    opacity: 0.1;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .metric-digit-track {
-    transition: none;
-  }
-}
-
 /* Back-to-top control. Fixed bottom-right, fades in past the first screens. */
 .scroll-top {
   align-items: center;
@@ -2789,6 +2703,59 @@ body.modal-open {
   outline-offset: 3px;
 }
 
+/* Two identical rows share one clipped slot; the copy is hidden from AT. */
+.button-roll {
+  display: inline-grid;
+  overflow: hidden;
+  vertical-align: middle;
+  padding-block: 0.06em;
+}
+
+.button-roll-copy {
+  grid-area: 1 / 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: inherit;
+  gap: 0.6rem;
+  transition: transform 420ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.button-roll-next { transform: translateY(115%); }
+
+:is(button, a):not(:disabled):is(:hover, :focus-visible) .button-roll-copy { transform: translateY(-115%); }
+:is(button, a):not(:disabled):is(:hover, :focus-visible) .button-roll-next { transform: translateY(0); }
+
+.button:not(:disabled):is(:hover, :focus-visible),
+.mobile-panel .mobile-cta:is(:hover, :focus-visible),
+.dialog-close:is(:hover, :focus-visible),
+.scroll-top:is(:hover, :focus-visible),
+.menu-toggle:is(:hover, :focus-visible) {
+  color: var(--porcelain);
+  border-color: var(--cobalt);
+}
+
+:is(.mobile-cta, .dialog-close, .scroll-top, .menu-toggle):is(:hover, :focus-visible) {
+  background: var(--cobalt);
+}
+
+.capability-step-list button:is(:hover, :focus-visible),
+.capability-tab:is(:hover, :focus-visible) { color: var(--cobalt); }
+
+.field :is(input, textarea):hover { border-color: rgba(245, 243, 238, 0.5); }
+.contact .field :is(input, textarea):hover { border-color: rgba(10, 18, 36, 0.35); }
+.contact-form .button::before { display: none; }
+.contact-form .button:not(:disabled):is(:hover, :focus-visible) {
+  background: var(--accent-strong);
+  border-color: transparent;
+  color: var(--graphite);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .button-roll-copy { transition: none; }
+  :is(button, a):is(:hover, :focus-visible) .button-roll-copy { transform: none; }
+  .button-roll-next { display: none; }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .scroll-top {
     transition: none;
@@ -2798,3 +2765,4 @@ body.modal-open {
     transform: none;
   }
 }
+

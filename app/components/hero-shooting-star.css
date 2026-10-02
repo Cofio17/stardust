@@ -12,7 +12,7 @@
   position: relative;
 }
 
-/* Sits above the orbit rings but under .hero-stage, so the star slides behind the
+/* Sits above the gravity field but under .hero-stage, so the star slides behind the
    headline instead of dragging a highlight across the type. */
 .hero-star-layer {
   inset: 0;
