@@ -13,7 +13,7 @@
   display: block;
   width: 100%;
   height: 100%;
-  mask-image: linear-gradient(to right, transparent, black 9%, black 91%, transparent);
+  /* The side fade is baked into the renderer's mask. */
 }
 
 .hero-gas-planet {

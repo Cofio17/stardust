@@ -28,9 +28,9 @@ export default function HomePage() {
       <HeroRotator />
       <AboutIntro />
       <ServiceCardSlider {...serviceCards} />
-      <CapabilitiesScroll />
       <MetricsSection />
-      <OutcomesSection />
+      <CapabilitiesScroll />
+      {/* <OutcomesSection /> */}
       <ServicesCylinder />
       <ParallaxSection />
       <StatementSection />

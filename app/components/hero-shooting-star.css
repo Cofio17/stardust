@@ -26,13 +26,17 @@
 .hero-comet {
   height: 0;
   left: 0;
-  /* Multiply keeps the amber sitting in the paper gradient rather than on top of it. */
-  mix-blend-mode: multiply;
+  /* No blend mode: multiply made the GPU re-blend the whole hero behind this
+     layer on every scroll frame, even while the star was invisible. */
   position: absolute;
   top: 0;
   transform-origin: 0 0;
   width: 0;
-  will-change: opacity, transform;
+}
+
+/* Between flights the layer leaves compositing entirely. */
+.hero-star-layer:not([data-flying]) {
+  visibility: hidden;
 }
 
 .hero-shooting-star {

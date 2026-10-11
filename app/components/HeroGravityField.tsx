@@ -160,6 +160,7 @@ function fadeStops(): [number, number][] {
 }
 const FADE_STOPS = fadeStops();
 const QUIET_STOPS: [number, number][] = [[0, 1], [0.35, 0.98], [0.7, 0.55], [1, 0]];
+const EDGE_STOPS: [number, number][] = [[0, 0], [0.09, 1], [0.91, 1], [1, 0]];
 
 export function HeroGravityField() {
   const reducedMotion = useReducedMotion();
@@ -183,9 +184,17 @@ export function HeroGravityField() {
     const compact = window.matchMedia("(max-width: 760px)");
     // A canvas repaints the whole mesh in one raster pass; the SVG version
     // re-rasterized 80+ anti-aliased paths per frame and dropped to ~30fps.
-    const fade = context.createLinearGradient(0, 0, 0, 900);
+    // Every fade (depth, side edges, quiet zone behind the copy) is baked into
+    // one mask on resize, so a frame applies it in a single composite and the
+    // canvas needs no CSS mask layer re-blended on every scroll frame.
+    const mask = document.createElement("canvas");
+    const maskContext = mask.getContext("2d");
+    if (!maskContext) return;
+    const fade = maskContext.createLinearGradient(0, 0, 0, 900);
     FADE_STOPS.forEach(([offset, alpha]) => fade.addColorStop(offset, `rgb(0 0 0 / ${alpha})`));
-    const quiet = context.createRadialGradient(0, 0, 0, 0, 0, 1);
+    const edges = maskContext.createLinearGradient(0, 0, 1600, 0);
+    EDGE_STOPS.forEach(([offset, alpha]) => edges.addColorStop(offset, `rgb(0 0 0 / ${alpha})`));
+    const quiet = maskContext.createRadialGradient(0, 0, 0, 0, 0, 1);
     QUIET_STOPS.forEach(([offset, alpha]) => quiet.addColorStop(offset, `rgb(0 0 0 / ${alpha})`));
     const quietZone = { cx: 800, cy: 450, rx: 700, ry: 340 };
     const xs = new Float32Array(vertices.length);
@@ -203,6 +212,8 @@ export function HeroGravityField() {
     let planetTop = 0;
     let strokeColor = "#0a1224";
     let strokeOpacity = 0.147;
+    let pointerX = -1;
+    let pointerY = -1;
     const target = { x: 800, y: 450, strength: 0 };
     const current = { ...target };
     // Offsets and velocity are in CSS pixels, keeping the same weight on phones.
@@ -228,6 +239,29 @@ export function HeroGravityField() {
       quietZone.cy = ((titleBounds.top + subtitleBounds.bottom) / 2 - bounds.top) / scaleY;
       quietZone.rx = ((right - left) / 2 + Math.min(150, bounds.width * 0.14)) / scaleX;
       quietZone.ry = ((subtitleBounds.bottom - titleBounds.top) / 2 + Math.min(130, bounds.height * 0.16)) / scaleY;
+    }
+
+    function buildMask() {
+      if (!canvas || !maskContext) return;
+      if (mask.width !== canvas.width || mask.height !== canvas.height) {
+        mask.width = canvas.width;
+        mask.height = canvas.height;
+      }
+      if (!mask.width || !mask.height) return;
+      // Mask in the 1600x900 field space, stretched like the old SVG viewBox.
+      maskContext.setTransform(mask.width / 1600, 0, 0, mask.height / 900, 0, 0);
+      maskContext.globalCompositeOperation = "copy";
+      maskContext.fillStyle = fade;
+      maskContext.fillRect(0, 0, 1600, 900);
+      maskContext.globalCompositeOperation = "destination-in";
+      maskContext.fillStyle = edges;
+      maskContext.fillRect(0, 0, 1600, 900);
+      maskContext.globalCompositeOperation = "destination-out";
+      maskContext.translate(quietZone.cx, quietZone.cy);
+      maskContext.scale(quietZone.rx, quietZone.ry);
+      maskContext.fillStyle = quiet;
+      maskContext.fillRect(-1, -1, 2, 2);
+      maskContext.globalCompositeOperation = "source-over";
     }
 
     function renderField(time: number) {
@@ -286,17 +320,10 @@ export function HeroGravityField() {
         traceCurve(context, indices, xs, ys, deviceX, deviceY, linear >= 1 ? 1 : drawEase(linear));
         context.stroke();
       });
-      // Mask in the 1600x900 field space, stretched like the old SVG viewBox.
-      context.setTransform(deviceX, 0, 0, deviceY, 0, 0);
+      if (!mask.width || !mask.height) return;
       context.globalAlpha = 1;
       context.globalCompositeOperation = "destination-in";
-      context.fillStyle = fade;
-      context.fillRect(0, 0, 1600, 900);
-      context.globalCompositeOperation = "destination-out";
-      context.translate(quietZone.cx, quietZone.cy);
-      context.scale(quietZone.rx, quietZone.ry);
-      context.fillStyle = quiet;
-      context.fillRect(-1, -1, 2, 2);
+      context.drawImage(mask, 0, 0);
       context.globalCompositeOperation = "source-over";
     }
 
@@ -341,6 +368,11 @@ export function HeroGravityField() {
     const move = (event: PointerEvent) => {
       if (event.pointerType !== "mouse" && event.pointerType !== "pen") return;
       if (!planet || !onScreen || document.hidden) return;
+      // Chrome replays a stationary cursor while the page scrolls; reacting to it
+      // repainted the whole field on every scroll frame.
+      if (event.clientX === pointerX && event.clientY === pointerY) return;
+      pointerX = event.clientX;
+      pointerY = event.clientY;
       const layerTop = pageTop - window.scrollY;
       if (!bounds.width || !bounds.height) return;
       if (event.clientX < bounds.left || event.clientX > bounds.right || event.clientY < layerTop || event.clientY > layerTop + bounds.height) {
@@ -424,6 +456,7 @@ export function HeroGravityField() {
       planetLeft = planet?.offsetLeft ?? 0;
       planetTop = planet?.offsetTop ?? 0;
       updateQuietZone();
+      buildMask();
       parkField();
       handleScroll();
       if (!introDone(performance.now())) wake();

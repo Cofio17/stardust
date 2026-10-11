@@ -11,8 +11,9 @@
   transition: max-width 560ms cubic-bezier(0.22, 1, 0.36, 1), transform 460ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 .nav-wrap .nav-inner {
-  backdrop-filter: blur(14px);
-  background: rgba(10, 18, 36, 0.95);
+  /* Nearly opaque, so a backdrop blur would be invisible while it re-blurs the
+     page under the pill on every scroll frame. */
+  background: rgba(10, 18, 36, 0.97);
   border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 0.9rem;
   box-shadow: 0 14px 38px rgba(10, 18, 36, 0.16);

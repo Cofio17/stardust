@@ -111,12 +111,14 @@ export function HeroShootingStar() {
       if (!canPlay()) return;
       flight.current = flightOf();
       flying = true;
+      layer!.dataset.flying = "";
       progress.set(0);
       controls = animate(progress, 1, {
         duration: flight.current.duration,
         ease: EASE,
         onComplete: () => {
           flying = false;
+          delete layer!.dataset.flying;
           queue(rand(REST));
         }
       });

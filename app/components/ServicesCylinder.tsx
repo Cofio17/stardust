@@ -2,7 +2,7 @@
 
 import { AnimatePresence, motion, useMotionValueEvent, useReducedMotion, useScroll, useTransform, type MotionValue } from "motion/react";
 import Image from "next/image";
-import { memo, useEffect, useRef, useState } from "react";
+import { memo, useCallback, useEffect, useRef, useState } from "react";
 import type { CSSProperties } from "react";
 import { siteContent } from "../site-content";
 import { Eyebrow } from "./Eyebrow";
@@ -38,8 +38,9 @@ const CylinderIndicators = memo(function CylinderIndicators({ progress, height }
     </div>)}</>;
 });
 
-function CylinderItem({ index, radius, active, select }: {
-  index: number; radius: number; active: boolean; select: () => void;
+// Only the two items whose active state flips rerender on a service change.
+const CylinderItem = memo(function CylinderItem({ index, radius, active, select }: {
+  index: number; radius: number; active: boolean; select: (index: number) => void;
 }) {
   const angle = index * step;
   const radians = angle * Math.PI / 180;
@@ -51,10 +52,10 @@ function CylinderItem({ index, radius, active, select }: {
   return (
     <div className={`cylindar__text__item ${styles.item}`} style={position}>
       <button aria-current={active ? "step" : undefined} className={styles.name}
-        onClick={select} tabIndex={active ? 0 : -1} type="button">{services[index].title}</button>
+        onClick={() => select(index)} tabIndex={active ? 0 : -1} type="button">{services[index].title}</button>
     </div>
   );
-}
+});
 
 export function ServicesCylinder() {
   const trackRef = useRef<HTMLDivElement>(null);
@@ -84,13 +85,13 @@ export function ServicesCylinder() {
     return () => window.removeEventListener("resize", resize);
   }, []);
 
-  function goToService(index: number) {
+  const goToService = useCallback((index: number) => {
     const track = trackRef.current;
     if (!track) return;
     const start = track.getBoundingClientRect().top + window.scrollY;
     const distance = track.offsetHeight - window.innerHeight;
     window.scrollTo({ top: start + (index / (services.length - 1)) * distance, behavior: "instant" });
-  }
+  }, []);
 
   return (
     <section aria-labelledby="services-cylinder-title" className={styles.section} id="services-cylinder">
@@ -110,7 +111,7 @@ export function ServicesCylinder() {
             <CylinderIndicators progress={scrollYProgress} height={geometry.indicator} />
             <motion.div className={`cylindar__text__wrapper ${styles.cylinder}`} style={{ rotateX: reduceMotion ? 0 : rotation }}>
               {services.map((service, index) => <CylinderItem key={service.title} index={index} radius={geometry.radius}
-                active={active === index} select={() => goToService(index)} />)}
+                active={active === index} select={goToService} />)}
             </motion.div>
           </div>
           <div className={`shell ${styles.bottomline}`}>
@@ -121,12 +122,10 @@ export function ServicesCylinder() {
               </AnimatePresence>
             </div>
             <div className={styles.artwork} aria-hidden="true">
-              <AnimatePresence mode="wait" initial={false}>
-                <motion.div key={services[active].icon} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -8 }} transition={{ duration: reduceMotion ? 0 : 0.18 }}>
-                  <Image alt="" src={services[active].icon} width={160} height={160} sizes="(max-width: 767px) 112px, 144px" />
-                </motion.div>
-              </AnimatePresence>
+              {services.map((service, index) =>
+                <div className={styles.artworkImage} data-active={active === index ? "" : undefined} key={service.title}>
+                  <Image alt="" src={service.icon} width={160} height={160} loading="eager" sizes="(max-width: 767px) 112px, 144px" />
+                </div>)}
             </div>
             <span className={styles.cue} aria-hidden="true">Scroll to explore ↓</span>
           </div>
