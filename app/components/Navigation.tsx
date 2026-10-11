@@ -4,11 +4,14 @@ import { Arrow } from "./Arrow";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-import { motion, useMotionValueEvent, useReducedMotion, useScroll } from "motion/react";
+import { AnimatePresence, motion, useMotionValueEvent, useReducedMotion, useScroll } from "motion/react";
 import { useEffect, useRef, useState } from "react";
 import { Logo } from "./Logo";
 import { siteContent } from "../site-content";
 import "./navigation.css";
+
+const menuRow = { closed: { opacity: 0, y: -6 }, open: { opacity: 1, y: 0 } };
+const menuRowTransition = (reduced: boolean | null) => reduced ? { duration: 0 } : { duration: 0.28, ease: [0.22, 1, 0.36, 1] as const };
 
 export function Navigation() {
   const pathname = usePathname();
@@ -180,18 +183,37 @@ export function Navigation() {
           >
             <span />
           </button>
-          {open ? (
-            <div className="mobile-panel" id="mobile-navigation">
-              {siteContent.nav.map((item) => (
-                <Link href={item.href} key={item.href} onClick={closeMenu} aria-current={item.href === "/our-work" && pathname.startsWith("/our-work") ? "page" : undefined}>
-                  {item.label}
-                </Link>
-              ))}
-              <button className="mobile-cta" data-open-contact onClick={closeMenu} type="button">
-                <ButtonLabel>Start a project <Arrow /></ButtonLabel>
-              </button>
-            </div>
-          ) : null}
+          <AnimatePresence>
+            {open ? (
+              // The panel drops from the bar while its rows follow one by one.
+              <motion.div
+                animate="open"
+                className="mobile-panel"
+                exit="closed"
+                id="mobile-navigation"
+                initial="closed"
+                style={{ transformOrigin: "top center" }}
+                transition={shouldReduceMotion ? { duration: 0 } : { duration: 0.32, ease: [0.22, 1, 0.36, 1], staggerChildren: 0.045, delayChildren: 0.05 }}
+                variants={{
+                  closed: { opacity: 0, y: -10, scale: 0.97, transition: { duration: shouldReduceMotion ? 0 : 0.2, ease: [0.4, 0, 1, 1] } },
+                  open: { opacity: 1, y: 0, scale: 1 }
+                }}
+              >
+                {siteContent.nav.map((item) => (
+                  <motion.div key={item.href} variants={menuRow} transition={menuRowTransition(shouldReduceMotion)}>
+                    <Link href={item.href} onClick={closeMenu} aria-current={item.href === "/our-work" && pathname.startsWith("/our-work") ? "page" : undefined}>
+                      {item.label}
+                    </Link>
+                  </motion.div>
+                ))}
+                <motion.div variants={menuRow} transition={menuRowTransition(shouldReduceMotion)}>
+                  <button className="mobile-cta" data-open-contact onClick={closeMenu} type="button">
+                    <ButtonLabel>Start a project <Arrow /></ButtonLabel>
+                  </button>
+                </motion.div>
+              </motion.div>
+            ) : null}
+          </AnimatePresence>
         </nav>
       </div>
     </motion.header>

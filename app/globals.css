@@ -385,11 +385,13 @@ a {
 .menu-toggle {
   background: transparent;
   border: 0;
+  border-radius: 0.65rem;
   color: var(--porcelain);
   cursor: pointer;
   display: none;
   height: 2.7rem;
   padding: 0;
+  transition: background-color 260ms ease, color 260ms ease;
   width: 2.7rem;
 }
 
@@ -401,8 +403,23 @@ a {
   display: block;
   height: 1px;
   margin: 5px auto;
-  transition: transform 180ms ease;
+  transition: transform 320ms cubic-bezier(0.22, 1, 0.36, 1), opacity 200ms ease;
   width: 1.15rem;
+}
+
+/* Open: the three lines fold into a cross on an accent tile. The lines sit
+   6px apart, so the outer two meet the middle one by moving that far. */
+.menu-toggle[aria-expanded="true"] span {
+  opacity: 0;
+  transform: scaleX(0.4);
+}
+
+.menu-toggle[aria-expanded="true"]::before {
+  transform: translateY(6px) rotate(45deg);
+}
+
+.menu-toggle[aria-expanded="true"]::after {
+  transform: translateY(-6px) rotate(-45deg);
 }
 
 .hero {
@@ -1690,6 +1707,8 @@ body.modal-open {
 
   .mobile-panel a,
   .mobile-panel button {
+    display: block;
+    width: 100%;
     background: transparent;
     border: 0;
     border-radius: 0.55rem;
@@ -2589,11 +2608,13 @@ body.modal-open {
     min-height: 300svh;
   }
 
+  /* A column that always fits the screen: the card takes whatever height is
+     left, so the section keeps its bottom padding on every step. */
   .capabilities-sticky {
-    align-content: center;
-    display: block;
+    display: flex;
+    flex-direction: column;
     height: 100svh;
-    padding-block: 5.5rem 1.5rem;
+    padding-block: 5.5rem 2rem;
   }
 
   .capabilities-heading h2 {
@@ -2609,6 +2630,7 @@ body.modal-open {
      card, and the active tab's line replaces the vertical rail. */
   .capabilities-story {
     display: flex;
+    flex: 1;
     flex-direction: column;
     gap: 1rem;
     margin-top: 1.5rem;
@@ -2642,7 +2664,9 @@ body.modal-open {
   }
 
   .capability-story-card {
-    min-height: min(54svh, 27rem);
+    flex: 1;
+    max-height: 30rem;
+    min-height: 0;
     padding: 1.2rem;
   }
 
@@ -2733,6 +2757,33 @@ body.modal-open {
   }
 }
 
+/* Short phones: the sketch gives its room to the copy, which tightens up so
+   the longest step still fits inside its card. */
+@media (max-width: 760px) and (max-height: 760px) {
+  .capabilities-sticky {
+    padding-top: 4.75rem;
+  }
+
+  .capability-sketch {
+    display: none;
+  }
+
+  .capability-story-card > div {
+    padding-top: 1.2rem;
+  }
+
+  .capability-story-card h3 {
+    font-size: clamp(1.8rem, 8.5vw, 2.4rem);
+    margin-block: 0.5rem 0.6rem;
+  }
+
+  .capability-story-card ul {
+    gap: 0.35rem;
+    margin-top: 0.8rem;
+    padding-top: 0.7rem;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .capabilities-scroll {
     min-height: auto;
@@ -2820,6 +2871,13 @@ body.modal-open {
 
 :is(.mobile-cta, .dialog-close, .scroll-top, .menu-toggle):is(:hover, :focus-visible) {
   background: var(--cobalt);
+}
+
+/* After the shared hover colours, so the open state wins over a hover that
+   sticks after a tap on touch screens. */
+.menu-toggle[aria-expanded="true"] {
+  background: var(--accent);
+  color: var(--graphite);
 }
 
 .capability-step-list button:is(:hover, :focus-visible),
