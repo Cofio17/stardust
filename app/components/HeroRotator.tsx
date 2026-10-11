@@ -1,5 +1,6 @@
 "use client";
 import { ButtonLabel } from "./ButtonLabel";
+import { Arrow } from "./Arrow";
 import Link from "next/link";
 import "./hero-featured-work.css";
 
@@ -76,10 +77,10 @@ export function HeroRotator() {
             <Reveal delay={0.8}>
               <div className="hero-actions">
                 <button className="button button-lime" data-open-contact type="button">
-                  <ButtonLabel>Start a conversation <span aria-hidden="true">↗</span></ButtonLabel>
+                  <ButtonLabel>Start a conversation <Arrow /></ButtonLabel>
                 </button>
                 <a className="button button-ghost-light" href="#what-we-solve">
-                  <ButtonLabel>See what we build <span aria-hidden="true">↓</span></ButtonLabel>
+                  <ButtonLabel>See what we build <Arrow direction="down" /></ButtonLabel>
                 </a>
               </div>
             </Reveal>
@@ -87,7 +88,7 @@ export function HeroRotator() {
               <Link className="hero-featured-work" href={siteContent.hero.featuredWork.href}>
                 <span className="hero-work-mark" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="7" height="7" rx="1.5" fill="currentColor" /><rect x="14" y="3" width="7" height="7" rx="1.5" stroke="currentColor" /><rect x="3" y="14" width="7" height="7" rx="1.5" stroke="currentColor" /><rect x="14" y="14" width="7" height="7" rx="1.5" fill="currentColor" /></svg></span>
                 <span className="hero-work-copy"><span className="hero-work-label">{siteContent.hero.featuredWork.label}</span><strong>{siteContent.hero.featuredWork.name}</strong><span className="hero-work-description">{siteContent.hero.featuredWork.description}</span></span>
-                <span className="hero-work-arrow" aria-hidden="true">↗</span>
+                <span className="hero-work-arrow" aria-hidden="true"><Arrow /></span>
               </Link>
             </Reveal>
           </div>

@@ -20,6 +20,7 @@ import { serviceCards } from "./service-cards";
 import { ServicesCylinder } from "./components/ServicesCylinder";
 import { ButtonLabel } from "./components/ButtonLabel";
 import { AboutIntro } from "./components/AboutIntro";
+import { Arrow } from "./components/Arrow";
 
 export default function HomePage() {
   return (
@@ -47,7 +48,7 @@ export default function HomePage() {
           <div className="faq-cta-row">
             <p>No commitment. We will tell you if we are not the right fit.</p>
             <button className="button faq-cta" data-open-contact type="button">
-              <ButtonLabel>Book a discovery call <span aria-hidden="true" className="button-icon">→</span></ButtonLabel>
+              <ButtonLabel>Book a discovery call <span aria-hidden="true" className="button-icon"><Arrow direction="right" /></span></ButtonLabel>
             </button>
           </div>
         </div>

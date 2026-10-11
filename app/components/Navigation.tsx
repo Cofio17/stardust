@@ -1,5 +1,6 @@
 "use client";
 import { ButtonLabel } from "./ButtonLabel";
+import { Arrow } from "./Arrow";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -156,7 +157,7 @@ export function Navigation() {
           </div>
           <div className="nav-actions" inert={compact}>
           <button className="button button-lime nav-cta" data-open-contact type="button">
-            <ButtonLabel>Start a project <span aria-hidden="true">↗</span></ButtonLabel>
+            <ButtonLabel>Start a project <Arrow /></ButtonLabel>
           </button>
           </div>
           <button className="nav-expand" type="button" aria-label="Expand navigation" aria-expanded={!compact}
@@ -187,7 +188,7 @@ export function Navigation() {
                 </Link>
               ))}
               <button className="mobile-cta" data-open-contact onClick={closeMenu} type="button">
-                <ButtonLabel>Start a project <span aria-hidden="true">↗</span></ButtonLabel>
+                <ButtonLabel>Start a project <Arrow /></ButtonLabel>
               </button>
             </div>
           ) : null}

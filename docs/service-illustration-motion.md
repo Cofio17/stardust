@@ -28,8 +28,9 @@ SVG IDs are unique per instance, including the comparison page.
 - Fine pointers: hover anywhere on a card, or visible keyboard focus, runs a
   1.6-second cycle, with a 160 ms entrance ramp. Exit returns the pieces in 400 ms. Re-entry finishes the
   interrupted cycle before starting a new full cycle.
-- Coarse pointers: only the active Swiper slide plays, once per activation or
-  viewport re-entry, after 180 ms with no drag or transition in progress.
+- Coarse pointers: the active Swiper slide loops for as long as it stays
+  active, starting 180 ms after any drag or transition settles. Once another
+  slide becomes active, its pieces return to rest in 400 ms.
 - At least 60% of the artwork must be visible. Leaving the viewport, a hidden
   document, a drag, or reduced motion cancels playback and shows the original.
 - Pointer and reduced-motion media queries react to preference changes. Timers,

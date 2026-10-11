@@ -1,5 +1,6 @@
 "use client";
 import { ButtonLabel } from "./ButtonLabel";
+import { Arrow } from "./Arrow";
 
 import Image from "next/image";
 import { useEffect, useRef } from "react";
@@ -182,7 +183,7 @@ export function StatementSection() {
         <div className="statement-inner" ref={innerRef}>
           <Eyebrow>Built around how you actually work</Eyebrow>
           <h2>{siteContent.statement}</h2>
-          <button className="button button-lime" data-open-contact type="button"><ButtonLabel>Start a conversation <span aria-hidden="true">↗</span></ButtonLabel></button>
+          <button className="button button-lime" data-open-contact type="button"><ButtonLabel>Start a conversation <Arrow /></ButtonLabel></button>
         </div>
       </div>
     </section>

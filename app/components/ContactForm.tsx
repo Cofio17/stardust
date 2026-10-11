@@ -1,6 +1,7 @@
 "use client";
 
 import { AnimatePresence, motion } from "motion/react";
+import { Arrow } from "./Arrow";
 import { FormEvent, KeyboardEvent, useEffect, useRef, useState } from "react";
 
 type ContactFormProps = {
@@ -218,7 +219,7 @@ export function ContactForm({ variant, idPrefix }: ContactFormProps) {
       {submitted ? <p className="form-success" role="status">Prototype only - no message was sent.</p> : null}
       <div className="form-actions">
         <button className="button button-lime" type="submit">
-          Start the conversation <span aria-hidden="true">↗</span>
+          Start the conversation <Arrow />
         </button>
         <span className="form-note">We’ll keep this first step focused and useful.</span>
       </div>

@@ -112,8 +112,13 @@
 }
 
 .parallax-pair-takeaways li::before {
-  color: var(--cobalt);
-  content: "↗";
+  background: var(--cobalt);
+  content: "";
+  height: 0.85em;
+  margin-top: 0.35em;
+  -webkit-mask: var(--arrow-up-right) center / contain no-repeat;
+  mask: var(--arrow-up-right) center / contain no-repeat;
+  width: 0.85em;
 }
 
 @media (max-width: 760px) {

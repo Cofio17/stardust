@@ -1,5 +1,6 @@
 "use client";
 import { ButtonLabel } from "./ButtonLabel";
+import { Arrow } from "./Arrow";
 
 import Image from "next/image";
 import { useId } from "react";
@@ -40,7 +41,7 @@ export function ServiceCardSlider({ cards, title, label, text, link, theme = "li
           {text && <Reveal delay={0.06}><p className="service-card-lede">{text}</p></Reveal>}
         </div>
         {link && <a className={`button ${theme === "dark" ? "button-ghost-light" : "button-ghost"}`} href={link.url}>
-          <ButtonLabel>{link.label}<span aria-hidden="true">↗</span></ButtonLabel>
+          <ButtonLabel>{link.label}<Arrow /></ButtonLabel>
         </a>}
       </div>
 
@@ -79,9 +80,9 @@ export function ServiceCardSlider({ cards, title, label, text, link, theme = "li
       <div className="shell service-card-footer">
         <div aria-label="Slider navigation" className="service-card-controls">
           <button aria-controls={`${id}-rail`} aria-label="Previous card" className={`button ${theme === "dark" ? "button-ghost-light" : "button-ghost"}`}
-            disabled={position.atStart} onClick={() => move(-1)} type="button"><ButtonLabel><span aria-hidden="true">←</span></ButtonLabel></button>
+            disabled={position.atStart} onClick={() => move(-1)} type="button"><ButtonLabel><Arrow direction="left" /></ButtonLabel></button>
           <button aria-controls={`${id}-rail`} aria-label="Next card" className={`button ${theme === "dark" ? "button-ghost-light" : "button-ghost"}`}
-            disabled={position.atEnd} onClick={() => move(1)} type="button"><ButtonLabel><span aria-hidden="true">→</span></ButtonLabel></button>
+            disabled={position.atEnd} onClick={() => move(1)} type="button"><ButtonLabel><Arrow direction="right" /></ButtonLabel></button>
         </div>
       </div>
     </section>

@@ -128,9 +128,9 @@ export type ServiceIllustrationProps = {
   active?: boolean;
   suspended?: boolean;
   /**
-   * "hover" loops while a fine pointer rests on the card and plays once per
-   * activation on touch. "view" plays once each time the artwork scrolls into
-   * view, on every device, for artwork that is not a card.
+   * "hover" loops while a fine pointer rests on the card, and on touch while
+   * the card is the active slide. "view" plays once each time the artwork
+   * scrolls into view, on every device, for artwork that is not a card.
    */
   trigger?: "hover" | "view";
   sizes?: string;
@@ -145,11 +145,13 @@ export function ServiceIllustration({ kind, src, alt, active = false, suspended 
   const reducedMotion = useSyncExternalStore(reducedMotionStore.subscribe, reducedMotionStore.snapshot, serverMedia);
   const visible = useInView(root, { amount: 0.6 });
   const finePointer = useSyncExternalStore(pointerStore.subscribe, pointerStore.snapshot, serverMedia);
-  const playOnce = trigger === "view" || !finePointer;
   const duration = scene.duration ?? DURATION;
-  // A looping scene in view keeps going; everything else follows the trigger.
+  // A looping scene keeps its own clock for as long as it is in view.
   const continuous = !!scene.loop && trigger === "view";
-  const once = !continuous && playOnce;
+  // Touch has no hover, so the card in front loops for as long as it stays the
+  // active slide, and returns to rest once another one takes its place.
+  const followsActive = continuous || (trigger === "hover" && !finePointer);
+  const once = trigger === "view" && !continuous;
   const drawsInk = !!scene.reveals?.length;
   const cutouts = [
     ...scene.layers.map(layer => ({ id: layer.id, path: layer.path })),
@@ -194,8 +196,8 @@ export function ServiceIllustration({ kind, src, alt, active = false, suspended 
   }, []);
 
   useEffect(() => {
-    // Re-entry (or returning to a slide) permits a new mobile cycle. Finishing
-    // a cycle and unrelated React renders do not start another one.
+    // Re-entering the view permits a new play-once cycle. Finishing a cycle
+    // and unrelated React renders do not start another one.
     if (!active || !visible) mobilePlayed.current = false;
     let cancelled = false;
     let timer: ReturnType<typeof setTimeout> | undefined;
@@ -209,7 +211,7 @@ export function ServiceIllustration({ kind, src, alt, active = false, suspended 
       status("idle");
     };
     const allowed = ready && !failed && visible && documentVisible && !suspended && !reducedMotion;
-    const wanted = allowed && (continuous || (once ? active && !mobilePlayed.current : hovered || focused));
+    const wanted = allowed && (followsActive ? active : once ? active && !mobilePlayed.current : hovered || focused);
     // Ink that will be drawn waits hidden while the artwork is out of view, so
     // it is never seen to vanish before it is drawn.
     const waiting = once && drawsInk && ready && !failed && !reducedMotion && !mobilePlayed.current;
@@ -239,8 +241,9 @@ export function ServiceIllustration({ kind, src, alt, active = false, suspended 
       phase.set(Math.max(0, Math.min(1, previewProgress)));
       status("preview-frame");
     } else if (wanted) {
-      if (!once) begin();
-      else timer = setTimeout(begin, 180);
+      // On touch, wait for the slide to settle before starting.
+      if (once || (followsActive && !continuous)) timer = setTimeout(begin, 180);
+      else begin();
     } else if (!allowed) {
       reset();
       if (waiting) {
@@ -257,7 +260,7 @@ export function ServiceIllustration({ kind, src, alt, active = false, suspended 
       clock?.stop();
       ramp?.stop();
     };
-  }, [active, continuous, documentVisible, drawsInk, duration, failed, focused, hovered, once, opacity, phase, previewProgress, ready, reducedMotion, strength, suspended, visible]);
+  }, [active, continuous, documentVisible, drawsInk, duration, failed, focused, followsActive, hovered, once, opacity, phase, previewProgress, ready, reducedMotion, strength, suspended, visible]);
 
   // Critical geometry belongs in the server HTML: lazy images and SVG layers
   // must stay inside the reserved frame even before the stylesheet is ready.

@@ -3,6 +3,7 @@
 import { animate, useInView, useMotionValueEvent, useReducedMotion, useScroll } from "motion/react";
 import { useEffect, useRef, useState } from "react";
 import { ButtonLabel } from "./ButtonLabel";
+import { Arrow } from "./Arrow";
 import { Eyebrow } from "./Eyebrow";
 import { Reveal } from "./Reveal";
 import "./about-intro.css";
@@ -106,7 +107,7 @@ export function AboutIntro() {
 
           <Reveal>
             <a className="button button-lime" href="#contact">
-              <ButtonLabel>More about us <span aria-hidden="true" className="button-icon">→</span></ButtonLabel>
+              <ButtonLabel>More about us <span aria-hidden="true" className="button-icon"><Arrow direction="right" /></span></ButtonLabel>
             </a>
           </Reveal>
         </div>
