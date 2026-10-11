@@ -1,3 +1,5 @@
+import type { IllustrationKind } from "./components/service-illustration-scenes";
+
 export type Accent = "lime" | "cobalt" | "mist" | "porcelain";
 
 export type Service = {
@@ -39,7 +41,7 @@ export type FaqItem = {
 
 export const siteContent = {
   brand: "StarDust Studio",
-  temporaryEmail: "hello@stardust.stud.io",
+  email: "hello@starduststudio.dev",
   nav: [
     { label: "Services", href: "/#what-we-solve" },
     { label: "Our Work", href: "/our-work" },
@@ -54,16 +56,16 @@ export const siteContent = {
        theme lands without a pun. Single words only: the rotator slot is one grid
        cell with overflow hidden, so a two-word entry wraps and is clipped when
        the viewport is narrow. */
-    titleLead: "We launch your",
+    titleLead: "We build your",
     titleTail: "Then we stay in orbit.",
-    messages: ["website", "product", "store"],
+    messages: ["website", "platform", "AI"],
     description:
-      "Design, engineering, and everything after launch. Same small team the whole way.",
+      "Custom software for small and mid-sized businesses. Websites, web apps, AI and automation, built by a small team from Novi Sad, Serbia.",
     featuredWork: {
-      name: "Solutions CRM",
-      label: "Concept case study",
-      description: "Leads, clients & next steps in one place.",
-      href: "/our-work/solutions-crm"
+      name: "Solution Pathway Academy",
+      label: "Case study",
+      description: "Classes, payments and student chat on one platform.",
+      href: "/our-work"
     },
     images: [
       {
@@ -161,24 +163,24 @@ export const siteContent = {
       title: "Operations",
       eyebrow: "Make the everyday lighter",
       description:
-        "We follow the work through its approvals, handoffs and half-remembered rules, then design a shorter path that your team doesn’t need reminding to follow.",
-      bullets: ["Cut the repeat work", "Make ownership obvious", "See progress without asking"],
+        "Your CRM, forms, email and calendars connected, old data cleaned up and de-duplicated, and routine work that stops depending on someone copying it by hand.",
+      bullets: ["Connect the tools you already use", "Clean, de-duplicated data", "Less manual entry"],
       accent: "lime"
     },
     {
       title: "Growth",
       eyebrow: "Turn interest into revenue",
       description:
-        "Good leads cool off in the gap between curiosity and a reply. We close that gap with a site that answers the real questions and follow-up that doesn’t depend on anyone remembering.",
-      bullets: ["Get found for what you sell", "Reply while it still matters", "Know which effort pays"],
+        "Every new lead sorted against your own data, with a reply drafted and ready to send. On-brand posts and ad drafts made from what you already have.",
+      bullets: ["AI lead responder", "AI content generator", "Technical SEO"],
       accent: "cobalt"
     },
     {
       title: "Customer experience",
       eyebrow: "Keep the promise you sold",
       description:
-        "Delivery should feel like the pitch. We build systems that carry context between teams, so customers stop repeating themselves and your people stop apologising for it.",
-      bullets: ["Carry context across teams", "Answer before they chase", "Stay personal as you scale"],
+        "Every support call transcribed, checked for emotion and recurring issues, and flagged on the CRM ticket, so managers see where problems are building.",
+      bullets: ["AI call analysis", "AI knowledge assistant", "Client portals"],
       accent: "mist"
     }
   ] satisfies Capability[],
@@ -201,40 +203,42 @@ export const siteContent = {
   ] satisfies TimeMoment[],
   metrics: [
     {
-      from: 29,
-      label: "Products shipped",
-      note: "Live software in daily use, not a portfolio pile.",
-      value: 38
+      from: 0,
+      label: "Rows behind our largest AI build",
+      note: "A knowledge assistant kept in sync and free of duplicates.",
+      suffix: "B",
+      value: 1
+    },
+    {
+      from: 80,
+      label: "Fewer checking errors",
+      note: "After automating pre-review checks for a scientific journal.",
+      suffix: "%+",
+      value: 95
     },
     {
       from: 1,
-      label: "Years in business",
-      note: "Same founding team since 2022.",
-      value: 4
+      label: "Business days to a fixed-price proposal",
+      note: "Written scope, timeline and price after one free call.",
+      value: 5
     },
     {
       from: 14,
-      label: "Days to a working version",
-      note: "Median across our last ten builds.",
-      value: 21
-    },
-    {
-      from: 76,
-      label: "Clients who come back",
-      note: "Across every engagement we have run.",
-      suffix: "%",
-      value: 92
+      label: "Days of free fixes after launch",
+      note: "Then optional monthly support, if you want it.",
+      value: 30
     }
   ] satisfies Metric[],
   approach: [
     {
       eyebrow: "Start with the problem",
       title: "The first conversation does the heavy lifting.",
-      description: "We ask what is actually going wrong, who it costs, and what it would look like if it worked. You leave with a clear scope, a realistic range, and an honest opinion, including the one where you don’t need us yet.",
-      detail: "Show us the website, the spreadsheet, or the process your team works around every day. We look at where people lose time, where customers get stuck, and which tools already do their job well. Together, we choose a useful first step and agree on what success should look like before the work begins.",
+      description: "It starts with a free 30-minute call. We ask what is actually going wrong, what it costs you, and what it would look like if it worked, and we tell you honestly if we are not the right team.",
+      detail: "Show us the website, the spreadsheet, or the process your team works around every day. We look at where people lose time and which tools already do their job well. Usually within five business days, you get a written proposal with the scope, the timeline and a fixed price.",
       takeawayTitle: "A clear starting point",
-      takeaways: ["The problem, priorities, and scope in plain language", "A realistic budget range and sequence of work", "A shared definition of what a good result looks like"],
+      takeaways: ["The problem and scope in plain language", "A timeline split into clear milestones", "A fixed price, agreed before work starts"],
       image: {
+        animation: "conversation" as IllustrationKind,
         src: "/images/studio/demo-conversation.png",
         alt: "Speech bubbles turning a tangled process into a clear plan above an open notebook"
       }
@@ -242,11 +246,12 @@ export const siteContent = {
     {
       eyebrow: "Make it real early",
       title: "See it before we build it.",
-      description: "Screens, flows, and a clickable prototype come before the code. You react to something real while a change still costs an afternoon instead of a sprint.",
-      detail: "We work through the important journeys: finding the right information, completing a purchase, or getting a task done. You can try the structure, read the actual copy, and see how the interface behaves on a phone. Your feedback shapes the next version, so the build starts with decisions you understand and a direction you can stand behind.",
+      description: "We build in milestones of one to two weeks, and every milestone ends with a working demo. You react to something real while a change is still cheap, instead of waiting for one big reveal at the end.",
+      detail: "Each demo covers a journey that matters: a customer booking and paying, a lead getting a drafted reply, a question answered from your own data. You try it on your own workflow, and your feedback shapes the next milestone, so nothing surprises you on launch day.",
       takeawayTitle: "Something you can actually try",
-      takeaways: ["Key screens with real content and a clear visual direction", "A clickable flow for the journeys that matter most", "Feedback turned into decisions before development"],
+      takeaways: ["A working demo every one to two weeks", "Built and tested on your real workflow", "Feedback turned into the next milestone"],
       image: {
+        animation: "prototype" as IllustrationKind,
         src: "/images/studio/demo-prototype.png",
         alt: "A hand testing a clickable tablet prototype connected to a paper wireframe"
       }
@@ -254,11 +259,12 @@ export const siteContent = {
     {
       eyebrow: "Ship, then keep going",
       title: "Launch is the start of the useful part.",
-      description: "We release in pieces you can use as they land, then stay close and watch how the thing is really used. The parts that earn attention get more of it.",
-      detail: "Before launch, we check the details that make a product dependable: mobile layouts, loading speed, forms, and the connections behind them. Once it is live, we help your team manage the content and understand what people are doing. Support, maintenance, and improvements follow the needs of the business, with a clear next step whenever something changes.",
+      description: "Launch includes deployment, a proper handover and 30 days of bug fixes at no extra cost. After that, optional monthly maintenance, updates and small improvements, whenever you need them.",
+      detail: "Before launch, we check the details that make a product dependable: mobile layouts, loading speed, payments, and the connections behind them. Once the project is paid, all code, accounts and documentation belong to you, so you are never locked in to our studio.",
       takeawayTitle: "A launch with a plan behind it",
-      takeaways: ["A working site or product checked across key devices", "A practical handover so your team can use and manage it", "An agreed approach to support and future improvements"],
+      takeaways: ["Deployment and a practical handover", "30 days of bug fixes at no extra cost", "Code, accounts and documentation that belong to you"],
       image: {
+        animation: "launch" as IllustrationKind,
         src: "/images/studio/demo-launch-orbit.png",
         alt: "A browser space capsule with a support satellite staying in orbit after launch"
       }
@@ -269,38 +275,38 @@ export const siteContent = {
     {
       question: "What does a project like this cost?",
       answer:
-        "You get a real range in the first conversation, not after three meetings and a proposal. The number moves with scope, so we would rather shape the scope with you than quote a guess. If the budget and the idea don’t match, we say so early."
+        "Every project gets a written scope, timeline and fixed price, usually within five business days of a free 30-minute intro call. We would rather shape the scope with you than quote a guess, and if the budget and the idea don’t match, we say so early."
     },
     {
       question: "How quickly can we see something working?",
       answer:
-        "A clickable prototype in the first couple of weeks, and something real enough to put in front of users usually inside a month. We release in pieces, so you are never waiting on one big reveal at the end."
+        "We work in milestones of one to two weeks, and each one ends with a working demo. You see real progress from the first weeks, so you are never waiting on one big reveal at the end."
     },
     {
       question: "We already have a site and a developer. Can you still help?",
       answer:
-        "Often that is the easier job. We take over existing builds, work alongside an in-house team, or handle one specific piece of it. If the honest answer is to keep what you have, you will hear that instead of a pitch."
+        "Yes. We regularly take over existing WordPress, PHP and JavaScript codebases, work alongside an in-house team, or handle one specific piece of it. If the honest answer is to keep what you have, you will hear that instead of a pitch."
     },
     {
       question: "Who owns the code and the accounts?",
       answer:
-        "You do, from day one. Repositories, hosting, domains and analytics stay in your name. If you ever decide to move on, you take everything with you and nothing quietly stops working."
+        "You do. Once the project is paid, all code, accounts and documentation belong to you, including prompts and infrastructure on AI projects. If you ever decide to move on, you take everything with you and nothing quietly stops working."
     },
     {
       question: "What happens after launch?",
       answer:
-        "We stay. Hosting, monitoring, small fixes and the occasional bigger idea, as a monthly arrangement or simply when you need us. Nothing is finished the week it goes live."
+        "Every launch includes 30 days of bug fixes at no extra cost. After that, we can stay on for monthly maintenance, updates and small improvements, or simply when you need us. Nothing is finished the week it goes live."
     },
     {
       question: "How do you handle our data?",
       answer:
-        "We collect the minimum, keep access narrow, and write down who can see what. Anything involving customer data or AI gets its rules agreed in writing before a line of it is built."
+        "AI answers come from your own documents and databases, not guesswork. Where privacy matters, open models can run on your own servers so sensitive data stays in-house. And if AI is not the right tool for a task, we tell you before any work starts."
     }
   ] satisfies FaqItem[],
   contact: {
     eyebrow: "First contact",
-    title: "Tell us what you’re building.",
+    title: "Tell us what you need.",
     description:
-      "Describe what you are trying to build or fix. You will get a real person, a straight answer, and a next step within a day."
+      "Send a short note: the problem you want solved, the tools you use today, and your timeline. We reply within one business day and usually send a proposal within a week."
   }
 };

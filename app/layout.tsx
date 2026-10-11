@@ -11,18 +11,18 @@ const outfit = Outfit({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://firma.example"),
+  metadataBase: new URL("https://starduststudio.dev"),
   title: {
-    default: "StarDust Studio - Websites, web apps and automation",
+    default: "StarDust Studio - Custom software for small and mid-sized businesses",
     template: "%s - StarDust Studio"
   },
   description:
-    "We launch websites, products and stores, then stay in orbit. Design, engineering, and everything after launch.",
-  keywords: ["web development", "web apps", "websites", "e-commerce", "automation", "SEO", "UI/UX design"],
+    "Custom software for small and mid-sized businesses. Websites, web apps, AI and automation, built by a small team from Novi Sad, Serbia.",
+  keywords: ["custom software", "web development", "web apps", "websites", "AI products", "automation", "CRM", "SEO", "e-commerce", "UI/UX design"],
   openGraph: {
-    title: "StarDust Studio - Websites, web apps and automation",
+    title: "StarDust Studio - Custom software for small and mid-sized businesses",
     description:
-      "We launch websites, products and stores. Then we stay in orbit. Same small team from the first sketch to everything after launch.",
+      "Websites, web apps, AI and automation for small and mid-sized businesses, built by a small team from Novi Sad, Serbia.",
     type: "website",
     locale: "en_US",
     siteName: "StarDust Studio"

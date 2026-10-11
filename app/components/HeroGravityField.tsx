@@ -6,12 +6,16 @@ import "./hero-gravity-field.css";
 
 // Both families sample the same surface, so every crossing stays connected.
 type Point = readonly [number, number];
+// The central valley of each vertex, kept so a narrow screen can flatten it.
+const valleyOf = new Map<Point, number>();
 
 function point(u: number, depth: number): Point {
   const spread = 0.3 + 0.7 * depth;
   const x = 800 + u * 1100 * spread;
   const dip = 150 * Math.sin(Math.PI * depth) * Math.exp(-5 * u * u);
-  return [x, 170 + 760 * depth + dip];
+  const vertex: Point = [x, 170 + 760 * depth + dip];
+  valleyOf.set(vertex, dip);
+  return vertex;
 }
 
 function clipSegment(a: Point, b: Point, padding = 0): readonly [Point, Point] | null {
@@ -133,11 +137,7 @@ const surface = [...longitudinal, ...transverse].map(trimSurface);
 const vertices = [...new Set(surface.flat())];
 const vertexIndex = new Map(vertices.map((vertex, index) => [vertex, index]));
 const surfaceIndices = surface.map(points => points.map(vertex => vertexIndex.get(vertex)!));
-// Every other curve is the fine detail layer, dropped on small screens.
-const detailCurves = [
-  ...longitudinal.map((_, index) => index % 2 === 0),
-  ...transverse.map((_, index) => index % 2 === 0)
-];
+const vertexValleys = Float32Array.from(vertices, vertex => valleyOf.get(vertex) ?? 0);
 // Columns draw outward from the centre, then the rows follow together.
 const drawDelays = [
   ...longitudinal.map((_, index) => 0.05 + Math.abs(index - FIELD_CENTER) * 0.035),
@@ -161,12 +161,32 @@ function fadeStops(): [number, number][] {
 const FADE_STOPS = fadeStops();
 const QUIET_STOPS: [number, number][] = [[0, 1], [0.35, 0.98], [0.7, 0.55], [1, 0]];
 const EDGE_STOPS: [number, number][] = [[0, 0], [0.09, 1], [0.91, 1], [1, 0]];
+// The 16:9 field may stretch this much on one axis to fill the hero. Past it,
+// the field scales up and is cropped instead, so a portrait phone shows the
+// middle of the same floor rather than a perspective squeezed four times over.
+const MAX_STRETCH = 1.25;
+// On a portrait screen a full-height crop is so narrow that the floor's central
+// dip reads as a bowl. Shrinking it shows more columns; the top of the field is
+// faded out anyway, so anchoring it to the bottom leaves no visible gap.
+const PORTRAIT_SCALE = 0.82;
+// The valley spans the middle third of the field; in a portrait crop it fills
+// the screen and turns the floor into a bowl, so it keeps only this much there.
+const PORTRAIT_VALLEY = 0.35;
+
+// The body is a halftone sphere, like the cover of the studio deck: a hex grid
+// of dots whose size follows the light, so the rim and the shadow side thin out
+// on their own. Dots across the diameter; fewer reads as a pattern, more as grey.
+const SPHERE_DOTS = 17;
+const SPHERE_LIGHT = [-0.42, -0.5, 0.76] as const;
+// How far the light leans as the body follows the cursor, at full orbit.
+const SPHERE_LEAN = 0.22;
 
 export function HeroGravityField() {
   const reducedMotion = useReducedMotion();
   const layerRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const planetRef = useRef<HTMLDivElement>(null);
+  const sphereRef = useRef<HTMLCanvasElement>(null);
   // The entrance plays once, even if the motion preference re-runs the effect.
   const introStartRef = useRef<number | null>(null);
 
@@ -176,12 +196,13 @@ export function HeroGravityField() {
     const canvas = canvasRef.current;
     const context = canvas?.getContext("2d");
     const planet = planetRef.current;
-    if (!layer || !hero || !canvas || !context || !planet) return;
+    const sphere = sphereRef.current;
+    const sphereContext = sphere?.getContext("2d");
+    if (!layer || !hero || !canvas || !context || !planet || !sphere || !sphereContext) return;
 
     introStartRef.current ??= performance.now();
     const introStart = introStartRef.current;
     const copy = hero.querySelector<HTMLElement>(".hero-copy");
-    const compact = window.matchMedia("(max-width: 760px)");
     // A canvas repaints the whole mesh in one raster pass; the SVG version
     // re-rasterized 80+ anti-aliased paths per frame and dropped to ~30fps.
     // Every fade (depth, side edges, quiet zone behind the copy) is baked into
@@ -192,11 +213,11 @@ export function HeroGravityField() {
     if (!maskContext) return;
     const fade = maskContext.createLinearGradient(0, 0, 0, 900);
     FADE_STOPS.forEach(([offset, alpha]) => fade.addColorStop(offset, `rgb(0 0 0 / ${alpha})`));
-    const edges = maskContext.createLinearGradient(0, 0, 1600, 0);
-    EDGE_STOPS.forEach(([offset, alpha]) => edges.addColorStop(offset, `rgb(0 0 0 / ${alpha})`));
     const quiet = maskContext.createRadialGradient(0, 0, 0, 0, 0, 1);
     QUIET_STOPS.forEach(([offset, alpha]) => quiet.addColorStop(offset, `rgb(0 0 0 / ${alpha})`));
     const quietZone = { cx: 800, cy: 450, rx: 700, ry: 340 };
+    // CSS pixels per field unit on each axis, and where the field's origin sits.
+    const field = { sx: 1, sy: 1, ox: 0, oy: 0, valley: 1 };
     const xs = new Float32Array(vertices.length);
     const ys = new Float32Array(vertices.length);
 
@@ -212,6 +233,11 @@ export function HeroGravityField() {
     let planetTop = 0;
     let strokeColor = "#0a1224";
     let strokeOpacity = 0.147;
+    let sphereLit = "#ffb020";
+    let sphereShade = "#e69a12";
+    // The light lean the sphere was last drawn with; NaN forces a redraw.
+    let sphereLeanX = Number.NaN;
+    let sphereLeanY = Number.NaN;
     let pointerX = -1;
     let pointerY = -1;
     const target = { x: 800, y: 450, strength: 0 };
@@ -233,12 +259,10 @@ export function HeroGravityField() {
       const subtitleBounds = subtitle.getBoundingClientRect();
       const left = Math.min(titleBounds.left, subtitleBounds.left);
       const right = Math.max(titleBounds.right, subtitleBounds.right);
-      const scaleX = bounds.width / 1600;
-      const scaleY = bounds.height / 900;
-      quietZone.cx = ((left + right) / 2 - bounds.left) / scaleX;
-      quietZone.cy = ((titleBounds.top + subtitleBounds.bottom) / 2 - bounds.top) / scaleY;
-      quietZone.rx = ((right - left) / 2 + Math.min(150, bounds.width * 0.14)) / scaleX;
-      quietZone.ry = ((subtitleBounds.bottom - titleBounds.top) / 2 + Math.min(130, bounds.height * 0.16)) / scaleY;
+      quietZone.cx = ((left + right) / 2 - bounds.left - field.ox) / field.sx;
+      quietZone.cy = ((titleBounds.top + subtitleBounds.bottom) / 2 - bounds.top - field.oy) / field.sy;
+      quietZone.rx = ((right - left) / 2 + Math.min(150, bounds.width * 0.14)) / field.sx;
+      quietZone.ry = ((subtitleBounds.bottom - titleBounds.top) / 2 + Math.min(130, bounds.height * 0.16)) / field.sy;
     }
 
     function buildMask() {
@@ -247,15 +271,25 @@ export function HeroGravityField() {
         mask.width = canvas.width;
         mask.height = canvas.height;
       }
-      if (!mask.width || !mask.height) return;
-      // Mask in the 1600x900 field space, stretched like the old SVG viewBox.
-      maskContext.setTransform(mask.width / 1600, 0, 0, mask.height / 900, 0, 0);
+      if (!mask.width || !mask.height || !bounds.width) return;
+      const ratio = mask.width / bounds.width;
+      const toField = () => maskContext.setTransform(
+        field.sx * ratio, 0, 0, field.sy * ratio, field.ox * ratio, field.oy * ratio
+      );
+      // The depth fade belongs to the floor, so it lives in field space.
+      toField();
       maskContext.globalCompositeOperation = "copy";
       maskContext.fillStyle = fade;
       maskContext.fillRect(0, 0, 1600, 900);
+      // The side fade belongs to the screen: a cropped field still softens at
+      // the edges the visitor actually sees.
+      maskContext.setTransform(1, 0, 0, 1, 0, 0);
+      const edges = maskContext.createLinearGradient(0, 0, mask.width, 0);
+      EDGE_STOPS.forEach(([offset, alpha]) => edges.addColorStop(offset, `rgb(0 0 0 / ${alpha})`));
       maskContext.globalCompositeOperation = "destination-in";
       maskContext.fillStyle = edges;
-      maskContext.fillRect(0, 0, 1600, 900);
+      maskContext.fillRect(0, 0, mask.width, mask.height);
+      toField();
       maskContext.globalCompositeOperation = "destination-out";
       maskContext.translate(quietZone.cx, quietZone.cy);
       maskContext.scale(quietZone.rx, quietZone.ry);
@@ -264,18 +298,75 @@ export function HeroGravityField() {
       maskContext.globalCompositeOperation = "source-over";
     }
 
+    function drawSphere(leanX: number, leanY: number) {
+      if (!sphere || !sphereContext) return;
+      if (Math.abs(leanX - sphereLeanX) < 0.002 && Math.abs(leanY - sphereLeanY) < 0.002) return;
+      sphereLeanX = leanX;
+      sphereLeanY = leanY;
+      const size = sphere.clientWidth;
+      if (!size) return;
+      const ratio = Math.min(window.devicePixelRatio || 1, 2);
+      const pixels = Math.round(size * ratio);
+      if (sphere.width !== pixels || sphere.height !== pixels) {
+        sphere.width = pixels;
+        sphere.height = pixels;
+      }
+      sphereContext.setTransform(ratio, 0, 0, ratio, 0, 0);
+      sphereContext.clearRect(0, 0, size, size);
+
+      let lightX = SPHERE_LIGHT[0] + leanX;
+      let lightY = SPHERE_LIGHT[1] + leanY;
+      let lightZ = SPHERE_LIGHT[2];
+      const length = Math.hypot(lightX, lightY, lightZ);
+      lightX /= length;
+      lightY /= length;
+      lightZ /= length;
+
+      const radius = size / 2;
+      const spacing = size / SPHERE_DOTS;
+      const rowHeight = spacing * Math.sqrt(3) / 2;
+      const rows = Math.ceil(radius / rowHeight);
+      const columns = Math.ceil(radius / spacing) + 1;
+      // One path per tone keeps it to two fills, however many dots there are.
+      const lit = new Path2D();
+      const shade = new Path2D();
+      for (let row = -rows; row <= rows; row++) {
+        const y = row * rowHeight;
+        const offset = row % 2 === 0 ? 0 : spacing / 2;
+        for (let column = -columns; column <= columns; column++) {
+          const x = column * spacing + offset;
+          const nx = x / radius;
+          const ny = y / radius;
+          const distance = nx * nx + ny * ny;
+          if (distance >= 1) continue;
+          const light = Math.max(0, nx * lightX + ny * lightY + Math.sqrt(1 - distance) * lightZ);
+          // Never wider than the grid, so neighbouring dots never merge.
+          const dot = spacing * 0.46 * (0.06 + 0.94 * Math.pow(light, 1.6));
+          if (dot < 0.35) continue;
+          const path = light > 0.45 ? lit : shade;
+          path.moveTo(radius + x + dot, radius + y);
+          path.arc(radius + x, radius + y, dot, 0, Math.PI * 2);
+        }
+      }
+      sphereContext.fillStyle = sphereShade;
+      sphereContext.fill(shade);
+      sphereContext.fillStyle = sphereLit;
+      sphereContext.fill(lit);
+    }
+
     function renderField(time: number) {
       if (!bounds.width || !bounds.height || !planet || !canvas || !context) return;
-      const scaleX = bounds.width / 1600;
-      const scaleY = bounds.height / 900;
+      const { sx: scaleX, sy: scaleY } = field;
       const radius = Math.min(320, Math.max(180, bounds.width * 0.24));
       const fieldRadius = Math.max(bounds.width, bounds.height) * 0.65;
-      const bodyX = (planetLeft + orbit.x) / scaleX;
+      const bodyX = (planetLeft + orbit.x - field.ox) / scaleX;
       // Project the sphere's weight just below it, into the plane of the mesh.
-      const bodyY = (planetTop + orbit.y + bodySize * 0.12) / scaleY;
+      const bodyY = (planetTop + orbit.y + bodySize * 0.12 - field.oy) / scaleY;
       const gravityRadius = bodySize * 1.65;
       const gravityDepth = bodySize * 1.15;
       planet.style.transform = `translate3d(${orbit.x.toFixed(3)}px, ${orbit.y.toFixed(3)}px, 0)`;
+      // A fixed light in the scene slides across the body as it moves.
+      drawSphere(-orbit.x / 72 * SPHERE_LEAN, -orbit.y / 44 * SPHERE_LEAN);
 
       // The nearby depression and the long-range tension act on EVERY vertex.
       // Rational falloff keeps the outer columns responsive, even away from the
@@ -291,27 +382,28 @@ export function HeroGravityField() {
         const gy = (y - bodyY) * scaleY;
         const gravity = Math.exp(-(gx * gx + gy * gy) / (gravityRadius * gravityRadius));
         xs[index] = x - (x - current.x) * (0.18 * pull + 0.018 * tension) - (x - bodyX) * 0.22 * gravity;
-        ys[index] = y + (64 * pull + 10 * tension + gravityDepth * gravity) / scaleY;
+        ys[index] = y - vertexValleys[index] * (1 - field.valley)
+          + (64 * pull + 10 * tension + gravityDepth * gravity) / scaleY;
       }
 
       context.globalCompositeOperation = "source-over";
       context.setTransform(1, 0, 0, 1, 0, 0);
       context.clearRect(0, 0, canvas.width, canvas.height);
+      const ratio = canvas.width / bounds.width;
+      context.setTransform(1, 0, 0, 1, field.ox * ratio, field.oy * ratio);
       // Stroke 1 device-pixel hairlines, which the GPU draws on a fast path; a
       // wider anti-aliased stroke rasterizes a coverage mask the size of each
       // curve's bounds and dropped the hero to ~30fps. The alpha carries the
       // ink of the old stretched 1-unit stroke in each direction instead.
-      const deviceX = canvas.width / 1600;
-      const deviceY = canvas.height / 900;
+      const deviceX = scaleX * ratio;
+      const deviceY = scaleY * ratio;
       context.strokeStyle = strokeColor;
       context.lineWidth = 1;
       context.lineJoin = "round";
       const columnAlpha = Math.min(1, strokeOpacity * deviceX);
       const rowAlpha = Math.min(1, strokeOpacity * deviceY);
       const elapsed = (time - introStart) / 1000;
-      const skipDetail = compact.matches;
       surfaceIndices.forEach((indices, index) => {
-        if (skipDetail && detailCurves[index]) return;
         const linear = reducedMotion ? 1 : (elapsed - drawDelays[index]) / DRAW_DURATION;
         if (linear <= 0) return;
         // Each curve strokes on its own, so crossings keep their darker overlap.
@@ -322,6 +414,7 @@ export function HeroGravityField() {
       });
       if (!mask.width || !mask.height) return;
       context.globalAlpha = 1;
+      context.setTransform(1, 0, 0, 1, 0, 0);
       context.globalCompositeOperation = "destination-in";
       context.drawImage(mask, 0, 0);
       context.globalCompositeOperation = "source-over";
@@ -379,8 +472,8 @@ export function HeroGravityField() {
         if (hovering) leave();
         return;
       }
-      target.x = ((event.clientX - bounds.left) / bounds.width) * 1600;
-      target.y = ((event.clientY - layerTop) / bounds.height) * 900;
+      target.x = (event.clientX - bounds.left - field.ox) / field.sx;
+      target.y = (event.clientY - layerTop - field.oy) / field.sy;
       orbitTarget.x = Math.tanh((event.clientX - bounds.left - planetLeft) / 380) * 72;
       orbitTarget.y = Math.tanh((event.clientY - layerTop - planetTop) / 280) * 44;
       if (!hovering) {
@@ -442,6 +535,16 @@ export function HeroGravityField() {
       if (!layer || !canvas) return;
       bounds = layer.getBoundingClientRect();
       pageTop = bounds.top + window.scrollY;
+      const fitX = bounds.width / 1600;
+      const fitY = bounds.height / 900;
+      const portrait = fitY > fitX * MAX_STRETCH;
+      field.sy = portrait
+        ? Math.max(fitY * PORTRAIT_SCALE, fitX * MAX_STRETCH)
+        : Math.max(fitY, fitX / MAX_STRETCH);
+      field.sx = Math.max(fitX, field.sy / MAX_STRETCH);
+      field.ox = (bounds.width - 1600 * field.sx) / 2;
+      field.oy = portrait ? bounds.height - 900 * field.sy : (bounds.height - 900 * field.sy) / 2;
+      field.valley = portrait ? PORTRAIT_VALLEY : 1;
       const ratio = Math.min(window.devicePixelRatio || 1, 2);
       const width = Math.round(bounds.width * ratio);
       const height = Math.round(bounds.height * ratio);
@@ -452,6 +555,9 @@ export function HeroGravityField() {
       const style = getComputedStyle(layer);
       strokeColor = style.color;
       strokeOpacity = Number.parseFloat(style.getPropertyValue("--field-line-opacity")) || 0.147;
+      sphereLit = style.getPropertyValue("--accent").trim() || sphereLit;
+      sphereShade = style.getPropertyValue("--accent-strong").trim() || sphereShade;
+      sphereLeanX = sphereLeanY = Number.NaN;
       bodySize = planet?.firstElementChild?.clientWidth ?? 96;
       planetLeft = planet?.offsetLeft ?? 0;
       planetTop = planet?.offsetTop ?? 0;
@@ -503,12 +609,8 @@ export function HeroGravityField() {
     <div aria-hidden="true" className="hero-gravity-field" ref={layerRef}>
       <canvas className="hero-gravity-grid" ref={canvasRef} />
       <div className="hero-gas-planet" ref={planetRef}>
-        <div className="hero-gas-planet-body">
-          <div className="hero-gas-planet-clouds" />
-          <div className="hero-gas-planet-light" />
-        </div>
-        <div className="hero-gas-planet-atmosphere" />
-        <div className="hero-gas-planet-shadow" />
+        <canvas className="hero-dust-sphere" ref={sphereRef} />
+        <div className="hero-dust-sphere-shadow" />
       </div>
     </div>
   );

@@ -9,21 +9,21 @@ import "./about-intro.css";
 
 const paragraphs = [
   {
-    lead: "We are StarDust, a small web studio that includes Me and myself and retard Devic.",
-    rest: "Designers, developers and strategists with a soft spot for clean interfaces, fast pages and copy that says what it means."
+    lead: "We are StarDust Studio, a small team from Novi Sad, Serbia.",
+    rest: "We design and build custom software for small and mid-sized businesses in the US and Europe."
   },
   {
-    rest: "We help companies look sharp online and stay that way. Strategy, design and engineering sit at one table, so ideas move from sketch to launch without getting lost between departments."
+    rest: "Websites and web applications, AI that works with your own data, and automation that connects the tools you already use. Engineering and project management sit at one table, so nothing gets lost between departments."
   },
   {
-    rest: "No ticket queues, no rotating juniors — you talk to the people who build your product. Honest, practical and focused on results."
+    rest: "You work directly with the people who build your product, from the first call to long after launch."
   }
 ];
 
 const stats = [
-  { value: 2021, suffix: "", label: "Founded" },
-  { value: 40, suffix: "+", label: "Websites launched" },
-  { value: 25, suffix: "+", label: "Happy clients" }
+  { value: 3, suffix: "", label: "People, one team" },
+  { value: 5, suffix: "", label: "AI systems shipped to production" },
+  { value: 2, suffix: "", label: "Markets: US and Europe" }
 ];
 
 function splitWords(text: string) {
@@ -42,11 +42,7 @@ function StatFigure({ value, suffix, label }: (typeof stats)[number]) {
   const [shown, setShown] = useState(0);
 
   useEffect(() => {
-    if (!inView) return;
-    if (reducedMotion) {
-      setShown(value);
-      return;
-    }
+    if (!inView || reducedMotion) return;
     const controls = animate(0, value, {
       duration: 1.6,
       ease: [0.16, 1, 0.3, 1],
@@ -57,7 +53,8 @@ function StatFigure({ value, suffix, label }: (typeof stats)[number]) {
 
   return (
     <div className="about-intro-stat" ref={ref}>
-      <p className="about-intro-stat-value">{shown}{suffix}</p>
+      {/* Without motion the final figure shows as soon as it's in view; no count-up. */}
+      <p className="about-intro-stat-value">{reducedMotion && inView ? value : shown}{suffix}</p>
       <p className="about-intro-stat-label">{label}</p>
     </div>
   );
@@ -103,9 +100,9 @@ export function AboutIntro() {
             ))}
           </div>
 
-          <div className="about-intro-stats">
+          {/* <div className="about-intro-stats">
             {stats.map(stat => <StatFigure key={stat.label} {...stat} />)}
-          </div>
+          </div> */}
 
           <Reveal>
             <a className="button button-lime" href="#contact">

@@ -1,10 +1,10 @@
 "use client";
 
-import Image from "next/image";
 import { motion, useReducedMotion, useScroll, useTransform } from "motion/react";
 import { useRef } from "react";
 import { siteContent } from "../site-content";
 import { Eyebrow } from "./Eyebrow";
+import { ServiceIllustration } from "./ServiceIllustration";
 import "./parallax-section.css";
 
 type Story = (typeof siteContent.approach)[number];
@@ -23,11 +23,14 @@ function ParallaxPair({ story, index }: { story: Story; index: number }) {
     <article aria-labelledby={`approach-title-${index}`} className="parallax-pair" ref={pairRef}>
       <motion.div className="parallax-pair-media" style={{ y: reducedMotion ? 0 : imageY }}>
         <div className="parallax-pair-image">
-          <Image
+          {/* Plays once each time the image scrolls into view. */}
+          <ServiceIllustration
+            active
             alt={story.image.alt}
-            fill
+            kind={story.image.animation}
             sizes="(max-width: 760px) calc(100vw - 2.5rem), (max-width: 1160px) 45vw, 520px"
             src={story.image.src}
+            trigger="view"
           />
         </div>
       </motion.div>

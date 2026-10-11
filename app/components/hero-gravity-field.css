@@ -17,7 +17,7 @@
 }
 
 .hero-gas-planet {
-  --planet-size: clamp(82px, 7.5vw, 120px);
+  --planet-size: clamp(104px, 9vw, 150px);
   position: absolute;
   left: 82%;
   top: 68%;
@@ -26,83 +26,32 @@
   will-change: transform;
 }
 
-.hero-gas-planet-body {
+.hero-dust-sphere {
+  display: block;
   position: absolute;
   width: var(--planet-size);
   height: var(--planet-size);
-  transform: translate(-50%, -50%) rotate(-16deg);
-  overflow: hidden;
-  border-radius: 50%;
-  background: #c99143;
-  box-shadow: 14px 22px 40px -24px rgb(83 49 13 / 38%);
-  isolation: isolate;
+  transform: translate(-50%, -50%);
 }
 
-.hero-gas-planet-clouds {
+/* The body's weight on the mesh. A wide gradient is soft enough without a blur. */
+.hero-dust-sphere-shadow {
   position: absolute;
-  inset: -16% -65%;
-  background:
-    radial-gradient(ellipse at 58% 58%, #bd6c28 0 3%, #e8b66c 7%, transparent 14%),
-    radial-gradient(ellipse at 26% 36%, #fff1c8 0 4%, transparent 13%),
-    repeating-linear-gradient(174deg,
-      #edc58a 0%, #f3d7a2 8%, #ba7938 11%,
-      #dfad66 17%, #f4deb3 23%, #ca8b45 27%,
-      #a7642f 30%, #d6a15b 36%, #efd3a0 43%, #edc58a 50%);
-  filter: blur(1.5px);
-  animation: hero-gas-clouds 24s ease-in-out infinite alternate;
-}
-
-.hero-gravity-field[data-in-view="false"] .hero-gas-planet-clouds {
-  animation-play-state: paused;
-}
-
-.hero-gas-planet-light {
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  background: radial-gradient(circle at 29% 24%,
-    rgb(255 249 224 / 70%), transparent 34%,
-    rgb(117 63 19 / 12%) 57%, rgb(75 39 17 / 60%) 83%, #56331d 100%);
-  box-shadow:
-    inset 3px 3px 6px rgb(255 244 215 / 56%),
-    inset -7px -4px 14px rgb(60 36 20 / 36%);
-}
-
-.hero-gas-planet-atmosphere {
-  position: absolute;
-  width: calc(var(--planet-size) * 1.17);
-  height: calc(var(--planet-size) * 1.17);
+  top: calc(var(--planet-size) * 1.02);
+  width: calc(var(--planet-size) * 1.7);
+  height: calc(var(--planet-size) * 0.3);
   transform: translate(-50%, -50%);
   border-radius: 50%;
-  background: radial-gradient(circle,
-    transparent 54%, rgb(243 189 93 / 18%) 61%, transparent 72%);
-  filter: blur(3px);
-}
-
-.hero-gas-planet-shadow {
-  position: absolute;
-  top: calc(var(--planet-size) * 1.27);
-  width: calc(var(--planet-size) * 1.8);
-  height: calc(var(--planet-size) * 0.32);
-  transform: translate(-50%, -50%);
-  border-radius: 50%;
-  background: radial-gradient(ellipse, rgb(101 73 41 / 18%), transparent 70%);
-  filter: blur(6px);
-}
-
-@keyframes hero-gas-clouds {
-  from { transform: translateX(-8%) skewY(-3deg); }
-  to { transform: translateX(8%) skewY(3deg); }
+  background: radial-gradient(ellipse closest-side, rgb(10 18 36 / 14%), rgb(10 18 36 / 5%) 55%, transparent);
 }
 
 @media (max-width: 760px) {
-  /* The renderer also drops every other curve at this width. */
   .hero-gravity-field {
     --field-line-opacity: 0.12;
   }
 
   .hero-gas-planet {
-    --planet-size: 64px;
+    --planet-size: 76px;
     left: 83%;
     top: 88%;
   }
@@ -110,16 +59,12 @@
 
 @media (max-width: 480px) {
   .hero-gas-planet {
-    --planet-size: 56px;
+    --planet-size: 66px;
     top: 91%;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .hero-gas-planet-clouds {
-    animation: none;
-  }
-
   .hero-gas-planet {
     will-change: auto;
   }

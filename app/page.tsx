@@ -1,8 +1,8 @@
 import { CapabilitiesScroll } from "./components/CapabilitiesScroll";
 import { ContactDialog } from "./components/ContactDialog";
 import { ContactForm } from "./components/ContactForm";
-import { ContactWordmark } from "./components/ContactWordmark";
 import { Eyebrow } from "./components/Eyebrow";
+import { FooterWordmark } from "./components/FooterWordmark";
 import { FaqAccordion } from "./components/FaqAccordion";
 import { HeroRotator } from "./components/HeroRotator";
 import { Logo } from "./components/Logo";
@@ -63,23 +63,24 @@ export default function HomePage() {
           </div>
           <ContactForm idPrefix="inline-contact" variant="inline" />
         </div>
-        <ContactWordmark />
       </section>
 
       <footer className="site-footer">
         <div className="shell footer-inner">
-          <div>
+          <div className="footer-brand">
             <a aria-label="StarDust Studio home" className="wordmark" href="#top"><Logo wordmark={false} /></a>
-            <div className="footer-links">
-              {siteContent.nav.map((item) => <a href={item.href} key={item.href}>{item.label}</a>)}
-              <a href="#contact">Start a project</a>
-            </div>
+            <small>© {new Date().getFullYear()} StarDust Studio</small>
           </div>
+          <nav aria-label="Footer" className="footer-links">
+            {siteContent.nav.map((item) => <a href={item.href} key={item.href}>{item.label}</a>)}
+            <a href="#contact">Start a project</a>
+          </nav>
           <div className="footer-meta">
-            <a className="footer-email" href={`mailto:${siteContent.temporaryEmail}`}>{siteContent.temporaryEmail}</a>
-            <small>Temporary contact placeholder</small>
+            <a className="footer-email" href={`mailto:${siteContent.email}`}>{siteContent.email}</a>
+            <small>Novi Sad, Serbia</small>
           </div>
         </div>
+        <FooterWordmark />
       </footer>
       <ContactDialog />
       <ScrollToTop />

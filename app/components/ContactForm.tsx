@@ -24,7 +24,7 @@ const initialValues: FormValues = {
   message: ""
 };
 
-const focusOptions = ["A website", "A web app or portal", "An online store", "Automation", "SEO or marketing", "Not sure yet"];
+const focusOptions = ["A website", "A web app or portal", "An AI product", "Automation or integrations", "CRM and data", "Maintenance or SEO", "Not sure yet"];
 
 type CustomSelectProps = {
   describedBy?: string;
