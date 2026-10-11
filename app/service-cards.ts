@@ -1,3 +1,5 @@
+import type { IllustrationKind } from "./components/service-illustration-scenes";
+
 export type ServiceCard = {
   id: string;
   title: string;
@@ -5,7 +7,7 @@ export type ServiceCard = {
   label?: string;
   url?: string;
   media:
-    | { type: "image"; src: string; alt: string }
+    | { type: "image"; src: string; alt: string; animation?: IllustrationKind }
     | { type: "video"; src: string; poster: string; alt: string };
 };
 
@@ -32,21 +34,21 @@ export const serviceCards: ServiceCardSliderContent = {
       description: "Work slows down in the gaps: the export, the re-entry, the message asking whether something was done. We connect the systems you already pay for, make every handoff explicit, and let the right information move on its own.",
       label: "Connect your workflow",
       url: "#contact",
-      media: { type: "image", src: "/images/studio/demo-connected-tools.png", alt: "A satellite connecting order, calendar and task windows along an orbit" }
+      media: { type: "image", animation: "satellite", src: "/images/studio/demo-connected-tools.png", alt: "A satellite connecting order, calendar and task windows along an orbit" }
     },
     {
       id: "custom-products",
       title: "Build the tool that doesn’t exist.",
       description: "Some work is too specific for anything you can buy. We shape a product around how your team actually operates, prove it with a working prototype early, and grow it from there instead of guessing it all up front.",
       label: "Custom products",
-      media: { type: "image", src: "/images/studio/demo-custom-fit.png", alt: "Hands tailoring a browser interface with a measuring tape and stitching" }
+      media: { type: "image", animation: "tailoring", src: "/images/studio/demo-custom-fit.png", alt: "Hands tailoring a browser interface with a measuring tape and stitching" }
     },
     {
       id: "clearer-decisions",
       title: "See the whole picture.",
       description: "Decisions get slow when the answer lives in four places. We pull the numbers that matter into one clear view, so your team can see what changed, what it means, and what to do next, without opening five tabs first.",
       label: "Information with purpose",
-      media: { type: "image", src: "/images/studio/demo-clarity.png", alt: "A magnifying glass bringing scattered reports into one clear dashboard" }
+      media: { type: "image", animation: "clarity", src: "/images/studio/demo-clarity.png", alt: "A magnifying glass bringing scattered reports into one clear dashboard" }
     },
     {
       id: "less-repeat-work",
@@ -54,7 +56,7 @@ export const serviceCards: ServiceCardSliderContent = {
       description: "Every team has work that runs on copy, paste and reminders. We automate the predictable parts, flag the exceptions that genuinely need a person, and hand back the hours your team should be spending on customers.",
       label: "Explore automation",
       url: "#contact",
-      media: { type: "image", src: "/images/studio/demo-automation.png", alt: "A wind-up machine turning routine paperwork into completed tasks" }
+      media: { type: "image", animation: "automation", src: "/images/studio/demo-automation.png", alt: "A wind-up machine turning routine paperwork into completed tasks" }
     }
   ]
 };

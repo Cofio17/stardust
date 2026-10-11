@@ -1,12 +1,13 @@
 "use client";
 
-import { AnimatePresence, motion, useMotionValueEvent, useReducedMotion, useScroll, useTransform } from "motion/react";
+import { AnimatePresence, motion, useMotionValueEvent, useReducedMotion, useScroll, useTransform, type MotionValue } from "motion/react";
 import Image from "next/image";
-import { useEffect, useRef, useState } from "react";
+import { memo, useEffect, useRef, useState } from "react";
 import type { CSSProperties } from "react";
 import { siteContent } from "../site-content";
 import { Eyebrow } from "./Eyebrow";
 import { Reveal } from "./Reveal";
+import { SpaceDust } from "./SpaceDust";
 import styles from "./services-cylinder.module.css";
 
 const services = siteContent.services;
@@ -15,6 +16,27 @@ const services = siteContent.services;
 const step = 150 / 13;
 const arc = (services.length - 1) * step;
 const tickCount = services.length * 4;
+
+// Tick changes should not rerender the 3D text, descriptions, or artwork.
+const CylinderIndicators = memo(function CylinderIndicators({ progress, height }: {
+  progress: MotionValue<number>; height: number;
+}) {
+  const [activeTick, setActiveTick] = useState(0);
+  const lastTick = useRef(0);
+  useMotionValueEvent(progress, "change", value => {
+    const next = Math.round(Math.max(0, Math.min(1, value)) * (tickCount - 1));
+    if (next === lastTick.current) return;
+    lastTick.current = next;
+    setActiveTick(next);
+  });
+  return <>{["left", "right"].map(side =>
+    <div aria-hidden="true" className={`${styles.indicator} ${side === "left" ? styles.left : styles.right}`}
+      key={side} style={{ height }}>
+      {Array.from({ length: tickCount }, (_, index) =>
+        <i className={styles.tick} key={index} data-distance={Math.min(Math.abs(index - activeTick), 4)}
+          style={{ top: `${(index / (tickCount - 1)) * 100}%` }} />)}
+    </div>)}</>;
+});
 
 function CylinderItem({ index, radius, active, select }: {
   index: number; radius: number; active: boolean; select: () => void;
@@ -39,14 +61,16 @@ export function ServicesCylinder() {
   const reduceMotion = useReducedMotion();
   const [geometry, setGeometry] = useState({ radius: 300, indicator: 300 });
   const [active, setActive] = useState(0);
-  const [activeTick, setActiveTick] = useState(0);
+  const lastActive = useRef(0);
   const { scrollYProgress } = useScroll({ target: trackRef, offset: ["start start", "end end"] });
   const rotation = useTransform(scrollYProgress, [0, 1], [0, arc]);
 
   useMotionValueEvent(scrollYProgress, "change", (progress) => {
     const clamped = Math.max(0, Math.min(1, progress));
-    setActive(Math.round(clamped * (services.length - 1)));
-    setActiveTick(Math.round(clamped * (tickCount - 1)));
+    const next = Math.round(clamped * (services.length - 1));
+    if (next === lastActive.current) return;
+    lastActive.current = next;
+    setActive(next);
   });
 
   useEffect(() => {
@@ -77,21 +101,13 @@ export function ServicesCylinder() {
       </div>
       <div className={styles.track} ref={trackRef}>
         <div className={styles.sticky}>
+          <SpaceDust scrollYProgress={scrollYProgress} />
           <div className={`shell ${styles.topline}`}>
             <span>StarDust Studio / Services</span>
             <span>{String(active + 1).padStart(2, "0")} / {String(services.length).padStart(2, "0")}</span>
           </div>
           <div className={`shell cylindar__wrapper ${styles.viewport}`}>
-            {["left", "right"].map((side) => (
-              <div aria-hidden="true" className={`${styles.indicator} ${side === "left" ? styles.left : styles.right}`}
-                key={side} style={{ height: geometry.indicator }}>
-                {Array.from({ length: tickCount }, (_, index) => {
-                  const delta = Math.abs(index - activeTick);
-                  return <i className={styles.tick} key={index} data-distance={Math.min(delta, 4)}
-                    style={{ top: `${(index / (tickCount - 1)) * 100}%` }} />;
-                })}
-              </div>
-            ))}
+            <CylinderIndicators progress={scrollYProgress} height={geometry.indicator} />
             <motion.div className={`cylindar__text__wrapper ${styles.cylinder}`} style={{ rotateX: reduceMotion ? 0 : rotation }}>
               {services.map((service, index) => <CylinderItem key={service.title} index={index} radius={geometry.radius}
                 active={active === index} select={() => goToService(index)} />)}

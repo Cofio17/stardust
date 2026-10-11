@@ -5,9 +5,13 @@
 .intro p { max-width: 32rem; color: var(--sky); font-size: 1.15rem; line-height: 1.6; }
 /* About 300px of wheel travel per service, independent of screen height. */
 .track { height: calc(100svh + 2100px); position: relative; }
-.sticky { height: 100svh; position: sticky; top: 0; }
+.sticky { height: 100svh; position: sticky; top: 0; isolation: isolate; }
+.dust { position: absolute; inset: 0; overflow: hidden; pointer-events: none; contain: strict; z-index: 0; }
+.dustLayer { position: absolute; inset: -64px; contain: paint; }
+.dustLayer svg { display: block; }
+.dust[data-running="true"] .dustLayer { will-change: transform, opacity; }
 .sticky::after { content: ""; position: absolute; inset: 0; background: linear-gradient(to bottom, var(--graphite), transparent 18%, transparent 70%, var(--graphite) 86%); pointer-events: none; z-index: 2; }
-.viewport { position: relative; height: 100%; perspective: 70vw; overflow: hidden; }
+.viewport { position: relative; height: 100%; perspective: 70vw; overflow: hidden; z-index: 1; }
 .cylinder { position: absolute; inset: 0; transform-style: preserve-3d; transform-origin: center center; text-align: center; will-change: transform; }
 .item { position: absolute; top: 50%; left: 50%; width: 100%; backface-visibility: hidden; transform: translate3d(-50%, -50%, 0) translate3d(0, var(--item-y), var(--item-z)) rotateX(var(--item-angle)); }
 .name { border: 0; background: transparent; color: var(--porcelain); cursor: pointer; font-size: clamp(2rem, 3.8vw, 4rem); font-weight: 600; letter-spacing: -0.055em; line-height: 1; opacity: 0.05; padding: 0.04em 0.2em; white-space: nowrap; transition: color 0.15s ease-in-out, opacity 0.15s ease-in-out; }
@@ -32,6 +36,7 @@
 .cue { grid-column: 1 / -1; border-top: 1px solid var(--line-dark); padding-top: 1rem; color: var(--sky); font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; }
 .accessibleList { position: absolute; width: 1px; height: 1px; padding: 0; overflow: hidden; clip-path: inset(50%); }
 @media (max-width: 767px) {
+  .dustDesktop { display: none; }
   .track { height: calc(100svh + 1400px); }
   .viewport { perspective: 70vw; }
   .name { font-size: clamp(1rem, 4.7vw, 1.8rem); }
@@ -43,6 +48,7 @@
   .cue { font-size: 0.6rem; }
 }
 @media (prefers-reduced-motion: reduce) {
+  .dust { display: none; }
   .track { display: none; }
   .accessibleList { position: static; width: min(100% - 2.5rem, 1440px); height: auto; overflow: visible; clip-path: none; padding-bottom: 4rem; }
   .accessibleList article { border-top: 1px solid var(--line-dark); padding-block: 1.5rem; }

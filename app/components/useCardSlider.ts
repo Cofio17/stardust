@@ -5,6 +5,7 @@ import { useCallback, useEffect, useRef, useState, type KeyboardEvent, type Whee
 import type { Swiper as SwiperInstance } from "swiper";
 import type { SwiperOptions } from "swiper/types";
 import { A11y, Mousewheel } from "swiper/modules";
+import { getVisibleCardRange } from "./service-card-range";
 
 export const serviceSwiperOptions: SwiperOptions = {
   modules: [A11y, Mousewheel],
@@ -24,13 +25,38 @@ export function useCardSlider(itemCount: number) {
   const swiperRef = useRef<SwiperInstance | null>(null);
   const reducedMotion = useReducedMotion();
   const speed = reducedMotion ? 0 : 600;
-  const [position, setPosition] = useState({ first: 1, atStart: true, atEnd: itemCount <= 1 });
+  const [interacting, setInteracting] = useState(false);
+  const [position, setPosition] = useState({ visibleStart: 1, visibleEnd: 1, atStart: true, atEnd: itemCount <= 1 });
+  const releaseFrame = useRef<number | null>(null);
+  useEffect(() => () => {
+    if (releaseFrame.current !== null) cancelAnimationFrame(releaseFrame.current);
+  }, []);
+
+  function startInteraction() {
+    if (releaseFrame.current !== null) cancelAnimationFrame(releaseFrame.current);
+    releaseFrame.current = null;
+    setInteracting(true);
+  }
 
   const syncPosition = useCallback((swiper: SwiperInstance) => {
-    if (swiper.destroyed) return;
-    const next = { first: swiper.activeIndex + 1, atStart: swiper.isBeginning || swiper.isLocked,
-      atEnd: swiper.isEnd || swiper.isLocked };
-    setPosition(previous => previous.first === next.first && previous.atStart === next.atStart && previous.atEnd === next.atEnd ? previous : next);
+    // Swiper emits some events before it updates translation/animation flags.
+    // Read on the next frame and announce a range only once movement settles.
+    if (releaseFrame.current !== null) cancelAnimationFrame(releaseFrame.current);
+    releaseFrame.current = requestAnimationFrame(() => {
+      releaseFrame.current = null;
+      if (swiper.destroyed) return;
+      const moving = swiper.animating || !!swiper.touchEventsData.isTouched;
+      setInteracting(moving);
+      setPosition(previous => {
+        const next = {
+          ...(moving ? { visibleStart: previous.visibleStart, visibleEnd: previous.visibleEnd } : getVisibleCardRange(swiper)),
+          atStart: swiper.isBeginning || swiper.isLocked,
+          atEnd: swiper.isEnd || swiper.isLocked,
+        };
+        return previous.visibleStart === next.visibleStart && previous.visibleEnd === next.visibleEnd &&
+          previous.atStart === next.atStart && previous.atEnd === next.atEnd ? previous : next;
+      });
+    });
   }, []);
 
   function onSwiper(swiper: SwiperInstance) {
@@ -65,7 +91,7 @@ export function useCardSlider(itemCount: number) {
     if (event.defaultPrevented) event.stopPropagation();
   }
 
-  return { position, move, onKeyDown, onWheel, onSwiper, syncPosition, speed };
+  return { position, move, onKeyDown, onWheel, onSwiper, syncPosition, speed, interacting, startInteraction, endInteraction: syncPosition };
 }
 
 export function useCardVideo(src: string) {
